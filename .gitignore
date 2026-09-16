@@ -1,0 +1,9 @@
+# Large PaySim dataset
+data/*.csv
+data/*.zip
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
