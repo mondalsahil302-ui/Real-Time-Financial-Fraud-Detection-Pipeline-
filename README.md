@@ -1,12 +1,12 @@
 # Real-Time Financial Fraud Detection Pipeline
 
-A real-time fraud detection system that ingests transaction data, applies feature engineering, performs streaming inference, and exposes alerts and infrastructure metrics in a monitoring dashboard.
+A real-time fraud detection system for streaming financial transactions, combining data ingestion, feature engineering, online model inference, and operational monitoring.
 
 ## Overview
 
-This project simulates a production-grade financial risk platform that monitors transaction streams in real time. It uses the PaySim historical dataset to train an anomaly detection model, feeds synthetic transactions into Kafka, and performs stream processing with Apache Spark Structured Streaming to detect fraudulent behavior.
+This project is structured as a production-style financial risk platform. It uses a synthetic transaction dataset to train a fraud/anomaly detection model, streams transactions through Kafka, processes them with Apache Spark Structured Streaming, and exposes operational metrics via Prometheus and Grafana.
 
-The system classifies transactions as either normal or fraudulent, stores validated records, and pushes infrastructure metrics to Prometheus for visualization in Grafana.
+The system is designed to identify suspicious activity in near real time while keeping a clean separation between data processing, model inference, storage, and monitoring.
 
 ---
 
@@ -14,122 +14,68 @@ The system classifies transactions as either normal or fraudulent, stores valida
 
 ```mermaid
 flowchart LR
-    A[PaySim Dataset\nHistorical Records] --> B[Historical Training Data]
-    B --> C[Feature Engineering\n? transaction amount\n? balance changes\n? transaction type\n? velocity features\n? user behavior]
-    C --> D[Fraud / Anomaly Model\nIsolation Forest / Autoencoder]
-    D --> E[model.pkl]
-    E --> F[Python Kafka Producer\nGenerates continuous transactions]
-    F --> G[Apache Kafka\ntransactions topic]
-    G --> H[Spark Structured Streaming\n? Read Kafka\n? Validate\n? Feature engineering\n? Model inference\n? Risk scoring]
-    H -->|Normal| I[MongoDB / Cassandra]
-    H -->|Fraud| J[Fraud Alerts Database]
-    I --> K[Grafana Dashboard]
+    A[PaySim Dataset] --> B[Training Data]
+    B --> C[Feature Engineering]
+    C --> D[Fraud Model]
+    D --> E[Serialized Model]
+    E --> F[Kafka Producer]
+    F --> G[Kafka Topic: transactions]
+    G --> H[Spark Structured Streaming]
+    H -->|Valid| I[MongoDB / Cassandra]
+    H -->|Fraud| J[Fraud Alert Store]
+    I --> K[Grafana]
     J --> K
-    K --> L[Prometheus\nInfrastructure Metrics]
+    K --> L[Prometheus]
 ```
 
 ---
 
-## System Flow
+## Local Setup
 
-1. Historical transactions from the PaySim dataset are used to build a training dataset.
-2. Feature engineering extracts transaction and behavioral signals such as amount, balance differences, transaction type, and velocity features.
-3. A fraud/anomaly model is trained and serialized as `model.pkl`.
-4. A Python Kafka producer continuously generates transaction events and publishes them to Kafka.
-5. Apache Kafka acts as the real-time ingestion layer.
-6. Spark Structured Streaming reads the Kafka stream and performs validation, feature engineering, model inference, and risk scoring.
-7. Normal transactions are stored in MongoDB or Cassandra.
-8. Fraudulent transactions trigger alerts and are written to a fraud alerts database.
-9. Grafana visualizes transaction throughput, fraud rate, alert volume, latency, and amount at risk.
-10. Prometheus scrapes infrastructure metrics and exposes them for monitoring dashboards.
+### Prerequisites
 
----
+- Python 3.10+
+- Java 11+
+- Kafka
+- Apache Spark
+- MongoDB or Cassandra
+- Prometheus
+- Grafana
 
-## Core Components
+### Environment configuration
 
-### 1. Data Source
-- PaySim synthetic financial dataset
-- Historical transaction records for model training and validation
+Create a local environment file named [.env](.env) in the project root. This file holds your local machine settings and should not be committed to source control.
 
-### 2. Feature Engineering
-Key risk signals include:
-- transaction amount
-- account balance changes
-- transaction type
-- velocity or frequency patterns
-- user behavior patterns
+Use the sample configuration in [.env.example](.env.example) as the template.
 
-### 3. Fraud Detection Model
-The detection layer can use:
-- Isolation Forest
-- Autoencoder-based anomaly detection
+### Quick start
 
-The trained model is saved as a serialized artifact:
-- `model.pkl`
-
-### 4. Kafka Producer
-The Python producer generates a continuous stream of transactions and sends them to Kafka for event-driven processing.
-
-### 5. Kafka Broker
-Kafka stores the stream in a topic named:
-- `transactions`
-
-### 6. Spark Structured Streaming
-Spark handles the streaming pipeline and performs:
-- Kafka consumption
-- validation checks
-- feature enrichment
-- model inference
-- risk-score calculation
-- fraud decisioning
-
-### 7. Storage and Alerts
-- Normal transactions are stored in MongoDB or Cassandra
-- Fraudulent transactions are sent to a fraud-alerts data store
-
-### 8. Monitoring
-- Grafana dashboards visualize operational and business metrics
-- Prometheus captures infrastructure metrics such as CPU, memory, JVM health, and service status
+1. Copy [.env.example](.env.example) to [.env](.env)
+2. Update values for your local environment
+3. Start Kafka, Spark, and your database services
+4. Run the producer and streaming job
+5. Open Grafana and Prometheus to review operational metrics
 
 ---
 
-## Monitoring and Dashboard Metrics
+## Environment Variables
 
-The Grafana dashboard is designed to track the following:
+The project expects the following local settings:
 
-- Transactions/sec
-- Fraud alerts
-- Fraud rate
-- Latency
-- Amount at risk
+- Kafka connection and topic names
+- Spark app settings and checkpoint directory
+- model path and training output folder
+- MongoDB / Cassandra connection details
+- alerting and monitoring endpoints
+- anomaly threshold and model type
 
-This gives visibility into both real-time transaction health and fraud detection performance.
-
-### Prometheus Metrics
-Prometheus is used to monitor infrastructure health and application performance, including:
-
-- service uptime
-- CPU usage
-- memory usage
-- disk I/O
-- Kafka health
-- Spark streaming task health
-- producer/consumer lag
-- application latency
-- alerting and error rates
-
-These metrics are scraped and exposed for Grafana dashboards and alerting rules.
+For a safe setup, keep machine-specific values in [.env](.env) and share only the example file in version control.
 
 ---
 
-## Expected Result
+## Security note
 
-This pipeline provides a scalable real-time fraud detection system that combines:
-- historical learning from the PaySim dataset
-- streaming event ingestion through Kafka
-- online inference with Spark
-- persistent storage for valid and fraudulent events
-- observability through Prometheus and Grafana
+Keep secrets and local-only configuration out of the repository. Use [.env](.env) locally and ignore it in Git.
 
 ---
 
@@ -141,10 +87,10 @@ This pipeline provides a scalable real-time fraud detection system that combines
 - MongoDB / Cassandra
 - Grafana
 - Prometheus
-- Machine Learning Model: Isolation Forest / Autoencoder
+- Machine Learning: Isolation Forest / Autoencoder
 
 ---
 
-## Summary
+## Expected Result
 
-The architecture is designed for real-time financial fraud detection using streaming analytics, anomaly detection, and monitoring. It delivers both operational telemetry and fraud-focused insights, creating a practical end-to-end pipeline for production-like financial risk monitoring.
+This pipeline provides a scalable, observable, real-time fraud detection workflow with ingestion, streaming inference, alerting, and operational monitoring.
