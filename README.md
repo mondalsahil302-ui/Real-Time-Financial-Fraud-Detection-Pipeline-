@@ -1,96 +1,55 @@
 # Real-Time Financial Fraud Detection Pipeline
 
-A real-time fraud detection system for streaming financial transactions, combining data ingestion, feature engineering, online model inference, and operational monitoring.
+A real-time financial fraud detection pipeline designed to process streaming
+mobile-money transactions, detect anomalous behavior, and generate fraud alerts.
 
-## Overview
+## Current Progress
 
-This project is structured as a production-style financial risk platform. It uses a synthetic transaction dataset to train a fraud/anomaly detection model, streams transactions through Kafka, processes them with Apache Spark Structured Streaming, and exposes operational metrics via Prometheus and Grafana.
+### Week 1
+- Apache Kafka provisioned using Docker
+- Cassandra provisioned using Docker
+- Kafka `transactions` topic created with 3 partitions
+- Kafka `fraud-alerts` topic created
+- Cassandra `fraud_detection` keyspace created
+- Cassandra `transactions` and `fraud_alerts` tables created
+- Python environment configured
+- PaySim dataset integrated
+- Python Kafka producer created
+- PaySim transactions successfully streamed to Kafka
+- Kafka producer/consumer pipeline tested successfully
 
-The system is designed to identify suspicious activity in near real time while keeping a clean separation between data processing, model inference, storage, and monitoring.
-
----
-
-## Architecture
-
-```mermaid
-flowchart LR
-    A[PaySim Dataset] --> B[Training Data]
-    B --> C[Feature Engineering]
-    C --> D[Fraud Model]
-    D --> E[Serialized Model]
-    E --> F[Kafka Producer]
-    F --> G[Kafka Topic: transactions]
-    G --> H[Spark Structured Streaming]
-    H -->|Valid| I[MongoDB / Cassandra]
-    H -->|Fraud| J[Fraud Alert Store]
-    I --> K[Grafana]
-    J --> K
-    K --> L[Prometheus]
-```
-
----
-
-## Local Setup
-
-### Prerequisites
-
-- Python 3.10+
-- Java 11+
-- Kafka
-- Apache Spark
-- MongoDB or Cassandra
-- Prometheus
-- Grafana
-
-### Environment configuration
-
-Create a local environment file named [.env](.env) in the project root. This file holds your local machine settings and should not be committed to source control.
-
-Use the sample configuration in [.env.example](.env.example) as the template.
-
-### Quick start
-
-1. Copy [.env.example](.env.example) to [.env](.env)
-2. Update values for your local environment
-3. Start Kafka, Spark, and your database services
-4. Run the producer and streaming job
-5. Open Grafana and Prometheus to review operational metrics
-
----
-
-## Environment Variables
-
-The project expects the following local settings:
-
-- Kafka connection and topic names
-- Spark app settings and checkpoint directory
-- model path and training output folder
-- MongoDB / Cassandra connection details
-- alerting and monitoring endpoints
-- anomaly threshold and model type
-
-For a safe setup, keep machine-specific values in [.env](.env) and share only the example file in version control.
-
----
-
-## Security note
-
-Keep secrets and local-only configuration out of the repository. Use [.env](.env) locally and ignore it in Git.
-
----
-
-## Tech Stack
+## Technology Stack
 
 - Python
-- Kafka
-- Apache Spark Structured Streaming
-- MongoDB / Cassandra
-- Grafana
-- Prometheus
-- Machine Learning: Isolation Forest / Autoencoder
+- Apache Kafka
+- Apache Cassandra
+- Docker
+- Docker Compose
+- PaySim Dataset
 
----
+## Current Architecture
 
-## Expected Result
+PaySim Dataset  
+↓  
+Python Producer  
+↓  
+Apache Kafka  
+↓  
+Spark Structured Streaming  
+↓  
+Fraud Detection Model  
+↓  
+Cassandra  
+↓  
+Grafana
 
-This pipeline provides a scalable, observable, real-time fraud detection workflow with ingestion, streaming inference, alerting, and operational monitoring.
+## Dataset
+
+PaySim Synthetic Financial Dataset for Fraud Detection.
+
+The dataset contains approximately 6.36 million transaction records and includes
+transaction type, amount, sender/receiver balances, and fraud labels.
+
+## Project Status
+
+Week 1 infrastructure and initial streaming pipeline completed.
