@@ -1,266 +1,310 @@
-# Real-Time Financial Fraud Detection Pipeline
+# 🚨 Real-Time Financial Fraud Detection Pipeline
 
-A real-time financial fraud detection pipeline using the PaySim dataset, Kafka, Cassandra, and machine learning models for anomaly detection.
-
-## Project Overview
-
-This project focuses on building a real-time financial transaction monitoring system that can identify potentially fraudulent transactions.
-
-The project uses historical PaySim transaction data to train anomaly detection models and simulates real-time transaction streaming using Kafka. Cassandra is used for storing transaction records.
-
-The planned architecture will later integrate Spark Structured Streaming for real-time ML inference and monitoring tools for visualization and performance analysis.
+> An end-to-end financial fraud detection project using **Machine Learning, Apache Kafka, and Apache Cassandra** to analyze and process financial transactions.
 
 ---
 
-## Current Architecture
+## 🎯 Project Objective
+
+Financial fraud detection requires identifying unusual transaction patterns quickly and reliably.
+
+This project uses the **PaySim financial transaction dataset** to:
+
+- 📊 Analyze historical transaction data
+- 🧹 Prepare and engineer features for fraud detection
+- 🤖 Train anomaly detection models
+- 📈 Evaluate model performance
+- ⚡ Stream transactions using Apache Kafka
+- 🗄️ Store processed transactions in Apache Cassandra
+
+The project is being developed incrementally, with the current implementation covering **data preparation, machine learning, transaction streaming, and Cassandra storage**.
+
+---
+
+# 🏗️ Project Architecture
 
 ```text
-PaySim Dataset
-      |
-      v
-Python Data Loader
-      |
-      v
-Feature Engineering
-      |
-      +----------------------+
-      |                      |
-      v                      v
-Isolation Forest        Autoencoder
-      |                      |
-      +----------+-----------+
-                 |
-                 v
-          Trained ML Models
-                 |
-                 v
-        Python Kafka Producer
-                 |
-                 v
-              Kafka
-       Topic: fraud-transactions
-                 |
-                 v
-             Cassandra
+                    ┌─────────────────────┐
+                    │   PaySim Dataset    │
+                    │   CSV Transactions  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  Data Preparation   │
+                    │  & Feature          │
+                    │  Engineering        │
+                    └──────────┬──────────┘
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                           │
+                 ▼                           ▼
+       ┌──────────────────┐        ┌──────────────────┐
+       │  Isolation       │        │   Autoencoder    │
+       │  Forest          │        │   Model          │
+       └────────┬─────────┘        └────────┬─────────┘
+                │                           │
+                ▼                           ▼
+       ┌──────────────────┐        ┌──────────────────┐
+       │ Model Evaluation │        │ Model Evaluation │
+       └──────────────────┘        └──────────────────┘
 
-             Technologies Used
-Python
-Pandas
-Scikit-learn
-Isolation Forest
-Autoencoder using MLPRegressor
-Kafka
-Cassandra
-Docker
-Joblib
-PaySim Dataset
-Dataset
 
-The project uses the PaySim financial transaction dataset.
+                    Transaction Streaming
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Kafka Transaction   │
+                 │ Producer            │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Apache Kafka        │
+                 │ fraud-transactions  │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │ Apache Cassandra    │
+                 │ fraud_detection     │
+                 │ transactions        │
+                 └─────────────────────┘
 
-Dataset source:
 
-Kaggle - PaySim 1
 
-The dataset contains approximately 6.36 million transactions with the following fields:
+📅 Project Progress
+✅ Week 1 — Data Preparation
+Completed
+Loaded the PaySim dataset
+Inspected dataset size and columns
+Checked the number of fraudulent transactions
+Prepared transaction data for machine learning
+Created engineered transaction and balance-related features
+Main file
 
-step
-type
-amount
-nameOrig
-oldbalanceOrg
-newbalanceOrig
-nameDest
-oldbalanceDest
-newbalanceDest
-isFraud
-isFlaggedFraud
+paysim_data_loader.py
 
-The raw dataset is stored locally and is excluded from Git because of its large file size.
+Loads the PaySim dataset and provides basic information about the data.
 
-Week 1 - Infrastructure & Data Simulation
-Kafka
+🤖 Week 2 — Machine Learning
 
-Kafka is used as the transaction streaming platform.
+Two anomaly detection approaches are currently implemented.
 
-Kafka Configuration
-Kafka version: 4.3.1
-Broker: localhost:9092
-Topic: fraud-transactions
+🌲 1. Isolation Forest
 
-The Python producer reads PaySim transactions and publishes them as JSON messages to Kafka.
+Isolation Forest is an unsupervised anomaly detection algorithm.
 
-Example flow:
+The idea is to identify transactions that behave differently from normal transaction patterns.
 
-PaySim CSV
-    |
-    v
-Python Producer
-    |
-    v
-Kafka
-    |
-    v
-fraud-transactions
+Training
 
-Kafka message delivery has been tested successfully with PaySim transactions.
+File:
 
-Cassandra
+src/train_isolation_forest.py
 
-Cassandra is used as the transaction storage layer.
+Responsibilities:
 
-Cassandra Configuration
-Cassandra version: 4.1
-Port: 9042
-Keyspace: fraud_detection
-Table: transactions
+Load PaySim data
+Create transaction features
+Create balance-related features
+Encode transaction type
+Train the Isolation Forest model
+Save the trained model
 
-The Cassandra table stores:
+Output:
 
-Transaction ID
-Step
-Transaction type
-Amount
-Origin account
-Origin balances
-Destination account
-Destination balances
-Fraud label
-Flagged fraud status
+src/isolation_forest_model.pkl
+Evaluation
 
-Python connectivity with Cassandra has been implemented and tested successfully.
+File:
 
-Python Producer
+src/evaluate_isolation_forest.py
 
-The Python producer:
+Responsibilities:
 
-Reads transactions from the PaySim dataset.
-Converts each transaction into a JSON-compatible format.
-Sends the transaction to Kafka.
-Stores the transaction in Cassandra.
-Continues streaming transactions with a small delay to simulate real-time processing.
+Load the trained model
+Generate anomaly scores
+Test different detection thresholds
+Calculate:
+True Positives
+False Positives
+False Negatives
+Precision
+Recall
+Generate a confusion matrix
+Generate a classification report
+🧠 2. Autoencoder
 
-The producer has been tested with 100 PaySim transactions successfully.
+The second approach uses an Autoencoder neural network for anomaly detection.
 
-Machine Learning
-Feature Engineering
+The Autoencoder learns to reconstruct normal transaction patterns.
 
-The fraud detection models use transaction and balance-related features.
+If a transaction produces a relatively high reconstruction error, it can be considered anomalous based on the selected threshold.
 
-Numerical Features
-amount
-oldbalanceOrg
-newbalanceOrig
-oldbalanceDest
-newbalanceDest
-Derived Features
-origin_balance_change
-destination_balance_change
-amount_to_origin_balance
-amount_to_destination_balance
-origin_difference
-destination_difference
+Training
 
-Transaction type is also encoded using one-hot encoding.
+File:
 
-The final feature representation contains 16 features.
+src/train_autoencoder.py
 
-Isolation Forest
+Responsibilities:
 
-Isolation Forest was implemented as an unsupervised anomaly detection baseline.
+Load PaySim data
+Select normal transactions
+Create engineered features
+Encode transaction type
+Handle invalid values
+Scale the features
+Train the Autoencoder
+Save the model, encoder, scaler, and threshold
 
-Configuration:
-
-n_estimators = 100
-contamination = 0.0013
-random_state = 42
-
-The model was trained without using the fraud labels.
-
-The Isolation Forest model was evaluated on the PaySim test data and used as the initial anomaly detection baseline.
-
-Autoencoder
-
-An Autoencoder-based anomaly detection model was also implemented.
-
-The model was trained primarily on normal transactions so that unusual transactions could be identified using reconstruction error.
-
-Architecture:
-
-Input
-  |
-  v
-32 neurons
-  |
-  v
-16 neurons
-  |
-  v
-32 neurons
-  |
-  v
-Output
-
-The model uses:
-
-StandardScaler
-One-hot encoding for transaction type
-MLPRegressor
-Adam optimizer
-ReLU activation
-
-The trained model is saved as:
+Output:
 
 src/autoencoder_model.pkl
-Autoencoder Evaluation
+Evaluation
 
-The anomaly threshold was selected using validation data based on the F1 score.
+File:
 
-Selected threshold:
+src/evaluate_autoencoder.py
 
-0.04557055612619186
+Responsibilities:
 
-Final test-set results:
+Load the trained Autoencoder
+Calculate reconstruction errors
+Test multiple percentile thresholds
+Calculate precision, recall, and F1-score
+Select a threshold using validation data
+Evaluate the selected threshold on unseen test data
+⚡ Week 2 — Real-Time Transaction Streaming
 
-Metric	Result
-Precision	48%
-Recall	36%
-F1 Score	41%
+After developing the machine learning components, the project also includes a transaction streaming layer.
 
-Confusion matrix:
+Kafka
 
-                 Predicted
-                Normal  Fraud
+Apache Kafka is used as the event streaming platform.
 
-Actual Normal   1270239   642
-Actual Fraud       1049   594
+Transactions from the PaySim dataset are published to a Kafka topic.
 
-Therefore:
+Kafka Producer
 
-True Negatives: 1,270,239
-False Positives: 642
-False Negatives: 1,049
-True Positives: 594
+File:
 
-Because fraud transactions are highly imbalanced in the PaySim dataset, fraud-class precision, recall and F1 score are more informative than overall accuracy.
+src/kafka_transaction_producer.py
 
-Current Implementation Status
-Completed
- PaySim dataset integration
- Python data loader
- Feature engineering
- Isolation Forest model
- Autoencoder model
- Model evaluation
- Threshold tuning
- Model serialization
- Docker environment
- Kafka broker
- Kafka topic
- Python Kafka producer
- Cassandra setup
- Cassandra keyspace
- Cassandra transaction table
- Python-Cassandra connection
- PaySim transaction storage in Cassandra
- Kafka transaction streaming
+Responsibilities:
+
+Read transactions from the PaySim dataset
+Convert each transaction into a Python dictionary
+Send transactions to Kafka
+Store the same transaction in Cassandra
+Display transaction processing information
+
+Kafka configuration:
+
+Kafka Server: localhost:9092
+Topic: fraud-transactions
+
+Example output:
+
+Processed: PAYMENT | Amount: 6440.78 | Fraud: 0
+Processed: CASH_OUT | Amount: 47458.86 | Fraud: 0
+Processed: TRANSFER | Amount: 42712.39 | Fraud: 0
+🗄️ Cassandra Storage
+
+Apache Cassandra is used as the transaction storage database.
+
+A Cassandra keyspace named:
+
+fraud_detection
+
+contains the:
+
+transactions
+
+table.
+
+The streaming producer inserts processed transactions into Cassandra.
+
+Cassandra Connection
+
+File:
+
+src/cassandra_connection.py
+
+Purpose:
+
+Connect Python to the Cassandra container
+Connect to the fraud_detection keyspace
+Verify that the Cassandra connection works
+
+Example:
+
+Connected to Cassandra successfully!
+Cassandra Storage Test
+
+File:
+
+src/test_cassandra_storage.py
+
+Purpose:
+
+Test whether transactions can be inserted into Cassandra
+Verify that the transactions table is working correctly
+
+Example test transaction:
+
+transaction_id: TEST001
+type: PAYMENT
+amount: 100
+is_fraud: 0
+
+This was used to verify the Cassandra storage layer before connecting it to the streaming producer.
+
+🔄 Current Transaction Flow
+
+The current streaming implementation follows this flow:
+
+        PaySim CSV
+            │
+            ▼
+   Kafka Transaction
+       Producer
+            │
+            ├───────────────► Apache Kafka
+            │                 │
+            │                 └── fraud-transactions
+            │
+            ▼
+       Cassandra
+            │
+            ▼
+    fraud_detection
+       transactions
+
+The current producer sends the transaction to Kafka and stores the transaction in Cassandra.
+
+📂 Project Structure
+Real-Time-Financial-Fraud-Detection-Pipeline/
+│
+├── data/
+│   └── PS_20174392719_1491204439457_log.csv
+│
+├── src/
+│   │
+│   ├── paysim_data_loader.py
+│   │
+│   ├── train_isolation_forest.py
+│   ├── evaluate_isolation_forest.py
+│   ├── isolation_forest_model.pkl
+│   │
+│   ├── train_autoencoder.py
+│   ├── evaluate_autoencoder.py
+│   ├── autoencoder_model.pkl
+│   │
+│   ├── kafka_transaction_producer.py
+│   │
+│   ├── cassandra_connection.py
+│   └── test_cassandra_storage.py
+│
+└── README.md
