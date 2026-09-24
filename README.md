@@ -52,4 +52,4 @@ transaction type, amount, sender/receiver balances, and fraud labels.
 
 ## Project Status
 
-Week 1 infrastructure and initial streaming pipeline completed.   
+Week 1 infrastructure and initial streaming pipeline completed.     
