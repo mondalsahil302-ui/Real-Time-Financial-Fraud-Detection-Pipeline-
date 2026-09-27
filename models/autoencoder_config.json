@@ -1,0 +1,39 @@
+{
+    "model_name": "PaySim_1K_Deep_Autoencoder",
+    "input_dimensions": 19,
+    "latent_dimensions": 8,
+    "largest_hidden_layer": 1024,
+    "encoder_architecture": [
+        1024,
+        512,
+        256,
+        128,
+        64,
+        32,
+        16,
+        8
+    ],
+    "decoder_architecture": [
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024,
+        19
+    ],
+    "activation": "ReLU",
+    "output_activation": "Linear",
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "Mean Squared Error",
+    "epochs_requested": 20,
+    "epochs_completed": 12,
+    "batch_size": 512,
+    "early_stopping_patience": 3,
+    "random_state": 42,
+    "training_data": "Legitimate transactions only",
+    "threshold_source": "Validation dataset",
+    "final_threshold": 1.7472063456775229
+}

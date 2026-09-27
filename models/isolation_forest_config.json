@@ -1,0 +1,12 @@
+{
+    "model": "IsolationForest",
+    "rows_loaded": 500000,
+    "n_features": 19,
+    "random_state": 42,
+    "n_estimators": 500,
+    "max_samples": 0.5,
+    "max_features": 1.0,
+    "contamination": "auto",
+    "final_threshold": 0.10719670479430089,
+    "high_recall_threshold": null
+}
