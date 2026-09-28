@@ -22,8 +22,50 @@ Trained mainly on normal transactions. Transactions with higher reconstruction e
 
 Both models are evaluated using the fraud labels provided by the PaySim dataset.
 
-## Real-Time Pipeline
+## Model Evaluation
 
+Two anomaly-detection approaches were implemented during Week 1 and Week 2:
+
+### 1. Isolation Forest
+
+Isolation Forest was implemented as an unsupervised anomaly-detection baseline.
+
+- Training samples: 5,090,096
+- Testing samples: 1,272,524
+- Features: 16
+- Model: `IsolationForest`
+- Saved model: `src/isolation_forest_model.pkl`
+
+At the selected evaluation threshold of `-0.05`:
+
+- True Positives: 0
+- False Positives: 31
+- False Negatives: 1,643
+- Recall: 0%
+- Precision: 0%
+
+### 2. Autoencoder
+
+The Autoencoder was trained mainly using normal transactions and detects potential fraud using reconstruction error.
+
+Final test results:
+
+| Metric | Result |
+|---|---:|
+| True Positives | 594 |
+| False Positives | 642 |
+| False Negatives | 1,049 |
+| Recall | 36.23% |
+| Precision | 48% |
+| F1-score | 0.41 |
+
+The validation process selected a reconstruction-error threshold of approximately `0.04557`.
+
+### Current Model Selection
+
+Based on the Week 1 and Week 2 experiments, the **Autoencoder is currently used as the primary anomaly-detection approach**, while Isolation Forest is retained as a baseline/comparison model.
+
+## Real-Time Pipeline
 ```text
 PaySim Dataset
       |
