@@ -1,0 +1,49 @@
+{
+    "dataset": "PaySim",
+    "source_file": "..\\data\\PS_20174392719_1491204439457_log.csv",
+    "rows_processed": 500000,
+    "feature_count": 19,
+    "feature_columns": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "orig_balance_change",
+        "dest_balance_change",
+        "orig_balance_error",
+        "dest_balance_error",
+        "orig_zero_after",
+        "dest_zero_before",
+        "dest_zero_after",
+        "log_amount",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER"
+    ],
+    "excluded_columns": [
+        "isFraud",
+        "isFlaggedFraud",
+        "nameOrig",
+        "nameDest"
+    ],
+    "ground_truth_column": "isFraud",
+    "transformations": {
+        "orig_balance_change": "oldbalanceOrg - newbalanceOrig",
+        "dest_balance_change": "newbalanceDest - oldbalanceDest",
+        "orig_balance_error": "amount - orig_balance_change",
+        "dest_balance_error": "amount - dest_balance_change",
+        "orig_zero_after": "(newbalanceOrig == 0).astype(int)",
+        "dest_zero_before": "(oldbalanceDest == 0).astype(int)",
+        "dest_zero_after": "(newbalanceDest == 0).astype(int)",
+        "log_amount": "np.log1p(amount)",
+        "transaction_type": "pd.get_dummies(type, prefix='type', dtype=int)"
+    },
+    "validation": {
+        "nan_count": 0,
+        "inf_count": 0
+    }
+}

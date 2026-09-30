@@ -11,10 +11,10 @@
     "n_estimators": 500,
     "max_samples": 0.5,
     "max_features": 1.0,
-    "training_time_seconds": 16.766858599999978,
-    "test_inference_time_seconds": 6.2512710000009974,
-    "inference_latency_ms_per_transaction": 0.06251271000000998,
-    "throughput_transactions_per_second": 15996.746901547549,
+    "training_time_seconds": 10.639530299999024,
+    "test_inference_time_seconds": 3.82523989999936,
+    "inference_latency_ms_per_transaction": 0.0382523989999936,
+    "throughput_transactions_per_second": 26142.151241289917,
     "threshold": 0.10719670479430089,
     "precision": 0.1485148514851485,
     "recall": 0.3191489361702128,
@@ -27,6 +27,6 @@
     "true_positives": 15,
     "false_positive_rate": 0.0008604043900633298,
     "false_negative_rate": 0.6808510638297872,
-    "search_results_file": "results\\isolation_forest_search_results.csv",
-    "scores_file": "results\\isolation_forest_test_scores.csv"
+    "search_results_file": "D:\\Real-Time-Financial-Fraud-Detection-Pipeline-\\results\\isolation_forest_search_results.csv",
+    "scores_file": "D:\\Real-Time-Financial-Fraud-Detection-Pipeline-\\results\\isolation_forest_test_scores.csv"
 }
