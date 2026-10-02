@@ -1,4 +1,7 @@
-[
+{
+  "model_version": "isolation_forest_33_feature_v1",
+  "feature_count": 33,
+  "feature_columns": [
     "step",
     "amount",
     "oldbalanceOrg",
@@ -17,5 +20,29 @@
     "type_CASH_OUT",
     "type_DEBIT",
     "type_PAYMENT",
-    "type_TRANSFER"
-]
+    "type_TRANSFER",
+    "orig_tx_count_1step",
+    "orig_tx_count_6steps",
+    "orig_tx_count_24steps",
+    "orig_amount_sum_6steps",
+    "orig_amount_sum_24steps",
+    "orig_avg_amount_6steps",
+    "orig_avg_amount_24steps",
+    "orig_amount_ratio_to_avg_24steps",
+    "orig_time_since_prev_step",
+    "orig_unique_destinations_24steps",
+    "orig_cashout_count_24steps",
+    "orig_transfer_count_24steps",
+    "orig_new_destination",
+    "orig_balance_depletion_ratio"
+  ],
+  "forbidden_model_columns": [
+    "isFlaggedFraud",
+    "isFraud",
+    "nameDest",
+    "nameOrig"
+  ],
+  "anomaly_score_definition": "-model.decision_function(X)",
+  "higher_score_means_more_anomalous": true,
+  "score_is_probability": false
+}

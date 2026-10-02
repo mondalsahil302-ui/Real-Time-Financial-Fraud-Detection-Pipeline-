@@ -1,3 +1,0 @@
-type,detected_fraud_count,missed_fraud_count,miss_rate
-TRANSFER,3,5,0.625
-CASH_OUT,3,12,0.8

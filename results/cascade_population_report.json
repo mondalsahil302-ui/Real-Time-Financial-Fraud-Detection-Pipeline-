@@ -1,0 +1,50 @@
+[
+  {
+    "split": "train",
+    "total_rows": 300000,
+    "fraud_rows": 183,
+    "legitimate_rows": 299817,
+    "L1_rows": 296181,
+    "L2_rows": 1804,
+    "L3_rows": 1557,
+    "L4_rows": 275,
+    "L5_rows": 183,
+    "fraud_in_L1": 74,
+    "fraud_in_L2": 4,
+    "fraud_in_L3": 62,
+    "fraud_in_L4": 8,
+    "fraud_in_L5": 35
+  },
+  {
+    "split": "validation",
+    "total_rows": 100000,
+    "fraud_rows": 21,
+    "legitimate_rows": 99979,
+    "L1_rows": 98984,
+    "L2_rows": 501,
+    "L3_rows": 405,
+    "L4_rows": 53,
+    "L5_rows": 57,
+    "fraud_in_L1": 5,
+    "fraud_in_L2": 1,
+    "fraud_in_L3": 5,
+    "fraud_in_L4": 3,
+    "fraud_in_L5": 7
+  },
+  {
+    "split": "test",
+    "total_rows": 100000,
+    "fraud_rows": 29,
+    "legitimate_rows": 99971,
+    "L1_rows": 99222,
+    "L2_rows": 405,
+    "L3_rows": 284,
+    "L4_rows": 50,
+    "L5_rows": 39,
+    "fraud_in_L1": 11,
+    "fraud_in_L2": 0,
+    "fraud_in_L3": 5,
+    "fraud_in_L4": 4,
+    "fraud_in_L5": 9
+  }
+]

@@ -1,4 +1,20 @@
+# Virtual environment
 .venv/
+
+# Python cache
 __pycache__/
 *.pyc
+
+# Large dataset (tracked via Git LFS)
 data/*.csv
+
+# Spark checkpoints (runtime-generated)
+checkpoints/
+.spark-ivy/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db

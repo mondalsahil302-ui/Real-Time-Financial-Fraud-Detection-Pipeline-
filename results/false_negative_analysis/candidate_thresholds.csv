@@ -1,9 +1,0 @@
-candidate,threshold
-Validation Best F1,0.11320127279826117
-Validation Highest Recall,-0.11086157627509736
-Validation Target Recall 50%,0.08582603764453461
-Validation Target Recall 60%,0.05200957068993123
-Validation Target Recall 70%,0.02463433553620467
-Validation Target Recall 80%,-0.05956176586097112
-Validation Target Recall 90%,-0.0968288927089014
-Validation Target Recall 95%,-0.11086157627509736

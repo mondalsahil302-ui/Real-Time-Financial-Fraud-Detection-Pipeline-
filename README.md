@@ -1,6 +1,8 @@
 # Real-Time Financial Fraud Detection Pipeline
 ## End-to-End Microservice Architecture
 
+> **Project docs:** [Architecture](docs/architecture.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md)
+
 ## 1. Project Overview
 
 This project implements a real-time financial fraud detection platform using a microservice-oriented architecture.

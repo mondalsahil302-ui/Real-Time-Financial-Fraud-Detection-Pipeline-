@@ -1,0 +1,4 @@
+split,total_rows,fraud_rows,legitimate_rows,L1_rows,L2_rows,L3_rows,L4_rows,L5_rows,fraud_in_L1,fraud_in_L2,fraud_in_L3,fraud_in_L4,fraud_in_L5
+train,300000,183,299817,296181,1804,1557,275,183,74,4,62,8,35
+validation,100000,21,99979,98984,501,405,53,57,5,1,5,3,7
+test,100000,29,99971,99222,405,284,50,39,11,0,5,4,9

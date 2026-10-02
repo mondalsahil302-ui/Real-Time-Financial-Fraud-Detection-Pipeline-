@@ -1,0 +1,46 @@
+{
+  "project": "PaySim Financial Fraud Detection",
+  "analysis": "Isolation Forest False Negative Reduction \u2014 Day 4-6",
+  "rows": 500000,
+  "features": [
+    "step",
+    "amount",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "orig_balance_change",
+    "dest_balance_change",
+    "orig_balance_error",
+    "dest_balance_error",
+    "orig_zero_after",
+    "dest_zero_before",
+    "dest_zero_after",
+    "log_amount",
+    "type_CASH_IN",
+    "type_CASH_OUT",
+    "type_DEBIT",
+    "type_PAYMENT",
+    "type_TRANSFER"
+  ],
+  "model": {
+    "type": "IsolationForest",
+    "n_estimators": 500,
+    "max_samples": 0.5,
+    "max_features": 1.0,
+    "contamination": "auto",
+    "random_state": 42
+  },
+  "split": {
+    "train_rows": 400000,
+    "validation_rows": 50000,
+    "test_rows": 50000,
+    "normal_training_rows": 399814
+  },
+  "validation_best_f1_threshold": 0.11320127279826117,
+  "validation_best_f1": 0.24324324324324326,
+  "validation_best_recall": 0.9583333333333334,
+  "validation_best_recall_threshold": -0.11086157627509736,
+  "validation_best_recall_fn": 1,
+  "training_time_sec": 17.12251930000093
+}

@@ -1,0 +1,2 @@
+IF_test_fraud_total,IF_test_TP,IF_test_FN,L1_fraud_count,L2_fraud_count,L3_L4_L5_fraud_count,L1_L2_total_rows,xgboost_recovered_fraud,final_FN,final_recall,final_precision,final_f1,final_fpr,fn_reduction,fn_reduction_pct
+29,18,11,11,0,18,99627,8,3,0.896551724137931,0.06205250596658711,0.11607142857142858,0.003931140030608876,8,72.72727272727273
