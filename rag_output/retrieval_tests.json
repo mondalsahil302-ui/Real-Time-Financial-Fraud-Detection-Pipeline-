@@ -1,0 +1,216 @@
+[
+  {
+    "query": "Find historical PaySim fraud cases involving transfers and balance depletion.",
+    "collection": "paysim_cases",
+    "returned_ids": [
+      "paysim_fraud_81e8730239b6cc20d878375920bf70cf8c61e6591fe37afba115474d8b157162",
+      "paysim_fraud_2470c6ab2532d0f1ac6ac737134ec931d36973ce69aebf67a0be605fc1a5a42d",
+      "paysim_fraud_db2ea47ae958300bbdec8499d5af4622acdcceeca626aeb37a5253e2eadc9e4f",
+      "paysim_fraud_a75b69b0576299abc1b8c88b12d49c527c1b7ccc8bd6b05ebc6cfa2e69a2d7ca",
+      "paysim_fraud_3f8ba5feed4df50b761d7c9a8c4d2f46bbeb140af543c0731ddade3400aaa41e"
+    ],
+    "returned_metadata": [
+      {
+        "transaction_type": "TRANSFER",
+        "source_row_id": "6009607",
+        "origin_balance_depleted": false,
+        "destination_balance_increased": false,
+        "dataset": "PaySim",
+        "destination_balance_unchanged": true,
+        "document_type": "fraud_case",
+        "source_type": "paysim",
+        "isFraud": "1",
+        "origin_balance_unchanged": false,
+        "label": "fraud",
+        "balance_change_amount": "-10000000.00",
+        "step": "440",
+        "amount": "1.0E7"
+      },
+      {
+        "document_type": "fraud_case",
+        "source_row_id": "1059698",
+        "destination_balance_increased": false,
+        "isFraud": "1",
+        "transaction_type": "TRANSFER",
+        "origin_balance_unchanged": false,
+        "balance_change_amount": "-10000000.00",
+        "source_type": "paysim",
+        "origin_balance_depleted": false,
+        "dataset": "PaySim",
+        "amount": "1.0E7",
+        "destination_balance_unchanged": true,
+        "step": "118",
+        "label": "fraud"
+      },
+      {
+        "source_type": "paysim",
+        "label": "fraud",
+        "source_row_id": "481250",
+        "amount": "1.0E7",
+        "step": "19",
+        "isFraud": "1",
+        "dataset": "PaySim",
+        "document_type": "fraud_case",
+        "destination_balance_unchanged": true,
+        "destination_balance_increased": false,
+        "origin_balance_unchanged": false,
+        "balance_change_amount": "-10000000.00",
+        "origin_balance_depleted": false,
+        "transaction_type": "TRANSFER"
+      },
+      {
+        "amount": "1.0E7",
+        "step": "386",
+        "document_type": "fraud_case",
+        "dataset": "PaySim",
+        "destination_balance_increased": false,
+        "origin_balance_unchanged": false,
+        "label": "fraud",
+        "origin_balance_depleted": false,
+        "destination_balance_unchanged": true,
+        "isFraud": "1",
+        "transaction_type": "TRANSFER",
+        "balance_change_amount": "-10000000.00",
+        "source_row_id": "5563507",
+        "source_type": "paysim"
+      },
+      {
+        "source_type": "paysim",
+        "destination_balance_increased": false,
+        "source_row_id": "5407591",
+        "balance_change_amount": "-192815.77",
+        "destination_balance_unchanged": true,
+        "amount": "192815.77",
+        "isFraud": "1",
+        "step": "378",
+        "transaction_type": "TRANSFER",
+        "document_type": "fraud_case",
+        "label": "fraud",
+        "origin_balance_unchanged": false,
+        "dataset": "PaySim",
+        "origin_balance_depleted": true
+      }
+    ],
+    "distances": [
+      0.19850510358810425,
+      0.1989803910255432,
+      0.19975411891937256,
+      0.2036433219909668,
+      0.2116241455078125
+    ],
+    "retrieved_text": [
+      "Historical PaySim Fraud Case\nStep: 440\nTransaction type: TRANSFER\nAmount: 1.0E7\nOrigin account: C511044281\nOrigin balance before: 1.191296116E7\nOrigin balance after: 1912961.16\nDestination account: C2122549663\nDestination balance before: 0.0\nDestination balance after: 0.0\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance decreased from 1.191296116E7 to 1912961.16.\nObserved transactional characteristics: Destination account balance was unchanged at 0.0.",
+      "Historical PaySim Fraud Case\nStep: 118\nTransaction type: TRANSFER\nAmount: 1.0E7\nOrigin account: C611232899\nOrigin balance before: 1.181216142E7\nOrigin balance after: 1812161.42\nDestination account: C1347105871\nDestination balance before: 0.0\nDestination balance after: 0.0\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance decreased from 1.181216142E7 to 1812161.42.\nObserved transactional characteristics: Destination account balance was unchanged at 0.0.",
+      "Historical PaySim Fraud Case\nStep: 19\nTransaction type: TRANSFER\nAmount: 1.0E7\nOrigin account: C416779475\nOrigin balance before: 1.186100832E7\nOrigin balance after: 1861008.32\nDestination account: C380259496\nDestination balance before: 0.0\nDestination balance after: 0.0\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance decreased from 1.186100832E7 to 1861008.32.\nObserved transactional characteristics: Destination account balance was unchanged at 0.0.",
+      "Historical PaySim Fraud Case\nStep: 386\nTransaction type: TRANSFER\nAmount: 1.0E7\nOrigin account: C884104189\nOrigin balance before: 1.197527177E7\nOrigin balance after: 1975271.77\nDestination account: C1648566106\nDestination balance before: 0.0\nDestination balance after: 0.0\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance decreased from 1.197527177E7 to 1975271.77.\nObserved transactional characteristics: Destination account balance was unchanged at 0.0.",
+      "Historical PaySim Fraud Case\nStep: 378\nTransaction type: TRANSFER\nAmount: 192815.77\nOrigin account: C2040900392\nOrigin balance before: 192815.77\nOrigin balance after: 0.0\nDestination account: C623153893\nDestination balance before: 0.0\nDestination balance after: 0.0\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance was depleted to zero after the transaction.\nObserved transactional characteristics: Destination account balance was unchanged at 0.0."
+    ]
+  },
+  {
+    "query": "Find historical PaySim cases similar to a suspicious cash-out transaction.",
+    "collection": "paysim_cases",
+    "returned_ids": [
+      "paysim_fraud_60d26a04e2021af536805adca7530d403f9c0cf5024646700785f302e387d9db",
+      "paysim_fraud_f2a0d91892f317414e603e630940e4fac2e561ebdad151834c14867c89c53502",
+      "paysim_fraud_3e3cc76e0ede3f036200529cbe69f832f8124f129e3d930a4864520b7c990e91",
+      "paysim_fraud_8b7af1a39000b51c5eb2971b7622587a1b97177db584d1eadf59ba2bd1c501ac",
+      "paysim_fraud_2457e09feaf449b0d240ff58b502890b8bea534626900c881421e76deb4f12ac"
+    ],
+    "returned_metadata": [
+      {
+        "destination_balance_unchanged": false,
+        "transaction_type": "CASH_OUT",
+        "amount": "4417191.86",
+        "step": "469",
+        "destination_balance_increased": true,
+        "dataset": "PaySim",
+        "balance_change_amount": "-4417191.86",
+        "label": "fraud",
+        "origin_balance_unchanged": false,
+        "isFraud": "1",
+        "source_row_id": "6022061",
+        "origin_balance_depleted": true,
+        "document_type": "fraud_case",
+        "source_type": "paysim"
+      },
+      {
+        "source_type": "paysim",
+        "source_row_id": "6201654",
+        "balance_change_amount": "-190815.79",
+        "transaction_type": "CASH_OUT",
+        "destination_balance_increased": true,
+        "dataset": "PaySim",
+        "label": "fraud",
+        "amount": "190815.79",
+        "isFraud": "1",
+        "destination_balance_unchanged": false,
+        "step": "578",
+        "origin_balance_depleted": true,
+        "document_type": "fraud_case",
+        "origin_balance_unchanged": false
+      },
+      {
+        "label": "fraud",
+        "amount": "171935.25",
+        "step": "664",
+        "balance_change_amount": "-171935.25",
+        "isFraud": "1",
+        "destination_balance_unchanged": false,
+        "transaction_type": "CASH_OUT",
+        "dataset": "PaySim",
+        "destination_balance_increased": true,
+        "origin_balance_depleted": true,
+        "origin_balance_unchanged": false,
+        "source_type": "paysim",
+        "source_row_id": "6291838",
+        "document_type": "fraud_case"
+      },
+      {
+        "destination_balance_increased": true,
+        "transaction_type": "CASH_OUT",
+        "origin_balance_depleted": true,
+        "dataset": "PaySim",
+        "source_type": "paysim",
+        "amount": "196149.04",
+        "document_type": "fraud_case",
+        "isFraud": "1",
+        "origin_balance_unchanged": false,
+        "destination_balance_unchanged": false,
+        "step": "289",
+        "source_row_id": "3959649",
+        "balance_change_amount": "-196149.04",
+        "label": "fraud"
+      },
+      {
+        "isFraud": "1",
+        "source_row_id": "899578",
+        "step": "42",
+        "document_type": "fraud_case",
+        "label": "fraud",
+        "balance_change_amount": "-1917497.63",
+        "destination_balance_increased": true,
+        "origin_balance_unchanged": false,
+        "destination_balance_unchanged": false,
+        "amount": "1917497.63",
+        "transaction_type": "CASH_OUT",
+        "source_type": "paysim",
+        "dataset": "PaySim",
+        "origin_balance_depleted": true
+      }
+    ],
+    "distances": [
+      0.24716508388519287,
+      0.24958258867263794,
+      0.25042665004730225,
+      0.2505674362182617,
+      0.251078724861145
+    ],
+    "retrieved_text": [
+      "Historical PaySim Fraud Case\nStep: 469\nTransaction type: CASH_OUT\nAmount: 4417191.86\nOrigin account: C790582807\nOrigin balance before: 4417191.86\nOrigin balance after: 0.0\nDestination account: C690378183\nDestination balance before: 188202.71\nDestination balance after: 4605394.57\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance was depleted to zero after the transaction.\nObserved transactional characteristics: Destination account balance increased from 188202.71 to 4605394.57.",
+      "Historical PaySim Fraud Case\nStep: 578\nTransaction type: CASH_OUT\nAmount: 190815.79\nOrigin account: C669797835\nOrigin balance before: 190815.79\nOrigin balance after: 0.0\nDestination account: C1179424644\nDestination balance before: 1686901.31\nDestination balance after: 1877717.1\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance was depleted to zero after the transaction.\nObserved transactional characteristics: Destination account balance increased from 1686901.31 to 1877717.1.",
+      "Historical PaySim Fraud Case\nStep: 664\nTransaction type: CASH_OUT\nAmount: 171935.25\nOrigin account: C625073662\nOrigin balance before: 171935.25\nOrigin balance after: 0.0\nDestination account: C1553779926\nDestination balance before: 1659262.19\nDestination balance after: 1831197.43\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance was depleted to zero after the transaction.\nObserved transactional characteristics: Destination account balance increased from 1659262.19 to 1831197.43.",
+      "Historical PaySim Fraud Case\nStep: 289\nTransaction type: CASH_OUT\nAmount: 196149.04\nOrigin account: C1282559075\nOrigin balance before: 196149.04\nOrigin balance after: 0.0\nDestination account: C1815880438\nDestination balance before: 193203.94\nDestination balance after: 389352.99\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance was depleted to zero after the transaction.\nObserved transactional characteristics: Destination account balance increased from 193203.94 to 389352.99.",
+      "Historical PaySim Fraud Case\nStep: 42\nTransaction type: CASH_OUT\nAmount: 1917497.63\nOrigin account: C1510964909\nOrigin balance before: 1917497.63\nOrigin balance after: 0.0\nDestination account: C580102695\nDestination balance before: 173507.14\nDestination balance after: 2091004.76\nFraud label: FRAUD\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance was depleted to zero after the transaction.\nObserved transactional characteristics: Destination account balance increased from 173507.14 to 2091004.76."
+    ]
+  }
+]

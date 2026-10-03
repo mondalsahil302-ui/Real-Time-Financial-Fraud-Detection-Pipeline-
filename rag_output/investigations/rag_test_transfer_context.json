@@ -1,0 +1,453 @@
+{
+  "context_version": "1.0",
+  "retrieval_timestamp": "2026-10-03T18:19:54.045013+00:00",
+  "alert": {
+    "transaction_id": "RAG_TEST_TXN_0001",
+    "alert_id": "rag_test_transfer_context",
+    "event_time": "2026-01-15T10:30:00+00:00",
+    "amount": 125000.0,
+    "anomaly_score": 0.94,
+    "risk_level": "HIGH",
+    "risk_action": "ALERT",
+    "xgboost_probability": 0.91,
+    "final_prediction": true,
+    "final_decision_path": "RAG_TEST_SYNTHETIC",
+    "final_risk_action": "REVIEW",
+    "model_version": "rag-test",
+    "source": "rag_test",
+    "alert_reason": "synthetic offline demo",
+    "transaction_type": "TRANSFER",
+    "name_orig": "RAG_TEST_ACCOUNT_ORIGIN",
+    "name_dest": "RAG_TEST_ACCOUNT_DESTINATION",
+    "old_balance_orig": 130000.0,
+    "new_balance_orig": 5000.0,
+    "old_balance_dest": 1000.0,
+    "new_balance_dest": 126000.0,
+    "event_date": "2026-01-15",
+    "event_hour": 10
+  },
+  "live_account_context": {
+    "current_alert": {
+      "transaction_id": "RAG_TEST_TXN_0001",
+      "alert_id": "rag_test_transfer_context",
+      "event_time": "2026-01-15T10:30:00+00:00",
+      "amount": 125000.0,
+      "anomaly_score": 0.94,
+      "risk_level": "HIGH",
+      "risk_action": "ALERT",
+      "xgboost_probability": 0.91,
+      "final_prediction": true,
+      "final_decision_path": "RAG_TEST_SYNTHETIC",
+      "final_risk_action": "REVIEW",
+      "model_version": "rag-test",
+      "source": "rag_test",
+      "alert_reason": "synthetic offline demo",
+      "transaction_type": "TRANSFER",
+      "name_orig": "RAG_TEST_ACCOUNT_ORIGIN",
+      "name_dest": "RAG_TEST_ACCOUNT_DESTINATION",
+      "old_balance_orig": 130000.0,
+      "new_balance_orig": 5000.0,
+      "old_balance_dest": 1000.0,
+      "new_balance_dest": 126000.0,
+      "event_date": "2026-01-15",
+      "event_hour": 10
+    },
+    "recent_transactions": [],
+    "recent_alerts": [],
+    "previous_investigations": []
+  },
+  "regulatory_context": [
+    {
+      "document_id": "knowledge_88431c07fbfc959a6f9f475b0de5ba6d04af26ef2dff943fd07824f9a3396190",
+      "text": "---\nkb_version: kb_v2\ntopic: 02_early_warning_signals_ews_rfa\nsubtopic: 07_external_registries\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [6, 7, 8]\nsynthetic: false\n---\n\n# 07 External Registries\n\n## Purpose\n\nEarly Warning Signals (EWS), Red Flagging of Accounts (RFA), alert triggers, validation and real-time monitoring.\n\n## RAG role\n\nThis document is a source-grounded knowledge unit intended for semantic retrieval. It provides context for investigation and explanation. It does not replace the bank's own policies, competent investigation, or current legal/compliance review.\n\n## Relevant terminology\n\nEWS, RFA, Early Warning Signals, Red Flag, transactional data, unusual activities",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.30902135372161865,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "early_warning_signals",
+      "relative_path": "02_early_warning_signals_ews_rfa/07_external_registries/knowledge.md",
+      "metadata": {
+        "authority": "RBI",
+        "version": "2024",
+        "topic": "early_warning_signals",
+        "document_type": "early_warning_signals",
+        "status": "current",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "source_pages": "6, 7, 8",
+        "relative_path": "02_early_warning_signals_ews_rfa/07_external_registries/knowledge.md",
+        "subtopic": "07_external_registries",
+        "chunk_index": 0,
+        "source_type": "primary_regulatory",
+        "current_authority": true
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.30902135372161865
+      }
+    },
+    {
+      "document_id": "knowledge_306545be4d541394de0a031293c611595093a4a67992264754a88b1598e1ac41",
+      "text": "---\nkb_version: kb_v2\ntopic: 02_early_warning_signals_ews_rfa\nsubtopic: 01_ews_foundation\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [6, 7, 8]\nsynthetic: false\n---\n\n# 01 Ews Foundation\n\n## Purpose\n\nEarly Warning Signals (EWS), Red Flagging of Accounts (RFA), alert triggers, validation and real-time monitoring.\n\n## RAG role\n\nThis document is a source-grounded knowledge unit intended for semantic retrieval. It provides context for investigation and explanation. It does not replace the bank's own policies, competent investigation, or current legal/compliance review.\n\n## Relevant terminology\n\nEWS, RFA, Early Warning Signals, Red Flag, transactional data, unusual activities",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.30925452709198,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "early_warning_signals",
+      "relative_path": "02_early_warning_signals_ews_rfa/01_ews_foundation/knowledge.md",
+      "metadata": {
+        "current_authority": true,
+        "status": "current",
+        "chunk_index": 0,
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "authority": "RBI",
+        "relative_path": "02_early_warning_signals_ews_rfa/01_ews_foundation/knowledge.md",
+        "document_type": "early_warning_signals",
+        "version": "2024",
+        "subtopic": "01_ews_foundation",
+        "source_type": "primary_regulatory",
+        "source_pages": "6, 7, 8",
+        "topic": "early_warning_signals"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.30925452709198
+      }
+    },
+    {
+      "document_id": "knowledge_33022b45d66bfa88b3b4fbfa633661fd896096717b3b163c202a47018a88d837",
+      "text": "---\nkb_version: kb_v2\ntopic: 02_early_warning_signals_ews_rfa\nsubtopic: 03_ews_indicator_types\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [6, 7, 8]\nsynthetic: false\n---\n\n# 03 Ews Indicator Types\n\n## Purpose\n\nEarly Warning Signals (EWS), Red Flagging of Accounts (RFA), alert triggers, validation and real-time monitoring.\n\n## RAG role\n\nThis document is a source-grounded knowledge unit intended for semantic retrieval. It provides context for investigation and explanation. It does not replace the bank's own policies, competent investigation, or current legal/compliance review.\n\n## Relevant terminology\n\nEWS, RFA, Early Warning Signals, Red Flag, transactional data, unusual activities",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.3092693090438843,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "early_warning_signals",
+      "relative_path": "02_early_warning_signals_ews_rfa/03_ews_indicator_types/knowledge.md",
+      "metadata": {
+        "source_type": "primary_regulatory",
+        "authority": "RBI",
+        "topic": "early_warning_signals",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "document_type": "early_warning_signals",
+        "current_authority": true,
+        "version": "2024",
+        "relative_path": "02_early_warning_signals_ews_rfa/03_ews_indicator_types/knowledge.md",
+        "status": "current",
+        "chunk_index": 0,
+        "source_pages": "6, 7, 8",
+        "subtopic": "03_ews_indicator_types"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.3092693090438843
+      }
+    },
+    {
+      "document_id": "knowledge_0e469f161e54ee429c9cb6b88206bddfe12d9edd79f7f6be087f8a5a7e4d0aba",
+      "text": "---\nkb_version: kb_v2\ntopic: 02_early_warning_signals_ews_rfa\nsubtopic: 06_ews_processing\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [6, 7, 8]\nsynthetic: false\n---\n\n# 06 Ews Processing\n\n## Purpose\n\nEarly Warning Signals (EWS), Red Flagging of Accounts (RFA), alert triggers, validation and real-time monitoring.\n\n## RAG role\n\nThis document is a source-grounded knowledge unit intended for semantic retrieval. It provides context for investigation and explanation. It does not replace the bank's own policies, competent investigation, or current legal/compliance review.\n\n## Relevant terminology\n\nEWS, RFA, Early Warning Signals, Red Flag, transactional data, unusual activities",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.31161069869995117,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "early_warning_signals",
+      "relative_path": "02_early_warning_signals_ews_rfa/06_ews_processing/knowledge.md",
+      "metadata": {
+        "chunk_index": 0,
+        "version": "2024",
+        "subtopic": "06_ews_processing",
+        "status": "current",
+        "topic": "early_warning_signals",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "source_type": "primary_regulatory",
+        "source_pages": "6, 7, 8",
+        "document_type": "early_warning_signals",
+        "current_authority": true,
+        "authority": "RBI",
+        "relative_path": "02_early_warning_signals_ews_rfa/06_ews_processing/knowledge.md"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.31161069869995117
+      }
+    },
+    {
+      "document_id": "knowledge_39fff900c2dee85e8221f80509a318d59596005d592e950ee6c83eed170baf88",
+      "text": "---\nkb_version: kb_v2\ntopic: 02_early_warning_signals_ews_rfa\nsubtopic: 05_customer_and_system_context\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [6, 7, 8]\nsynthetic: false\n---\n\n# 05 Customer And System Context\n\n## Purpose\n\nEarly Warning Signals (EWS), Red Flagging of Accounts (RFA), alert triggers, validation and real-time monitoring.\n\n## RAG role\n\nThis document is a source-grounded knowledge unit intended for semantic retrieval. It provides context for investigation and explanation. It does not replace the bank's own policies, competent investigation, or current legal/compliance review.\n\n## Relevant terminology\n\nEWS, RFA, Early Warning Signals, Red Flag, transactional data, unusual activities",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.3133736848831177,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "early_warning_signals",
+      "relative_path": "02_early_warning_signals_ews_rfa/05_customer_and_system_context/knowledge.md",
+      "metadata": {
+        "chunk_index": 0,
+        "current_authority": true,
+        "relative_path": "02_early_warning_signals_ews_rfa/05_customer_and_system_context/knowledge.md",
+        "status": "current",
+        "source_pages": "6, 7, 8",
+        "subtopic": "05_customer_and_system_context",
+        "document_type": "early_warning_signals",
+        "topic": "early_warning_signals",
+        "authority": "RBI",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "source_type": "primary_regulatory",
+        "version": "2024"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.3133736848831177
+      }
+    }
+  ],
+  "historical_paysim_context": [
+    {
+      "document_id": "paysim_normal_13d8e3aeb239a7961e54aef5e9b9ee52c17b7c0fd80a23a8251a002b38100e90",
+      "text": "Historical PaySim Normal Case\nStep: 15\nTransaction type: TRANSFER\nAmount: 235381.98\nOrigin account: C951737860\nOrigin balance before: 788652.42\nOrigin balance after: 553270.44\nDestination account: C1006419518\nDestination balance before: 940129.01\nDestination balance after: 1175510.99\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance decreased from 788652.42 to 553270.44.\nObserved transactional characteristics: Destination account balance increased from 940129.01 to 1175510.99.",
+      "source": "PaySim synthetic historical reference",
+      "source_row_id": "279367",
+      "transaction_type": "TRANSFER",
+      "label": "normal",
+      "distance": 0.24090296030044556,
+      "metadata": {
+        "origin_balance_unchanged": false,
+        "source_row_id": "279367",
+        "step": "15",
+        "isFraud": "0",
+        "source_type": "paysim",
+        "destination_balance_increased": true,
+        "label": "normal",
+        "origin_balance_depleted": false,
+        "dataset": "PaySim",
+        "amount": "235381.98",
+        "balance_change_amount": "-235381.98",
+        "transaction_type": "TRANSFER",
+        "destination_balance_unchanged": false,
+        "document_type": "normal_case"
+      },
+      "ranking_reason": {
+        "same_transaction_type": true,
+        "similar_amount_range": true,
+        "amount_ratio": 1.8830558400000001,
+        "balance_behavior_match_score": 1.0,
+        "balance_behavior_comparisons": 5,
+        "vector_distance": 0.24090296030044556
+      },
+      "evidence_kind": "synthetic_historical_reference"
+    },
+    {
+      "document_id": "paysim_normal_8d0268e285ccaeb461e6113347d81c2df1738c658c6e26c1b19a457ff85bdf5a",
+      "text": "Historical PaySim Normal Case\nStep: 163\nTransaction type: TRANSFER\nAmount: 158326.05\nOrigin account: C984157072\nOrigin balance before: 174400.0\nOrigin balance after: 16073.95\nDestination account: C1053972393\nDestination balance before: 0.0\nDestination balance after: 158326.05\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance decreased from 174400.0 to 16073.95.\nObserved transactional characteristics: Destination account balance increased from 0.0 to 158326.05.",
+      "source": "PaySim synthetic historical reference",
+      "source_row_id": "1830990",
+      "transaction_type": "TRANSFER",
+      "label": "normal",
+      "distance": 0.24367636442184448,
+      "metadata": {
+        "origin_balance_depleted": false,
+        "source_row_id": "1830990",
+        "amount": "158326.05",
+        "origin_balance_unchanged": false,
+        "transaction_type": "TRANSFER",
+        "source_type": "paysim",
+        "step": "163",
+        "document_type": "normal_case",
+        "label": "normal",
+        "destination_balance_increased": true,
+        "balance_change_amount": "-158326.05",
+        "destination_balance_unchanged": false,
+        "isFraud": "0",
+        "dataset": "PaySim"
+      },
+      "ranking_reason": {
+        "same_transaction_type": true,
+        "similar_amount_range": true,
+        "amount_ratio": 1.2666084,
+        "balance_behavior_match_score": 1.0,
+        "balance_behavior_comparisons": 5,
+        "vector_distance": 0.24367636442184448
+      },
+      "evidence_kind": "synthetic_historical_reference"
+    },
+    {
+      "document_id": "paysim_normal_19b52895b584ba5bda65669a06d9c0fbd3a4e7cc5f79315f567e77ee2eb82fe4",
+      "text": "Historical PaySim Normal Case\nStep: 277\nTransaction type: TRANSFER\nAmount: 185423.16\nOrigin account: C1764832711\nOrigin balance before: 0.0\nOrigin balance after: 0.0\nDestination account: C1618770925\nDestination balance before: 613227.01\nDestination balance after: 798650.17\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account had zero balance before and after the transaction.\nObserved transactional characteristics: Destination account balance increased from 613227.01 to 798650.17.",
+      "source": "PaySim synthetic historical reference",
+      "source_row_id": "3707192",
+      "transaction_type": "TRANSFER",
+      "label": "normal",
+      "distance": 0.2353692650794983,
+      "metadata": {
+        "transaction_type": "TRANSFER",
+        "origin_balance_depleted": false,
+        "destination_balance_increased": true,
+        "origin_balance_unchanged": true,
+        "document_type": "normal_case",
+        "step": "277",
+        "source_row_id": "3707192",
+        "balance_change_amount": "0.0",
+        "dataset": "PaySim",
+        "source_type": "paysim",
+        "amount": "185423.16",
+        "isFraud": "0",
+        "label": "normal",
+        "destination_balance_unchanged": false
+      },
+      "ranking_reason": {
+        "same_transaction_type": true,
+        "similar_amount_range": true,
+        "amount_ratio": 1.48338528,
+        "balance_behavior_match_score": 0.6,
+        "balance_behavior_comparisons": 5,
+        "vector_distance": 0.2353692650794983
+      },
+      "evidence_kind": "synthetic_historical_reference"
+    },
+    {
+      "document_id": "paysim_normal_9fe85b25c4010731d231bc1b2897d878c44673330cb7a81806e6f743fe851106",
+      "text": "Historical PaySim Normal Case\nStep: 255\nTransaction type: TRANSFER\nAmount: 18562.9\nOrigin account: C2055477672\nOrigin balance before: 8004.0\nOrigin balance after: 0.0\nDestination account: C1984366615\nDestination balance before: 249534.15\nDestination balance after: 268097.05\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance was depleted to zero after the transaction.\nObserved transactional characteristics: Destination account balance increased from 249534.15 to 268097.05.",
+      "source": "PaySim synthetic historical reference",
+      "source_row_id": "3398546",
+      "transaction_type": "TRANSFER",
+      "label": "normal",
+      "distance": 0.2436997890472412,
+      "metadata": {
+        "destination_balance_increased": true,
+        "transaction_type": "TRANSFER",
+        "origin_balance_depleted": true,
+        "step": "255",
+        "source_row_id": "3398546",
+        "isFraud": "0",
+        "amount": "18562.9",
+        "origin_balance_unchanged": false,
+        "destination_balance_unchanged": false,
+        "source_type": "paysim",
+        "label": "normal",
+        "document_type": "normal_case",
+        "balance_change_amount": "-8004.0",
+        "dataset": "PaySim"
+      },
+      "ranking_reason": {
+        "same_transaction_type": true,
+        "similar_amount_range": false,
+        "amount_ratio": 6.733861627224194,
+        "balance_behavior_match_score": 0.8,
+        "balance_behavior_comparisons": 5,
+        "vector_distance": 0.2436997890472412
+      },
+      "evidence_kind": "synthetic_historical_reference"
+    },
+    {
+      "document_id": "paysim_normal_f3e30074b61b6ad4d53de3f1131ee71405614f8c3df32689304e47744a0cc4b2",
+      "text": "Historical PaySim Normal Case\nStep: 203\nTransaction type: TRANSFER\nAmount: 851602.2\nOrigin account: C418396870\nOrigin balance before: 0.0\nOrigin balance after: 0.0\nDestination account: C18198102\nDestination balance before: 1856126.0\nDestination balance after: 2707728.2\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account had zero balance before and after the transaction.\nObserved transactional characteristics: Destination account balance increased from 1856126.0 to 2707728.2.",
+      "source": "PaySim synthetic historical reference",
+      "source_row_id": "2438382",
+      "transaction_type": "TRANSFER",
+      "label": "normal",
+      "distance": 0.2373272180557251,
+      "metadata": {
+        "document_type": "normal_case",
+        "source_type": "paysim",
+        "transaction_type": "TRANSFER",
+        "origin_balance_unchanged": true,
+        "step": "203",
+        "label": "normal",
+        "destination_balance_unchanged": false,
+        "amount": "851602.2",
+        "isFraud": "0",
+        "destination_balance_increased": true,
+        "dataset": "PaySim",
+        "source_row_id": "2438382",
+        "origin_balance_depleted": false,
+        "balance_change_amount": "0.0"
+      },
+      "ranking_reason": {
+        "same_transaction_type": true,
+        "similar_amount_range": false,
+        "amount_ratio": 6.8128176,
+        "balance_behavior_match_score": 0.6,
+        "balance_behavior_comparisons": 5,
+        "vector_distance": 0.2373272180557251
+      },
+      "evidence_kind": "synthetic_historical_reference"
+    }
+  ],
+  "model_output": {
+    "anomaly_score": 0.94,
+    "risk_level": "HIGH",
+    "risk_action": "ALERT",
+    "xgboost_probability": 0.91,
+    "final_prediction": true,
+    "final_decision_path": "RAG_TEST_SYNTHETIC",
+    "final_risk_action": "REVIEW",
+    "model_version": "rag-test"
+  },
+  "evidence_categories": {
+    "factual_live_data": [
+      "alert",
+      "live_account_context"
+    ],
+    "regulatory_knowledge": [
+      "regulatory_context"
+    ],
+    "historical_synthetic_data": [
+      "historical_paysim_context"
+    ],
+    "model_output": [
+      "model_output"
+    ]
+  },
+  "retrieval_status": {
+    "cassandra": "failed",
+    "fraud_knowledge": "success",
+    "paysim_cases": "success"
+  },
+  "retrieval_errors": {
+    "cassandra": "NoHostAvailable: retrieval failed; check Cassandra service and logs"
+  },
+  "evidence_summary": {
+    "current_alert_count": 1,
+    "recent_transaction_count": 0,
+    "recent_alert_count": 0,
+    "investigation_count": 0,
+    "knowledge_count": 5,
+    "paysim_case_count": 5,
+    "total_evidence_items": 11,
+    "knowledge_document_ids": [
+      "knowledge_88431c07fbfc959a6f9f475b0de5ba6d04af26ef2dff943fd07824f9a3396190",
+      "knowledge_306545be4d541394de0a031293c611595093a4a67992264754a88b1598e1ac41",
+      "knowledge_33022b45d66bfa88b3b4fbfa633661fd896096717b3b163c202a47018a88d837",
+      "knowledge_0e469f161e54ee429c9cb6b88206bddfe12d9edd79f7f6be087f8a5a7e4d0aba",
+      "knowledge_39fff900c2dee85e8221f80509a318d59596005d592e950ee6c83eed170baf88"
+    ],
+    "paysim_document_ids": [
+      "paysim_normal_13d8e3aeb239a7961e54aef5e9b9ee52c17b7c0fd80a23a8251a002b38100e90",
+      "paysim_normal_8d0268e285ccaeb461e6113347d81c2df1738c658c6e26c1b19a457ff85bdf5a",
+      "paysim_normal_19b52895b584ba5bda65669a06d9c0fbd3a4e7cc5f79315f567e77ee2eb82fe4",
+      "paysim_normal_9fe85b25c4010731d231bc1b2897d878c44673330cb7a81806e6f743fe851106",
+      "paysim_normal_f3e30074b61b6ad4d53de3f1131ee71405614f8c3df32689304e47744a0cc4b2"
+    ],
+    "cassandra_transaction_ids": [],
+    "cassandra_alert_ids": [],
+    "cassandra_investigation_ids": [],
+    "summary_type": "deterministic_retrieval_inventory"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "kb_version": "kb_v2",
+  "created": "2026-10-02T18:15:46",
+  "source_registry": [
+    {
+      "source_id": "rbi_frm_2024",
+      "file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "role": "primary_regulatory",
+      "publication_date": "2024-07-15",
+      "status": "source_snapshot"
+    },
+    {
+      "source_id": "pwc_rbi_2024",
+      "file": "rbis-master-direction-on-fraud-risk-management-in-banks.pdf",
+      "role": "secondary_analysis",
+      "publication_date": "2024-08",
+      "status": "explanatory"
+    },
+    {
+      "source_id": "older_fraud_guidelines",
+      "file": "guide-lines-on-fraud.pdf",
+      "role": "historical_reference",
+      "status": "historical"
+    }
+  ],
+  "data_boundary": "Account/customer transaction history belongs in Cassandra, not this knowledge base.",
+  "vector_database": "ChromaDB",
+  "llm_role": "Future explanation/investigation layer"
+}

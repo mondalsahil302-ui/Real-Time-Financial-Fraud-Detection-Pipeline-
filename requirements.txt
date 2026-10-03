@@ -17,3 +17,9 @@ pyspark==4.2.0
 # Notebook & Development
 ipykernel>=6.25.0
 ipywidgets>=8.0.0
+pytest>=7.4.0
+
+# RAG vector database
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+tqdm>=4.66.0

@@ -12,6 +12,11 @@ data/*.csv
 checkpoints/
 .spark-ivy/
 
+# Local RAG database and generated document exports
+vector_db/
+rag_output/chunks/*.jsonl
+rag_output/paysim_documents/*.jsonl
+
 # Jupyter
 .ipynb_checkpoints/
 

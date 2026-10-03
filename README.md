@@ -1845,3 +1845,64 @@ These are production-hardening items beyond the basic local prototype.
                                        Grafana
 ```
 
+## Cassandra persistence (local development)
+
+The pipeline writes two distinct output topics. Independent Cassandra consumers persist them into separate tables; investigation rows are reserved for a future RAG/LLM service.
+
+```text
+low-risk-transactions -> fraud_detection.transactions
+fraud-alerts          -> fraud_detection.fraud_alerts
+future investigation  -> fraud_detection.investigation_results
+```
+
+The `transaction_id` emitted by Spark is retained across transaction and alert rows. Spark currently does not emit `alert_id`; the alert consumer creates a stable UUID from `transaction_id` so a Kafka replay remains idempotent. `event_date` and `event_hour` are derived in UTC from Spark's ISO-8601 `event_time`. XGBoost fields are nullable on direct Isolation Forest alerts because that route does not run the second-stage classifier.
+
+`anomaly_score` is an Isolation Forest anomaly score, not a fraud probability; risk levels describe routing suspicion, not ground truth. `xgboost_probability` is the second-stage probability, and `final_prediction` is the classifier decision. Cassandra stores the events for operational history and investigation context; it is not a classifier. Structured investigation lists/documents are stored as JSON text.
+
+### Start Cassandra
+
+```powershell
+docker compose up -d cassandra
+docker compose ps
+docker logs fraud-cassandra --tail 50
+```
+
+The Compose service is named `cassandra`, its container is `fraud-cassandra`, and it exposes port `9042` on localhost.
+
+### Install dependencies
+
+`cassandra-driver` and `python-dotenv` are already listed in `requirements.txt`. To install them directly in the active environment:
+
+```powershell
+python -m pip install cassandra-driver python-dotenv
+```
+
+### Create schema and test connection
+
+```powershell
+python -m database.create_tables
+python -m database.cassandra_connection
+```
+
+### Run Cassandra checks
+
+With Cassandra running and the schema created:
+
+```powershell
+python -m unittest discover -s tests -p "test_cassandra_*.py" -v
+python .\tools\test_cassandra_insert.py
+```
+
+The smoke test inserts synthetic transaction, alert, and investigation rows, reads them back, then deletes them.
+
+### Run the persistence consumers
+
+Run each consumer in a separate terminal. They use independent consumer groups and commit a message offset after its Cassandra insert succeeds.
+
+```powershell
+python .\database\transaction_consumer.py
+```
+
+```powershell
+python .\database\fraud_alert_consumer.py
+```

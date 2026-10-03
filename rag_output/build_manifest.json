@@ -1,0 +1,26 @@
+{
+  "build_timestamp": "2026-10-03T18:01:22.571515+00:00",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embedding_dimension": 384,
+  "knowledge_files_discovered": 0,
+  "knowledge_chunks_created": 0,
+  "knowledge_vectors_indexed": 196,
+  "paysim_rows_processed": 6362620,
+  "paysim_fraud_documents": 8213,
+  "paysim_normal_documents": 10000,
+  "paysim_account_profiles": 16382,
+  "knowledge_collection_count": 196,
+  "paysim_collection_count": 34595,
+  "source_paths": {
+    "knowledge_base": "D:\\Real-Time-Financial-Fraud-Detection-Pipeline-\\fraud_rag_knowledge_base",
+    "paysim": "D:\\Real-Time-Financial-Fraud-Detection-Pipeline-\\data\\PS_20174392719_1491204439457_log.csv"
+  },
+  "configuration": {
+    "paysim_chunk_size": 100000,
+    "paysim_max_normal_cases": 10000,
+    "paysim_max_account_profiles": 50000,
+    "knowledge_chunk_size": 700,
+    "knowledge_chunk_overlap": 100,
+    "chroma_batch_size": 256
+  }
+}
