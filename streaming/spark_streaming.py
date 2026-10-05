@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import gc
 import os
 import sys
+import time
 from bisect import bisect_left
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Tuple
@@ -42,6 +44,10 @@ from pyspark.sql.types import (
 #
 # Therefore parent.parent is the project root.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from rag.metrics import DURATION as PROM_DURATION, count as metric_count, start_metrics_server
 
 load_dotenv(PROJECT_ROOT / ".env")
 
@@ -303,6 +309,9 @@ transaction_schema = StructType([
     StructField("transaction_id", StringType(), True),
     StructField("event_time", StringType(), True),
     StructField("source", StringType(), True),
+    # Control Center correlation metadata; not included in model features.
+    StructField("batch_id", StringType(), True),
+    StructField("producer_sequence", IntegerType(), True),
 
     StructField("step", IntegerType(), True),
     StructField("event_step", IntegerType(), True),
@@ -357,6 +366,8 @@ behavior_output_schema = StructType([
     StructField("transaction_id", StringType(), True),
     StructField("event_time", StringType(), True),
     StructField("source", StringType(), True),
+    StructField("batch_id", StringType(), True),
+    StructField("producer_sequence", IntegerType(), True),
 
     StructField("step", IntegerType(), True),
     StructField("event_step", IntegerType(), True),
@@ -700,15 +711,22 @@ def load_xgboost_runtime_artifacts(
 
 
 # ============================================================
-# LOAD MODELS
+# LOAD LIGHTWEIGHT DRIVER-SIDE CONFIG
 # ============================================================
+# IMPORTANT: We load ONLY the config/thresholds/feature-lists here on
+# the driver.  The actual model *objects* (Isolation Forest, XGBoost)
+# are NOT loaded here and are NOT broadcast.  They are loaded lazily
+# inside each Python worker by spark_worker_model.py.
+#
+# This is the fix for the Windows page-file / JVM OOM crash:
+# a 313 MB serialised pickle must never travel through Spark's
+# task-serialization path.
 
 (
-    MODEL,
+    _,          # model object – intentionally discarded on the driver
     RUNTIME_CONFIG,
     THRESHOLDS,
 ) = load_runtime_artifacts()
-
 
 MODEL_VERSION = str(
     RUNTIME_CONFIG.get(
@@ -717,13 +735,27 @@ MODEL_VERSION = str(
     )
 )
 
+# Discard the driver-side IF model object immediately so it cannot
+# accidentally end up in a task closure.
+del _
+gc.collect()
+
 
 (
-    XGB_MODEL,
+    _xgb_model_discard,   # discarded – only loaded in workers
     XGB_CONFIG,
     XGB_FEATURE_COLUMNS,
     XGB_THRESHOLD,
 ) = load_xgboost_runtime_artifacts()
+
+# Discard the driver-side XGBoost model object immediately.
+del _xgb_model_discard
+gc.collect()
+
+print(f"[driver] Thresholds loaded: T1={THRESHOLDS['T1']:.4f} T2={THRESHOLDS['T2']:.4f} T3={THRESHOLDS['T3']:.4f} T4={THRESHOLDS['T4']:.4f}")
+print(f"[driver] XGBoost threshold: {XGB_THRESHOLD}")
+print("[driver] Model objects discarded from driver – workers load from disk lazily.")
+
 
 
 # ============================================================
@@ -733,7 +765,7 @@ MODEL_VERSION = str(
 spark = (
     SparkSession.builder
     .appName(SPARK_APP_NAME)
-    .master("local[4]")
+    .master(os.getenv("SPARK_MASTER", "local[2]"))
     .config(
         "spark.jars.packages",
         "org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0",
@@ -748,16 +780,19 @@ spark = (
     )
     .config(
         "spark.sql.shuffle.partitions",
-        "6",
+        "2",
+    )
+    .config(
+        "spark.python.worker.reuse",
+        "true",
     )
     .getOrCreate()
 )
 
 spark.sparkContext.setLogLevel("WARN")
 
-
-MODEL_BROADCAST = (
-    spark.sparkContext.broadcast(MODEL)
+spark.sparkContext.addPyFile(
+    str(PROJECT_ROOT / "streaming" / "spark_worker_model.py")
 )
 
 
@@ -794,7 +829,6 @@ print(
 )
 print("=" * 80)
 print()
-
 
 # ============================================================
 # STATE -> HISTORY
@@ -1417,7 +1451,11 @@ raw_stream = (
     )
     .option(
         "startingOffsets",
-        "earliest",
+        os.getenv("SPARK_STARTING_OFFSETS", "earliest"),
+    )
+    .option(
+        "maxOffsetsPerTrigger",
+        os.getenv("SPARK_MAX_OFFSETS_PER_TRIGGER", "500"),
     )
     .option(
         "failOnDataLoss",
@@ -1660,6 +1698,8 @@ state_input_columns = list(dict.fromkeys([
     "transaction_id",
     "event_time",
     "source",
+    "batch_id",
+    "producer_sequence",
     "step",
     "event_step",
     "type",
@@ -1779,8 +1819,11 @@ def score_batch(
             Iterator[pd.DataFrame],
     ) -> Iterator[pd.DataFrame]:
 
-        model = (
-            MODEL_BROADCAST.value
+        from spark_worker_model import load_isolation_forest
+
+        model = load_isolation_forest(
+            str(MODEL_PATH),
+            expected_features=33,
         )
 
         t1 = THRESHOLDS["T1"]
@@ -1935,6 +1978,10 @@ xgboost_output_schema = StructType([
         StringType(),
         True,
     ),
+
+    StructField("batch_id", StringType(), True),
+
+    StructField("producer_sequence", IntegerType(), True),
 
     StructField(
         "step",
@@ -2107,8 +2154,7 @@ xgboost_output_schema = StructType([
 def apply_xgboost_second_stage(
     df: DataFrame,
 ) -> DataFrame:
-    """
-    Run XGBoost only on L1/L2 rows.
+    """Run XGBoost only on L1/L2 rows using worker-local model loading.
 
     XGBoost uses:
         33 Isolation Forest features
@@ -2116,6 +2162,12 @@ def apply_xgboost_second_stage(
         anomaly_score
 
     Total = 34 features.
+
+    IMPORTANT: XGB_MODEL is NOT referenced from the driver here.
+    The model is loaded lazily inside each Python worker process via
+    spark_worker_model.load_xgboost(), which caches it in module-level
+    state. This avoids serialising the 313 MB model through Spark's
+    task-closure path.
     """
 
     if df.rdd.isEmpty():
@@ -2124,92 +2176,70 @@ def apply_xgboost_second_stage(
             schema=xgboost_output_schema,
         )
 
-    pdf = df.toPandas()
-
-    if pdf.empty:
-        return spark.createDataFrame(
-            [],
-            schema=xgboost_output_schema,
+    # Capture lightweight primitives only (no model objects).
+    xgb_feature_cols = XGB_FEATURE_COLUMNS
+    xgb_threshold = float(XGB_THRESHOLD)
+    xgb_model_version = str(
+        XGB_CONFIG.get(
+            "model_version",
+            "xgboost_second_stage_v1",
         )
-
-    x = (
-        pdf[
-            XGB_FEATURE_COLUMNS
-        ]
-        .astype(np.float64)
     )
+    xgb_model_path = str(XGBOOST_MODEL_PATH)
+    output_schema = xgboost_output_schema
 
-    if not np.isfinite(
-        x.to_numpy()
-    ).all():
-        raise ValueError(
-            "Non-finite values detected "
-            "in the 34-feature XGBoost matrix."
-        )
+    def _score_xgb_partitions(
+        pdf_iterator: Iterator[pd.DataFrame],
+    ) -> Iterator[pd.DataFrame]:
+        from spark_worker_model import load_xgboost
+        import numpy as _np
 
-    probabilities = (
-        XGB_MODEL
-        .predict_proba(x)[:, 1]
-    )
+        model = load_xgboost(xgb_model_path)
 
-    predictions = (
-        probabilities
-        >= XGB_THRESHOLD
-    ).astype(np.int32)
+        for pdf in pdf_iterator:
+            if pdf is None or pdf.empty:
+                continue
 
-    pdf["xgboost_probability"] = (
-        probabilities
-    )
+            x = pdf[xgb_feature_cols].astype(_np.float64)
 
-    pdf["xgboost_threshold"] = (
-        float(XGB_THRESHOLD)
-    )
+            if not _np.isfinite(x.to_numpy()).all():
+                raise ValueError(
+                    "Non-finite values detected "
+                    "in the 34-feature XGBoost matrix."
+                )
 
-    pdf["xgboost_prediction"] = (
-        predictions
-    )
+            probabilities = model.predict_proba(x)[:, 1]
+            predictions = (probabilities >= xgb_threshold).astype(_np.int32)
 
-    pdf["xgboost_model_version"] = (
-        str(
-            XGB_CONFIG.get(
-                "model_version",
-                "xgboost_second_stage_v1",
+            result = pdf.copy()
+            result["xgboost_probability"] = probabilities
+            result["xgboost_threshold"] = float(xgb_threshold)
+            result["xgboost_prediction"] = predictions
+            result["xgboost_model_version"] = xgb_model_version
+
+            result["final_prediction"] = predictions
+
+            result["final_decision_path"] = _np.where(
+                predictions == 1,
+                "L1/L2 -> XGBoost -> fraud-alerts",
+                "L1/L2 -> XGBoost -> low-risk",
             )
-        )
-    )
 
-    pdf["final_prediction"] = (
-        predictions
-    )
+            result["final_risk_action"] = _np.where(
+                predictions == 1,
+                "FRAUD_ALERT",
+                "LOW_RISK_STORE",
+            )
 
-    pdf["final_decision_path"] = (
-        np.where(
-            predictions == 1,
-            "L1/L2 -> XGBoost -> fraud-alerts",
-            "L1/L2 -> XGBoost -> low-risk",
-        )
-    )
+            yield result[
+                [field.name for field in output_schema.fields]
+            ]
 
-    pdf["final_risk_action"] = (
-        np.where(
-            predictions == 1,
-            "FRAUD_ALERT",
-            "LOW_RISK_STORE",
-        )
-    )
-
-    pdf = pdf[
-        [
-            field.name
-            for field
-            in xgboost_output_schema.fields
-        ]
-    ]
-
-    return spark.createDataFrame(
-        pdf,
+    return df.mapInPandas(
+        _score_xgb_partitions,
         schema=xgboost_output_schema,
     )
+
 
 
 # ============================================================
@@ -2227,6 +2257,8 @@ def kafka_frame(
         "transaction_id",
         "event_time",
         "source",
+        "batch_id",
+        "producer_sequence",
         "step",
         "event_step",
         "type",
@@ -2329,6 +2361,8 @@ def route_micro_batch(
            ALERT      LOW-RISK
     """
 
+    batch_started = time.perf_counter()
+    print(f"[batch={batch_id}] START – scoring batch ...")
     scored = (
         score_batch(
             batch_df
@@ -2339,6 +2373,7 @@ def route_micro_batch(
     try:
 
         if scored.rdd.isEmpty():
+            print(f"[batch={batch_id}] EMPTY – no rows in this micro-batch. Spark remains active.")
             return
 
         schema_columns = [
@@ -2515,14 +2550,25 @@ def route_micro_batch(
             xgb_legit.count()
         )
 
+        elapsed = time.perf_counter() - batch_started
         print(
-            f"[batch={batch_id}] "
+            f"[batch={batch_id}] DONE – "
             f"total={total_count} "
             f"L1/L2={low_risk_count} "
             f"direct_alerts={direct_alert_count} "
             f"xgb_fraud={xgb_fraud_count} "
-            f"low_risk={low_risk_final_count}"
+            f"low_risk={low_risk_final_count} "
+            f"elapsed={elapsed:.2f}s"
         )
+
+        metric_count("spark", "transactions_processed", "success", total_count)
+        metric_count("spark", "fraud_alerts_produced", "success", direct_alert_count + xgb_fraud_count)
+        metric_count("spark", "low_risk_produced", "success", low_risk_final_count)
+        PROM_DURATION.labels("spark", "micro_batch").observe(time.perf_counter() - batch_started)
+
+    except Exception:
+        metric_count("spark", "micro_batch", "failure")
+        raise
 
     finally:
         scored.unpersist()
@@ -2531,6 +2577,8 @@ def route_micro_batch(
 # ============================================================
 # START STREAMING QUERY
 # ============================================================
+
+start_metrics_server(port=int(os.getenv("SPARK_METRICS_PORT", "8002")))
 
 query = (
     behavioral_stream
@@ -2586,6 +2634,11 @@ print(
 )
 
 print(
+    "Starting offsets: "
+    f"{os.getenv('SPARK_STARTING_OFFSETS', 'earliest')}"
+)
+
+print(
     f"IF feature count: "
     f"{len(MODEL_FEATURE_COLUMNS)}"
 )
@@ -2628,4 +2681,36 @@ print()
 # WAIT
 # ============================================================
 
-query.awaitTermination()
+
+# ============================================================
+# WAIT FOR TERMINATION (with defensive exception reporting)
+# ============================================================
+
+print("[query] Waiting for streaming query to terminate...")
+print(f"[query] isActive = {query.isActive}")
+
+try:
+    query.awaitTermination()
+except KeyboardInterrupt:
+    print("\n[query] KeyboardInterrupt received. Stopping Spark streaming query...")
+    query.stop()
+    spark.stop()
+    print("[query] Stopped cleanly.")
+except Exception as exc:
+    print(f"\n[query] Streaming query terminated with exception: {exc}")
+finally:
+    print("[query] === STREAMING QUERY TERMINATED ===")
+    print(f"[query] isActive        : {query.isActive}")
+    try:
+        print(f"[query] exception()     : {query.exception()}")
+    except Exception as e:
+        print(f"[query] exception() call failed: {e}")
+    try:
+        print(f"[query] status          : {query.status}")
+    except Exception as e:
+        print(f"[query] status call failed: {e}")
+    try:
+        print(f"[query] lastProgress    : {query.lastProgress}")
+    except Exception as e:
+        print(f"[query] lastProgress call failed: {e}")
+
