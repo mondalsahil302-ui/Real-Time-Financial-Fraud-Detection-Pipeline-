@@ -16,6 +16,7 @@ checkpoints/
 
 # Local RAG database and generated document exports
 vector_db/
+rag_output/
 rag_output/chunks/*.jsonl
 rag_output/paysim_documents/*.jsonl
 
