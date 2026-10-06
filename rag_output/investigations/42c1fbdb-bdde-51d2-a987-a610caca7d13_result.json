@@ -1,0 +1,34 @@
+{
+  "investigation_summary": "Investigation generation failed before a validated LLM assessment was available.",
+  "evidence": [],
+  "risk_factors": [],
+  "counter_evidence": [],
+  "missing_evidence": [],
+  "historical_comparison": {
+    "fraud_cases": [],
+    "normal_cases": []
+  },
+  "regulatory_references": [],
+  "uncertainties": [
+    "LLM investigation unavailable (invalid_model_response); human review is required."
+  ],
+  "recommended_review_points": [
+    "Retry after resolving the LLM or response-validation error."
+  ],
+  "investigation_status": "failed",
+  "error_category": "invalid_model_response",
+  "alert_assessment": {
+    "risk_level": "L5",
+    "model_prediction": 1,
+    "anomaly_score": 0.26436431106691916,
+    "xgboost_probability": null,
+    "decision_path": "Isolation Forest -> fraud-alerts"
+  },
+  "investigation_id": "be7e695a-3630-4c67-9d4f-e04ebea8179d",
+  "alert_id": "42c1fbdb-bdde-51d2-a987-a610caca7d13",
+  "transaction_id": "9805b3af-ad7e-4fae-9a42-dbb220c4b9bd",
+  "generated_at": "2026-10-04T17:43:09.799910+00:00",
+  "llm_model": "llama3.2",
+  "rag_version": "kb_v2",
+  "invalid_field": "evidence"
+}

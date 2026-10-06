@@ -1,0 +1,36 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: [alertmanager:9093]
+
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: [localhost:9090]
+  - job_name: fraud-pipeline-app
+    metrics_path: /metrics
+    static_configs:
+      - targets: [host.docker.internal:8000]
+  - job_name: transaction-producer
+    metrics_path: /metrics
+    # The CLI producer is short-lived; this target is expected to be down between runs.
+    static_configs:
+      - targets: [host.docker.internal:8003]
+  - job_name: control-center-api
+    metrics_path: /metrics
+    static_configs:
+      - targets: [host.docker.internal:8001]
+  - job_name: spark-streaming
+    metrics_path: /metrics
+    static_configs:
+      - targets: [host.docker.internal:8002]
+  - job_name: cadvisor
+    static_configs:
+      - targets: [cadvisor:8080]

@@ -1,6 +1,104 @@
 # Real-Time Financial Fraud Detection Pipeline
 ## End-to-End Microservice Architecture
 
+## Windows local run and observability
+
+The baseline detector remains PaySim producer → Kafka `transactions` → Spark Structured Streaming → Isolation Forest/risk routing → XGBoost for L1/L2 → `fraud-alerts` or `low-risk-transactions`. Fraud alerts feed the investigation consumer, which combines Cassandra live history with the separate Chroma `fraud_knowledge` and `paysim_cases` collections, asks Gemini (gemini-3.5-flash-lite) for a structured explanation, and persists it in `fraud_detection.investigation_results`. Cassandra is the source of live account history; Chroma collections are domain knowledge and synthetic references.
+
+### Setup
+
+From PowerShell at the repository root:
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+if (-not (Test-Path .env)) { Copy-Item .env.example .env } else { Write-Host 'Keeping existing .env; review .env.example for any new optional settings.' }
+```
+
+Keep local settings and credentials in `.env`; do not commit that file. The checked-in Compose defaults support a local development-only Grafana login. Change it in `.env` before exposing Grafana beyond localhost. Ensure the existing Chroma database is built before investigations; do not rebuild it for routine runs.
+
+### Infrastructure startup
+
+Start Docker Desktop, then run the managed local launcher from the project root:
+
+```cmd
+scripts\start_project.cmd
+```
+
+It starts Docker Compose and the local Control Center API, Spark worker, investigation consumer, and frontend without waiting indefinitely. `scripts\status_project.cmd`, `scripts\validate_project.cmd`, and `scripts\stop_project.cmd` check service state, perform live checks, and stop only application processes launched by this script; stopping does not stop containers or remove persistent data. `scripts\start_all.ps1` remains available for starting infrastructure only.
+
+The Control Center Batch Simulator defaults to 50 transactions (the recommended demo size) with a 0.10-second producer delay. For an isolated end-to-end demo, run:
+
+```cmd
+scripts\run_demo_50.cmd
+```
+
+The demo command requires Spark to be stopped so it can start one worker with a unique checkpoint under `%TEMP%` and `SPARK_STARTING_OFFSETS=latest`; it never removes or modifies the production checkpoint. If `:8002` is already occupied, run `scripts\stop_project.cmd` first, then run the demo command. The runner requires healthy dependencies, submits exactly 50 through the existing Control Center producer, waits a bounded period for processing/investigations, allows 15 seconds for metric scraping, and reports the actual observed counts. It does not force a fraud alert; transaction-aware AI checks use an alert from the demo batch or an existing real alert. Gemini is the only LLM: set `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.5-flash-lite` in `.env`, then verify with `python .	ools	est_llm_connection.py`; there is no fallback provider. Required Kafka topics are `transactions`, `fraud-alerts`, and `low-risk-transactions`; topic creation follows the existing Kafka setup.
+
+Producer metrics include measured per-transaction mapping latency and Kafka send latency; the Control Center also records batch generation duration. Spark records actual micro-batch processing duration. These histograms are measured at the operation boundaries, not filled with synthetic values.
+
+### Component configuration and data
+
+`.env.example` documents Kafka topic/broker, Cassandra host/port/keyspace, RAG top-K/context bounds, Chroma path/collection names, Gemini model/timeout/temperature, metrics port, and local observability URLs. Cassandra tables and primary keys are defined in `database/schema.cql`: transactions and alerts are partitioned by `name_orig`; investigation results by `alert_id`. This lets the retriever use bounded partition queries. The Chroma collections are `fraud_knowledge` and `paysim_cases`, with 384-dimensional `sentence-transformers/all-MiniLM-L6-v2` embeddings. PaySim stays the authoritative raw dataset; Chroma stores bounded synthetic examples and profile documents.
+
+The investigation consumer uses its own `fraud-investigation-service` group, validates alerts, persists results before committing offsets, and returns an existing Cassandra investigation on duplicate alert IDs. Gemini requests have a finite 60-second maximum and bounded retries; a repeated model failure is saved as a failed investigation before the offset is committed so a provider outage cannot hold later alerts indefinitely. Persistence failures leave the offset uncommitted and retry after a short delay. Malformed JSON or alerts without an ID are sent to the configurable `FRAUD_INVESTIGATION_DLQ_TOPIC` (`fraud-investigation-dead-letter`) before their source offset is committed; a failed DLQ write leaves the source offset uncommitted. Other transient dependency failures are not sent to the DLQ. Do not run multiple copies with the same group while debugging retries.
+
+On Windows, Spark runs with two local worker threads, two shuffle partitions, and a maximum of 500 Kafka offsets per micro-batch by default. These limits bound local work without changing the models, thresholds, topics, or routing logic. The Isolation Forest artifact is loaded once per reusable Python worker from the existing model file rather than serialized into a Spark broadcast; its feature contract and prediction call remain unchanged.
+
+### LOCAL MONITORING SETUP (Windows CMD)
+
+The repository runs monitoring in Docker Compose, avoiding a second host installation on the same ports. Prometheus is pinned to **3.15.0**, Grafana OSS to **13.2.3**, and Alertmanager is included. Compose provisions the Prometheus datasource and six dashboards from `monitoring/`; Prometheus scrapes itself, the application process endpoints, and cAdvisor at a 5-second interval. cAdvisor reports Docker runtime metrics when available; it does not provide Windows host CPU or memory metrics.
+
+Run these commands from `cmd.exe` in the repository root, with Docker Desktop running:
+
+```cmd
+scripts\install_monitoring.cmd
+scripts\start_monitoring.cmd
+scripts\status_monitoring.cmd
+scripts\validate_monitoring.cmd
+scripts\stop_monitoring.cmd
+```
+
+`install_monitoring.cmd` checks architecture and Compose configuration, pulls the pinned images, and starts monitoring safely on repeat runs. `stop_monitoring.cmd` stops only Prometheus, Grafana, Alertmanager, and cAdvisor; Kafka, Cassandra, and their data volumes are untouched. Dashboard files show only metrics actually instrumented by the project; Kafka broker lag, Cassandra internals, risk-level distributions, XGBoost scores, and LLM token use are not exposed by these application counters, so no such values are invented. Current dashboards are **Fraud Detection Pipeline** (overview), **Fraud Detection**, **Kafka**, **Cassandra**, **RAG and LLM Investigation**, and **Infrastructure and Application Health**.
+
+| Service | URL |
+| --- | --- |
+| Prometheus | <http://localhost:9090> |
+| Grafana | <http://localhost:3000> |
+| Alertmanager | <http://localhost:9093> |
+| Investigation consumer metrics, health, readiness | <http://localhost:8000/metrics>, `/health`, `/readiness` |
+
+Start the app endpoints in separate activated Python terminals when using the pipeline: `python -m rag.investigation.kafka_investigation_consumer` (8000), `python producer\producer.py` (8001), and `python streaming\spark_streaming.py` (8002). Prometheus will report the fraud application target DOWN until its metrics process is started. Verify the target in **Prometheus → Status → Targets** or query `up{job="fraud-pipeline-app"}`. Grafana's default local development credentials are `admin` / `admin` unless overridden in `.env`; change the password before exposing the service beyond the local machine.
+
+To run the 10-transaction smoke test, first check the existing counter namespace fix with `python -m pytest tests/test_producer_metrics_namespace.py -q`, and ensure Kafka, Spark, and the application processes are running. Then run `python -m producer.producer --max-transactions 10 --delay 0.05`; watch the transaction and event panels update. The producer run alone cannot validate Spark, investigations, or Cassandra if those consumers are not running.
+
+### Monitoring
+
+Prometheus listens on `9090`, Grafana on `3000`, Alertmanager on `9093`, and cAdvisor on `8080`. The investigation consumer exposes `/metrics`, `/health`, and `/readiness` on `8000`; the transaction producer exposes them on `8001`, and Spark exposes them on `8002`. Prometheus scrapes the host using `host.docker.internal`; the Grafana Prometheus datasource and the Fraud Detection Pipeline dashboard are provisioned from `monitoring/grafana/`. Spark publishes processed transaction, fraud-alert, low-risk, batch-duration, and batch-error metrics; the producer, RAG/LLM, Cassandra persistence, and investigation consumer publish bounded component counters. Recording rules aggregate low-cardinality event rates and LLM/failure ratios. Alerts cover pipeline inactivity, Kafka consumer/producer errors, Cassandra retrieval/write errors, RAG retrieval failures, LLM failures/timeouts, investigation failure rate, processing latency, container telemetry, and Prometheus target availability. The ten-minute no-traffic and sustained failure/latency windows avoid startup alerts. Windows host CPU/memory monitoring is not provided by Linux cAdvisor; cAdvisor here reports Docker container metrics where the Docker Desktop runtime exposes them.
+
+Run operational checks:
+
+```powershell
+python .\tools\health_check.py
+python .\tools\test_observability.py
+python .\tools\test_llm_investigation.py
+python -m pytest tests -q
+```
+
+`health_check.py` returns nonzero if a dependency is unreachable. The offline LLM investigation uses `rag_output/investigations/rag_test_transfer_context.json`, validates the structured result, and does not consume Kafka or persist to Cassandra. `test_observability.py` checks live Prometheus targets/metrics/rules and Grafana/Alertmanager availability. `test_full_pipeline.py` is the live Kafka→Spark→output→investigation smoke test and requires all services and the foreground application processes to be running; it uses synthetic account identifiers.
+
+### Shutdown and troubleshooting
+
+Stop producer, investigation consumer, and Spark with Ctrl+C in their terminals, then stop infrastructure while preserving data volumes:
+
+```powershell
+.\scripts\stop_all.ps1
+```
+
+This does not delete Kafka, Cassandra, Prometheus, or Grafana volumes. If Kafka is reachable but has no output, check that Spark is running and that its checkpoint belongs to the current job. Cassandra startup can take several minutes. A Gemini failure is explicit: verify `GEMINI_API_KEY`, `GEMINI_MODEL`, and provider reachability. A malformed LLM response becomes a controlled failed investigation with `missing_key` or `invalid_field` diagnostics; the offline artifact command can save a debug response under `rag_output/investigations/`. Docker Compose errors should be checked with `docker compose logs <service>` after Docker Desktop is available.
+
 > **Project docs:** [Architecture](docs/architecture.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md)
 
 ## 1. Project Overview
@@ -1906,3 +2004,47 @@ python .\database\transaction_consumer.py
 ```powershell
 python .\database\fraud_alert_consumer.py
 ```
+# Fraud Detection Control Center (Windows)
+
+The React/Vite control center operates the existing PaySim → Kafka → Spark → model/risk routing pipeline. It calls the existing `producer.produce_batch` implementation, reads decision events from Kafka, and reads investigation results from the existing Cassandra table. Control Center batch history and AI chat conversations are stored in `backend/data/control_center.sqlite3`; this local control-plane database does not replace Kafka or Cassandra.
+
+## Architecture and local ports
+
+| Service | Address |
+|---|---|
+| Frontend | http://localhost:5173 |
+| FastAPI and Swagger | http://localhost:8001 · http://localhost:8001/docs |
+| Application metrics | http://localhost:8000/metrics |
+| Producer metrics | http://localhost:8003/metrics |
+| Spark metrics | http://localhost:8002/metrics |
+| Kafka | localhost:9092 |
+| Cassandra | localhost:9042 |
+| Prometheus | http://localhost:9090 |
+| Grafana | http://localhost:3000 |
+| Alertmanager | http://localhost:9093 |
+| cAdvisor | http://localhost:8080 |
+| Gemini | https://ai.google.dev (server-side API key) |
+
+The control API queries Prometheus on the server side, returns its actual target health and scrape details, exposes metrics from the configured Prometheus queries, and discovers Grafana dashboard links from Grafana's API. Unavailable services and empty metric series are reported as unavailable; no synthetic status or metric values are used.
+
+## Start and stop
+
+1. Start the existing infrastructure only if needed: `docker compose up -d kafka cassandra prometheus grafana alertmanager cadvisor`. This reuses the configured containers and volumes.
+2. Install API requirements once: `.venv\Scripts\python.exe -m pip install -r backend\requirements.txt`.
+3. Install frontend packages once: `cd frontend` then `npm install`.
+4. Return to the repository root and run `scripts\start_control_center.cmd`.
+5. Open http://localhost:5173. The app's API is http://localhost:8001 and Swagger is http://localhost:8001/docs.
+
+Use `scripts\start_backend.cmd` and `scripts\start_frontend.cmd` to launch either part. `scripts\status_control_center.cmd` checks the UI/API, `scripts\validate_control_center.cmd` runs compile, Python tests, frontend tests/build, and live UI/API checks, and `scripts\stop_control_center.cmd` stops only listeners on ports 8001 and 5173. These scripts do not stop Kafka, Cassandra, Spark, Prometheus, Grafana, Alertmanager, or cAdvisor.
+
+## Transactions, batches, and AI
+
+The Batch Simulator validates a requested count and delay, records requested/generated/sent/failed values separately, sends through the existing producer, and streams batch updates over WebSocket. Spark decisions are observed from the existing fraud and low-risk Kafka topics; investigations are correlated from Cassandra and are not assumed to be complete just because an alert exists. The Transactions page also accepts one manual transaction using the existing PaySim field names and shows Kafka's actual partition/offset acknowledgement. Generated data is still classified only by the existing Spark pipeline.
+
+The AI Assistant uses the existing Cassandra/Chroma retrievers and the server-side Gemini provider (LLM_PROVIDER=gemini, GEMINI_MODEL=gemini-3.5-flash-lite). It keeps conversations scoped to a transaction, validates cited evidence IDs against retrieved sources, and reports missing evidence. General questions are answered from the implemented pipeline architecture and the existing fraud knowledge collection. The API key never leaves the backend.
+
+## Monitoring and troubleshooting
+
+The Monitoring page refreshes at a five-second interval. It shows Prometheus targets, actual supported query results, Grafana dashboards returned by the Grafana API, and Alertmanager health. Open detailed dashboards directly in Grafana; the control center does not rely on iframe embedding. The Prometheus endpoint mapping is: application metrics `localhost:8000/metrics`, Control Center FastAPI `localhost:8001/metrics`, Spark metrics `localhost:8002/metrics`, producer metrics `localhost:8003/metrics`, and cAdvisor `cadvisor:8080/metrics` from inside the Prometheus container. The CLI producer exposes `/metrics` on port 8003 only while it is running; its target is expected to show down between batches, and no permanent-down alert is configured for it. After changing `monitoring/prometheus/prometheus.yml`, recreate or restart only the existing Prometheus service to load the config.
+
+If the UI cannot reach the API, run `scripts\status_control_center.cmd` and check `http://localhost:8001/api/health`. If Kafka or Cassandra is unavailable, check `docker compose ps` and the relevant container logs. For an AI failure, check `http://localhost:8001/api/llm/status` and the server-side Gemini configuration. Prometheus/Grafana/Alertmanager outages leave the rest of the UI available and appear as unavailable in Monitoring. Set service URLs and ports in `.env`; defaults are documented in `.env.example`.

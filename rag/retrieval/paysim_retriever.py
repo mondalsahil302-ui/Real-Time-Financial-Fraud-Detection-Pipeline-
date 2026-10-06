@@ -42,16 +42,28 @@ class PaySimRetriever:
             self.collection = self.client.get_collection(config.COLLECTION_PAYSIM)
         return self.collection
 
-    def retrieve(self, alert: dict, query: str | None = None) -> list[dict]:
+    def retrieve(
+        self,
+        alert: dict,
+        query: str | None = None,
+        label: str | None = None,
+    ) -> list[dict]:
         query = query or build_paysim_query(alert)
         embedder = self.embedder or _shared_embedder()
         collection = self._collection()
+        where = {"label": label} if label else None
         count = collection.count()
         if count == 0:
             return []
         candidates = min(count, config.RAG_TOP_K_PAYSIM * config.RAG_CANDIDATE_MULTIPLIER)
-        raw = collection.query(query_embeddings=embedder.encode([query]), n_results=candidates,
-                               include=["documents", "metadatas", "distances"])
+        query_options = {
+            "query_embeddings": embedder.encode([query]),
+            "n_results": candidates,
+            "include": ["documents", "metadatas", "distances"],
+        }
+        if where:
+            query_options["where"] = where
+        raw = collection.query(**query_options)
         items = []
         for doc_id, text, metadata, distance in zip(raw["ids"][0], raw["documents"][0], raw["metadatas"][0], raw["distances"][0]):
             if config.RAG_MAX_PAYSIM_DISTANCE is not None and distance > config.RAG_MAX_PAYSIM_DISTANCE:

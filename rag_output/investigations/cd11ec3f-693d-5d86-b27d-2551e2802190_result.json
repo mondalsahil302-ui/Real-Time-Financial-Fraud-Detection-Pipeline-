@@ -1,0 +1,155 @@
+{
+  "investigation_id": "78943b28-e0cb-4749-854b-a3e64cbb449f",
+  "alert_id": "cd11ec3f-693d-5d86-b27d-2551e2802190",
+  "transaction_id": "18e6ef4f-31a3-4b07-82ba-b551874d4388",
+  "generated_at": "2026-10-04T15:14:39.323716+00:00",
+  "investigation_summary": "Investigation initiated for potential fraud case based on depleted origin account balance and increased destination account balance.",
+  "alert_assessment": {
+    "risk_level": "L1",
+    "model_prediction": 1,
+    "anomaly_score": -0.11333372969301814,
+    "xgboost_probability": 0.999182403087616,
+    "decision_path": "L1/L2 -> XGBoost -> fraud-alerts"
+  },
+  "evidence": [
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_f872fcd328c02af8adb59b883c75c4615251a094c56b7bae66669a4e51f7c5c9",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. Origin account balance was depleted to zero after the transaction, and destination account balance increased from 1886102.76 to 1.188610276E7."
+    },
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_2457e09feaf449b0d240ff58b502890b8bea534626900c881421e76deb4f12ac",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. Origin account balance was depleted to zero after the transaction, and destination account balance increased from 173507.14 to 2091004.76."
+    },
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_58fb1fb20585ae1626c43553ca7320c02e0c516f9447f5c342e057a1415c973d",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. Origin account balance was depleted to zero after the transaction, and destination account balance increased from 0.0 to 185529.91."
+    },
+    {
+      "source_type": "live_transaction",
+      "source_id": "18e6ef4f-31a3-4b07-82ba-b551874d4388",
+      "finding": "The current CASH_OUT transaction for amount 8639.93 has origin balance moved from 8639.93 to 0.0 and destination balance moved from 34474.59 to 43114.51."
+    },
+    {
+      "source_type": "model_output",
+      "source_id": "model-output:18e6ef4f-31a3-4b07-82ba-b551874d4388",
+      "finding": "The current alert has supplied risk level L1.; The current alert has Isolation Forest anomaly score -0.11333372969301814.; The current alert has XGBoost probability 0.999182403087616."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_549a44a67e39e3d343c6c91594ced242f749ad34780e726f90d14fabc91e8915",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_ccfd8ffc98d867f9da49fdef7ad645f30925ca381483fb25e8a305c146a2adf7",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_477b8a7cc8e7f4d65eadc2a673a7a473cd4523ea4b204e97c52dcad6affe7892",
+      "finding": "Synthetic PaySim fraud reference; transaction type CASH_OUT; recorded amount 18887.0; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_8e507296932b2dbbf63495f4acf84e2ee91b8abf5722a741f7145d74319e06d5",
+      "finding": "Synthetic PaySim fraud reference; transaction type CASH_OUT; recorded amount 4252656.95; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_f872fcd328c02af8adb59b883c75c4615251a094c56b7bae66669a4e51f7c5c9",
+      "finding": "Synthetic PaySim fraud reference; transaction type CASH_OUT; recorded amount 1.0E7; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_2457e09feaf449b0d240ff58b502890b8bea534626900c881421e76deb4f12ac",
+      "finding": "Synthetic PaySim fraud reference; transaction type CASH_OUT; recorded amount 1917497.63; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_fraud",
+      "source_id": "paysim_fraud_58fb1fb20585ae1626c43553ca7320c02e0c516f9447f5c342e057a1415c973d",
+      "finding": "Synthetic PaySim fraud reference; transaction type CASH_OUT; recorded amount 185529.91; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "missing_evidence",
+      "source_id": "retrieval:cassandra",
+      "finding": "No relevant account history was retrieved from Cassandra.; No previous alerts were retrieved.; No previous investigations were retrieved."
+    }
+  ],
+  "risk_factors": [
+    "The current alert has supplied risk level L1.",
+    "The current alert has Isolation Forest anomaly score -0.11333372969301814.",
+    "The current alert has XGBoost probability 0.999182403087616.",
+    "The current CASH_OUT transaction for amount 8639.93 has origin balance moved from 8639.93 to 0.0 and destination balance moved from 34474.59 to 43114.51."
+  ],
+  "counter_evidence": [],
+  "missing_evidence": [
+    "No relevant account history was retrieved from Cassandra.",
+    "No previous alerts were retrieved.",
+    "No previous investigations were retrieved."
+  ],
+  "historical_comparison": {
+    "fraud_cases": [
+      {
+        "source_id": "paysim_fraud_f872fcd328c02af8adb59b883c75c4615251a094c56b7bae66669a4e51f7c5c9",
+        "comparison": "Similar to case 5994339, where origin account balance was depleted to zero after the transaction, and destination account balance increased from 1886102.76 to 1.188610276E7. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_fraud_2457e09feaf449b0d240ff58b502890b8bea534626900c881421e76deb4f12ac",
+        "comparison": "Similar to case 899578, where origin account balance was depleted to zero after the transaction, and destination account balance increased from 173507.14 to 2091004.76. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_fraud_58fb1fb20585ae1626c43553ca7320c02e0c516f9447f5c342e057a1415c973d",
+        "comparison": "Similar to case 6362407, where origin account balance was depleted to zero after the transaction, and destination account balance increased from 0.0 to 185529.91. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_fraud_477b8a7cc8e7f4d65eadc2a673a7a473cd4523ea4b204e97c52dcad6affe7892",
+        "comparison": "Synthetic PaySim fraud reference; transaction type CASH_OUT; recorded amount 18887.0; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_fraud_8e507296932b2dbbf63495f4acf84e2ee91b8abf5722a741f7145d74319e06d5",
+        "comparison": "Synthetic PaySim fraud reference; transaction type CASH_OUT; recorded amount 4252656.95; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      }
+    ],
+    "normal_cases": []
+  },
+  "regulatory_references": [
+    {
+      "source_id": "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "source_pages": "6, 7, 8",
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "reference": "Retrieved text discusses EWS/RFA, alert triggers, validation, real-time monitoring, transactional data, and unusual activities; it does not by itself define the current transaction's balance movements as an RBI-prescribed indicator."
+    }
+  ],
+  "uncertainties": [
+    "XGBoost probability 0.999182403087616 is a model estimate, not certainty; review the underlying evidence."
+  ],
+  "recommended_review_points": [
+    "Review applicable customer/account information available to the authorized investigator."
+  ],
+  "investigation_status": "partial",
+  "llm_model": "llama3.2",
+  "rag_version": "kb_v2"
+}

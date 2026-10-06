@@ -1,0 +1,1 @@
+{"retrieval_status": {"cassandra": "success", "fraud_knowledge": "success", "paysim_cases": "success"}, "retrieval_errors": {}, "instruction": "Describe empty retrieved lists as not retrieved, not as proof of absence. Do not place missing evidence in counter_evidence. Similarity does not establish fraud in the current alert."}

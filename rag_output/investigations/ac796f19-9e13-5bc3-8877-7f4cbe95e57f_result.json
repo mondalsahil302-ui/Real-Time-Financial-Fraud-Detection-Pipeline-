@@ -1,0 +1,147 @@
+{
+  "investigation_id": "70ac9067-e5b4-4cef-b049-6f0859146e0c",
+  "alert_id": "ac796f19-9e13-5bc3-8877-7f4cbe95e57f",
+  "transaction_id": "TXN-16a4ba22-851f-401d-b303-295044fc5b9d",
+  "generated_at": "2026-10-05T23:07:11.727420+00:00",
+  "investigation_summary": "The live transaction TXN-16a4ba22-851f-401d-b303-295044fc5b9d generated an alert with an anomaly score of 0.205, risk level L5, and final prediction 1 indicating a critical investigation path under the isolation forest model. The transaction involves a debit amount of 9302.79 from account C1566511282 to C1973538135. Historical comparison with retrieved PaySim normal cases shows similar debit transaction amounts and balance decrease behavior, but similarity is contextual only and does not establish proof of fraud. No historical fraud cases, previous alerts, or previous investigations were retrieved from Cassandra. Regulatory guidelines from RBI emphasize real-time transaction monitoring and anomaly detection frameworks.",
+  "alert_assessment": {
+    "risk_level": "L5",
+    "model_prediction": 1,
+    "anomaly_score": 0.2050426210075219,
+    "xgboost_probability": null,
+    "decision_path": "Isolation Forest -> fraud-alerts"
+  },
+  "evidence": [
+    {
+      "source_type": "live_transaction",
+      "source_id": "TXN-16a4ba22-851f-401d-b303-295044fc5b9d",
+      "finding": "A debit transaction of amount 9302.79 occurred from origin account C1566511282 to destination account C1973538135."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_4e69d879a6fb47ab30125cd2a1cd3059691d829298298ecc458cbe6d418a9d14",
+      "finding": "RBI regulatory framework mandates robust real-time transaction monitoring and analytics to detect unusual digital payment patterns."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_8e6ada2ab33598045546d587753acd7afaef4589bd212452f58122747d5ffdd4",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. Historical PaySim normal case 3473835 shows a debit/payment transaction of amount 8262.41 with origin balance decrease and normal label."
+    },
+    {
+      "source_type": "model_output",
+      "source_id": "model-output:TXN-16a4ba22-851f-401d-b303-295044fc5b9d",
+      "finding": "The current alert has supplied risk level L5.; The current alert has Isolation Forest anomaly score 0.2050426210075219."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_4e69d879a6fb47ab30125cd2a1cd3059691d829298298ecc458cbe6d418a9d14",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_3977e421127229faba0fc4ba7e5de7d53cf67bd5fc9b4bae2861ec9f9c9b443e",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d9f7ae1486f37ddfd1afe84a8aa14bc4580f07ff068fff06be75f10ee2316d4b",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_bba2f0590091965feb80074a05ca767f342f3bc8f8496c0a166db3ad2ed9edac",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 2414.63; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_144270545a9ddd6b71413fb0c954afe4a690ae6cb6b1d3413e97f6fc0fc2667c",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1403.95; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_6965583d812cf2169ca44a52c492320ef493eb6464feefd2260d1ad1d79f26c4",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 4402.14; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_75c208f2ace4323624746b6ba02dfb429b610acc591a490432ab9f1d3b974c59",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1828.32; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_8e6ada2ab33598045546d587753acd7afaef4589bd212452f58122747d5ffdd4",
+      "finding": "Synthetic PaySim normal reference; transaction type PAYMENT; recorded amount 8262.41; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "missing_evidence",
+      "source_id": "retrieval:cassandra",
+      "finding": "No previous alerts were retrieved.; No previous investigations were retrieved.; No relevant account history was retrieved from Cassandra."
+    }
+  ],
+  "risk_factors": [
+    "High anomaly score and L5 risk level assigned by the isolation forest model.",
+    "Significant transaction amount of 9302.79 relative to origin account balance.",
+    "The current alert has supplied risk level L5.",
+    "The current alert has Isolation Forest anomaly score 0.2050426210075219.",
+    "The current DEBIT transaction for amount 9302.79 has origin balance moved from 11299.0 to 1996.21 and destination balance moved from 29832.0 to 16896.7."
+  ],
+  "counter_evidence": [
+    "Retrieved normal synthetic PaySim reference: Exhibits a comparable transaction amount range (8262.41 vs 9302.79) with origin balance decrease, labeled as normal in synthetic data. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Exhibits debit transaction characteristics with origin balance decrease, though with a smaller amount (4402.14). Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 2414.63; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1403.95; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1828.32; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+  ],
+  "missing_evidence": [
+    "No previous alerts were retrieved.",
+    "No previous investigations were retrieved.",
+    "No relevant account history was retrieved from Cassandra."
+  ],
+  "historical_comparison": {
+    "fraud_cases": [],
+    "normal_cases": [
+      {
+        "source_id": "paysim_normal_8e6ada2ab33598045546d587753acd7afaef4589bd212452f58122747d5ffdd4",
+        "comparison": "Exhibits a comparable transaction amount range (8262.41 vs 9302.79) with origin balance decrease, labeled as normal in synthetic data. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_6965583d812cf2169ca44a52c492320ef493eb6464feefd2260d1ad1d79f26c4",
+        "comparison": "Exhibits debit transaction characteristics with origin balance decrease, though with a smaller amount (4402.14). Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_bba2f0590091965feb80074a05ca767f342f3bc8f8496c0a166db3ad2ed9edac",
+        "comparison": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 2414.63; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_144270545a9ddd6b71413fb0c954afe4a690ae6cb6b1d3413e97f6fc0fc2667c",
+        "comparison": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1403.95; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_75c208f2ace4323624746b6ba02dfb429b610acc591a490432ab9f1d3b974c59",
+        "comparison": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1828.32; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      }
+    ]
+  },
+  "regulatory_references": [],
+  "uncertainties": [
+    "Model prediction of fraud (final_prediction = 1) is an automated system output and does not constitute definitive proof of actual fraud.",
+    "Absence of historical Cassandra logs limits visibility into past account behavior."
+  ],
+  "recommended_review_points": [
+    "Review applicable customer/account information available to the authorized investigator.",
+    "Claim withheld: no supporting customer/account detail was retrieved."
+  ],
+  "investigation_status": "partial",
+  "llm_model": "gemini-3.5-flash-lite",
+  "rag_version": "kb_v2"
+}

@@ -45,21 +45,24 @@ def build_context(alert: dict, cassandra: dict, knowledge: list[dict], paysim: l
                                        "source_type": metadata.get("source_type"), "topic": metadata.get("topic"),
                                        "relative_path": metadata.get("relative_path"), "metadata": metadata,
                                        "ranking_reason": item.get("ranking_reason")}))
-    historical = []
+    historical = {"fraud_cases": [], "normal_cases": []}
     for item in paysim:
         metadata = item.get("metadata", {})
-        historical.append(_json_value({"document_id": item.get("document_id"), "text": item.get("text"),
+        case = _json_value({"document_id": item.get("document_id"), "text": item.get("text"),
                                        "source": item.get("source", "PaySim synthetic historical reference"),
                                        "source_row_id": item.get("source_row_id", metadata.get("source_row_id")),
                                        "transaction_type": metadata.get("transaction_type"), "label": metadata.get("label"),
                                        "distance": item.get("distance"), "metadata": metadata,
                                        "ranking_reason": item.get("ranking_reason"),
-                                       "evidence_kind": "synthetic_historical_reference"}))
+                                       "evidence_kind": "synthetic_historical_reference"})
+        label = str(item.get("label", metadata.get("label", ""))).lower()
+        historical["fraud_cases" if label in ("fraud", "1", "true") else "normal_cases"].append(case)
     model_fields = ("anomaly_score", "risk_level", "risk_action", "xgboost_probability", "xgboost_prediction",
                     "final_prediction", "final_decision_path", "final_risk_action", "model_version")
     model_output = {key: alert[key] for key in model_fields if key in alert}
     total_evidence = (1 + len(live_context["recent_transactions"]) + len(live_context["recent_alerts"])
-                      + len(live_context["previous_investigations"]) + len(regulatory) + len(historical))
+                      + len(live_context["previous_investigations"]) + len(regulatory)
+                      + len(historical["fraud_cases"]) + len(historical["normal_cases"]))
     return _json_value({
         "context_version": "1.0",
         "retrieval_timestamp": datetime.now(timezone.utc).isoformat(),
@@ -71,7 +74,7 @@ def build_context(alert: dict, cassandra: dict, knowledge: list[dict], paysim: l
         "evidence_categories": {
             "factual_live_data": ["alert", "live_account_context"],
             "regulatory_knowledge": ["regulatory_context"],
-            "historical_synthetic_data": ["historical_paysim_context"],
+            "historical_synthetic_data": ["historical_paysim_context.fraud_cases", "historical_paysim_context.normal_cases"],
             "model_output": ["model_output"],
         },
         "retrieval_status": retrieval_status,
@@ -82,10 +85,10 @@ def build_context(alert: dict, cassandra: dict, knowledge: list[dict], paysim: l
             "recent_alert_count": len(live_context["recent_alerts"]),
             "investigation_count": len(live_context["previous_investigations"]),
             "knowledge_count": len(regulatory),
-            "paysim_case_count": len(historical),
+            "paysim_case_count": len(historical["fraud_cases"]) + len(historical["normal_cases"]),
             "total_evidence_items": total_evidence,
             "knowledge_document_ids": [item.get("document_id") for item in regulatory],
-            "paysim_document_ids": [item.get("document_id") for item in historical],
+            "paysim_document_ids": [item.get("document_id") for item in historical["fraud_cases"] + historical["normal_cases"]],
             "cassandra_transaction_ids": [item.get("transaction_id") for item in live_context["recent_transactions"]],
             "cassandra_alert_ids": [item.get("alert_id") for item in live_context["recent_alerts"]],
             "cassandra_investigation_ids": [item.get("investigation_id") for item in live_context["previous_investigations"]],

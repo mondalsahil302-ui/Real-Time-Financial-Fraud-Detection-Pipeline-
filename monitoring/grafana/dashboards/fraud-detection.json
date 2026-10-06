@@ -1,0 +1,16 @@
+{
+  "uid": "fraud-detection",
+  "title": "Fraud Detection",
+  "tags": ["fraud", "detection"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {"from": "now-6h", "to": "now"},
+  "panels": [
+    {"id": 1, "title": "Transactions processed / sec", "type": "timeseries", "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8}, "targets": [{"expr": "sum(rate(fraud_pipeline_events_total{component=\"spark\",event=\"transactions_processed\"}[5m]))", "legendFormat": "transactions", "refId": "A"}]},
+    {"id": 2, "title": "Fraud alerts / sec", "type": "timeseries", "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8}, "targets": [{"expr": "sum(rate(fraud_pipeline_events_total{component=\"spark\",event=\"fraud_alerts_produced\"}[5m]))", "legendFormat": "fraud alerts", "refId": "A"}]},
+    {"id": 3, "title": "Low risk transactions / sec", "type": "timeseries", "gridPos": {"x": 0, "y": 8, "w": 12, "h": 8}, "targets": [{"expr": "sum(rate(fraud_pipeline_events_total{component=\"spark\",event=\"low_risk_produced\"}[5m]))", "legendFormat": "low risk", "refId": "A"}]},
+    {"id": 4, "title": "Spark batch duration p95 (seconds)", "type": "timeseries", "gridPos": {"x": 12, "y": 8, "w": 12, "h": 8}, "targets": [{"expr": "histogram_quantile(0.95, sum by (le) (rate(fraud_pipeline_duration_seconds_bucket{component=\"spark\"}[5m])))", "legendFormat": "p95", "refId": "A"}]}
+  ]
+}

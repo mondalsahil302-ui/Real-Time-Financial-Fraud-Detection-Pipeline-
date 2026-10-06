@@ -1,0 +1,140 @@
+{
+  "investigation_id": "834902fa-8098-44c0-a4e0-65d1e5b9d6a3",
+  "alert_id": "d823b7fa-42cc-5e80-8814-449d9cb5e460",
+  "transaction_id": "TXN-76074cce-973b-44e4-a2d3-b0591ac525e9",
+  "generated_at": "2026-10-05T23:05:52.390606+00:00",
+  "investigation_summary": "The live payment transaction TXN-76074cce-973b-44e4-a2d3-b0591ac525e9 for amount 3876.41 generated an Isolation Forest model prediction of 1 (fraud indicator) with an anomaly score of 0.154, an L5 risk level, and a critical investigate action. The origin account balance decreased from 67852.0 to 63975.59, while the destination merchant account balance remained 0.0. No previous alerts, previous investigations, or recent transactions were retrieved from Cassandra history. Historical comparison with synthetic PaySim normal cases shows similar payment transaction patterns where origin balances decrease and merchant destination balances remain unchanged.",
+  "alert_assessment": {
+    "risk_level": "L5",
+    "model_prediction": 1,
+    "anomaly_score": 0.15422912819518408,
+    "xgboost_probability": null,
+    "decision_path": "Isolation Forest -> fraud-alerts"
+  },
+  "evidence": [
+    {
+      "source_type": "live_transaction",
+      "source_id": "TXN-76074cce-973b-44e4-a2d3-b0591ac525e9",
+      "finding": "Live payment transaction of 3876.41 from origin C504336483 to destination M1404932042 with origin balance decreasing from 67852.0 to 63975.59 and destination balance at 0.0."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_360594d51be1a791aed984c4f9b7d621041ee2122256f7672341b6c928a9ec04",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. Historical normal payment transaction showing a balance decrease at origin and unchanged zero balance at merchant destination."
+    },
+    {
+      "source_type": "model_output",
+      "source_id": "model-output:TXN-76074cce-973b-44e4-a2d3-b0591ac525e9",
+      "finding": "The current alert has supplied risk level L5.; The current alert has Isolation Forest anomaly score 0.15422912819518408."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_4e69d879a6fb47ab30125cd2a1cd3059691d829298298ecc458cbe6d418a9d14",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_3977e421127229faba0fc4ba7e5de7d53cf67bd5fc9b4bae2861ec9f9c9b443e",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_5f775ddf274edd1d11daed549220573803ab482e69daf03689d12eb3632aec4d",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_360594d51be1a791aed984c4f9b7d621041ee2122256f7672341b6c928a9ec04",
+      "finding": "Synthetic PaySim normal reference; transaction type PAYMENT; recorded amount 6840.35; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_cd41871b38a6cb2024c7e8dbf06b2ad9e9c980ca0c470908ae0dbea60406d332",
+      "finding": "Synthetic PaySim normal reference; transaction type PAYMENT; recorded amount 3196.94; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_98325f84c37bdd2e7e3b547a447e3391469c680e2b3dae10ff27e345f013bd0a",
+      "finding": "Synthetic PaySim normal reference; transaction type PAYMENT; recorded amount 3007.24; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_8e6ada2ab33598045546d587753acd7afaef4589bd212452f58122747d5ffdd4",
+      "finding": "Synthetic PaySim normal reference; transaction type PAYMENT; recorded amount 8262.41; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_c30f6f6057ec861fa7aeec9733653c74878722e43bb25bf05a0cd08e6c3e025a",
+      "finding": "Synthetic PaySim normal reference; transaction type PAYMENT; recorded amount 1479.68; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "missing_evidence",
+      "source_id": "retrieval:cassandra",
+      "finding": "No previous alerts were retrieved; No previous investigations were retrieved; No relevant account history was retrieved from Cassandra; No relevant account history was retrieved from Cassandra.; No previous alerts were retrieved.; No previous investigations were retrieved."
+    }
+  ],
+  "risk_factors": [
+    "Model flagged transaction with a high risk level (L5) and anomaly score",
+    "Automated model decision path routed transaction to fraud alerts",
+    "The current alert has supplied risk level L5.",
+    "The current alert has Isolation Forest anomaly score 0.15422912819518408.",
+    "The current PAYMENT transaction for amount 3876.41 has origin balance moved from 67852.0 to 63975.59."
+  ],
+  "counter_evidence": [
+    "Retrieved normal synthetic PaySim reference: Exhibits similar payment characteristics with an origin balance decrease and unchanged merchant destination balance. Similarity does not establish fraud in the current alert."
+  ],
+  "missing_evidence": [
+    "No previous alerts were retrieved",
+    "No previous investigations were retrieved",
+    "No relevant account history was retrieved from Cassandra",
+    "No relevant account history was retrieved from Cassandra.",
+    "No previous alerts were retrieved.",
+    "No previous investigations were retrieved."
+  ],
+  "historical_comparison": {
+    "fraud_cases": [],
+    "normal_cases": [
+      {
+        "source_id": "paysim_normal_360594d51be1a791aed984c4f9b7d621041ee2122256f7672341b6c928a9ec04",
+        "comparison": "Exhibits similar payment characteristics with an origin balance decrease and unchanged merchant destination balance. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_cd41871b38a6cb2024c7e8dbf06b2ad9e9c980ca0c470908ae0dbea60406d332",
+        "comparison": "Exhibits similar payment characteristics with an origin balance decrease and unchanged merchant destination balance. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_98325f84c37bdd2e7e3b547a447e3391469c680e2b3dae10ff27e345f013bd0a",
+        "comparison": "Exhibits similar payment characteristics with an origin balance decrease and unchanged merchant destination balance. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_8e6ada2ab33598045546d587753acd7afaef4589bd212452f58122747d5ffdd4",
+        "comparison": "Exhibits similar payment characteristics with an origin balance decrease and unchanged merchant destination balance. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_c30f6f6057ec861fa7aeec9733653c74878722e43bb25bf05a0cd08e6c3e025a",
+        "comparison": "Exhibits similar payment characteristics with an origin balance decrease and unchanged merchant destination balance. Similarity does not establish fraud in the current alert."
+      }
+    ]
+  },
+  "regulatory_references": [],
+  "uncertainties": [
+    "Model alert is not proof of fraud",
+    "Absence of historical Cassandra records limits behavioral trend analysis"
+  ],
+  "recommended_review_points": [
+    "Review applicable customer/account information available to the authorized investigator"
+  ],
+  "investigation_status": "partial",
+  "llm_model": "gemini-3.5-flash-lite",
+  "rag_version": "kb_v2"
+}

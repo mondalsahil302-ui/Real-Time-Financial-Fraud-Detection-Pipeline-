@@ -158,7 +158,7 @@ def test_context_schema_separates_evidence_and_strips_secrets():
     assert "api_token" not in json.dumps(context)
     assert "password" not in json.dumps(context)
     assert context["regulatory_context"][0]["status"] == "current"
-    assert context["historical_paysim_context"][0]["evidence_kind"] == "synthetic_historical_reference"
+    assert context["historical_paysim_context"]["fraud_cases"][0]["evidence_kind"] == "synthetic_historical_reference"
     assert context["evidence_summary"]["total_evidence_items"] == 4
 
 
@@ -192,5 +192,5 @@ def test_chroma_failure_does_not_block_cassandra_or_other_collection():
     paysim = FakeRetriever(result=[{"document_id": "p1", "source_row_id": "1", "metadata": {"source_row_id": "1"}}])
     context = RetrievalOrchestrator(cassandra, knowledge, paysim).process(sample_alert())
     assert context["retrieval_status"] == {"cassandra": "success", "fraud_knowledge": "failed", "paysim_cases": "success"}
-    assert context["historical_paysim_context"][0]["source_row_id"] == "1"
+    assert context["historical_paysim_context"]["normal_cases"][0]["source_row_id"] == "1"
     assert context["regulatory_context"] == []

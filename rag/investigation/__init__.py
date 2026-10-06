@@ -1,1 +1,1 @@
-"""Investigation-context entry points, without LLM reasoning."""
+"""Retrieval context generation and structured LLM investigation tools."""

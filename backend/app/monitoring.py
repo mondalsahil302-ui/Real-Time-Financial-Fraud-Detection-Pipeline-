@@ -166,19 +166,22 @@ def _chroma_status() -> dict:
         return {"status": "unavailable", "available": False, "detail": type(exc).__name__}
 
 
-def _ollama_status() -> dict:
-    base = os.getenv("LLM_BASE_URL", "http://localhost:11434").rstrip("/")
+_last_gemini_check = 0.0
+_last_gemini_result = None
+
+
+def _gemini_status() -> dict:
+    global _last_gemini_check, _last_gemini_result
+    now = time.time()
+    if _last_gemini_result is not None and (now - _last_gemini_check) < 60:
+        return _last_gemini_result
     try:
-        response = httpx.get(f"{base}/api/tags", timeout=1.5)
-        response.raise_for_status()
-        model = os.getenv("LLM_MODEL", "llama3.2")
-        installed = {item.get("name", "").split(":", 1)[0]
-                     for item in response.json().get("models", []) if isinstance(item, dict)}
-        if model.split(":", 1)[0] not in installed:
-            return {"status": "model unavailable", "available": False, "model": model}
-        return {"status": "ready", "available": True, "model": model}
+        from rag.investigation.llm_provider import verify_configured_chat_provider
+        _last_gemini_result = verify_configured_chat_provider()
     except Exception as exc:
-        return {"status": "unavailable", "available": False, "detail": type(exc).__name__}
+        _last_gemini_result = {"status": "unavailable", "available": False, "detail": str(exc)}
+    _last_gemini_check = now
+    return _last_gemini_result
 
 
 @lru_cache(maxsize=1)
@@ -198,7 +201,7 @@ def system_status(api_available: bool = True) -> dict:
                   else {"status": "unavailable", "available": False, "detail": "Prometheus spark-streaming target is not UP"}),
         "cassandra": _cassandra_status(),
         "chroma": _chroma_status(),
-        "ollama": _ollama_status(),
+        "gemini": _gemini_status(),
         "fraud_api": {"status": "healthy" if api_available else "unavailable", "available": api_available},
         "prometheus": prometheus,
         "grafana": grafana,

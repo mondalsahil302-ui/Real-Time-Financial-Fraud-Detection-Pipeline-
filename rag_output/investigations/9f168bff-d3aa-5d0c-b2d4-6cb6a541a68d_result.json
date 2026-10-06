@@ -1,0 +1,167 @@
+{
+  "investigation_id": "c65a6c88-1a9d-4813-aac5-7aafa8f1d0be",
+  "alert_id": "9f168bff-d3aa-5d0c-b2d4-6cb6a541a68d",
+  "transaction_id": "c1f19732-da91-44e8-922c-8cc9c514a9c3",
+  "generated_at": "2026-10-04T15:09:15.468717+00:00",
+  "investigation_summary": "The current alert is risk level L3, anomaly score 0.01363761632532623 according to supplied model outputs. The current DEBIT transaction for amount 104608.72 has origin balance moved from 307882.0 to 203273.28 and destination balance moved from 623564.85 to 728173.57. Retrieved RBI primary material discusses EWS/RFA and transaction monitoring, but does not establish that this exact balance pattern is fraudulent or a prescribed indicator. Retrieved synthetic PaySim normal cases provide contextual comparison; similarity does not establish fraud in the current alert.",
+  "alert_assessment": {
+    "risk_level": "L3",
+    "model_prediction": 1,
+    "anomaly_score": 0.01363761632532623,
+    "xgboost_probability": null,
+    "decision_path": "Isolation Forest -> fraud-alerts"
+  },
+  "evidence": [
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_144270545a9ddd6b71413fb0c954afe4a690ae6cb6b1d3413e97f6fc0fc2667c",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. The transaction appears to be a normal case."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_73aee881a0054d4bd3b96ed4e67e45c51313074fd3524adf20c64f7f3474d87e",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. The transaction appears to be a normal case."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_2b0f978242563a51ec3381499d30ccd15cdd5d40d4a776491c79d08ff4a76a00",
+      "finding": "Synthetic PaySim context only; similarity does not establish fraud in the current alert. The transaction appears to be a normal case."
+    },
+    {
+      "source_type": "live_transaction",
+      "source_id": "c1f19732-da91-44e8-922c-8cc9c514a9c3",
+      "finding": "The current DEBIT transaction for amount 104608.72 has origin balance moved from 307882.0 to 203273.28 and destination balance moved from 623564.85 to 728173.57."
+    },
+    {
+      "source_type": "model_output",
+      "source_id": "model-output:c1f19732-da91-44e8-922c-8cc9c514a9c3",
+      "finding": "The current alert has supplied risk level L3.; The current alert has Isolation Forest anomaly score 0.01363761632532623."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_4e69d879a6fb47ab30125cd2a1cd3059691d829298298ecc458cbe6d418a9d14",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_3977e421127229faba0fc4ba7e5de7d53cf67bd5fc9b4bae2861ec9f9c9b443e",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_8070b4a011f2bbe36d0c159cb01bf7a2a6a1071043a92cb11a28ff0d4d5369f5",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d9f7ae1486f37ddfd1afe84a8aa14bc4580f07ff068fff06be75f10ee2316d4b",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_6965583d812cf2169ca44a52c492320ef493eb6464feefd2260d1ad1d79f26c4",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 4402.14; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_75c208f2ace4323624746b6ba02dfb429b610acc591a490432ab9f1d3b974c59",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1828.32; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_144270545a9ddd6b71413fb0c954afe4a690ae6cb6b1d3413e97f6fc0fc2667c",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1403.95; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_73aee881a0054d4bd3b96ed4e67e45c51313074fd3524adf20c64f7f3474d87e",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 3737.63; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_2b0f978242563a51ec3381499d30ccd15cdd5d40d4a776491c79d08ff4a76a00",
+      "finding": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 3140.28; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "missing_evidence",
+      "source_id": "retrieval:cassandra",
+      "finding": "No relevant account history was retrieved from Cassandra.; No previous alerts were retrieved.; No previous investigations were retrieved."
+    }
+  ],
+  "risk_factors": [
+    "The current alert has supplied risk level L3.",
+    "The current alert has Isolation Forest anomaly score 0.01363761632532623.",
+    "The current DEBIT transaction for amount 104608.72 has origin balance moved from 307882.0 to 203273.28 and destination balance moved from 623564.85 to 728173.57."
+  ],
+  "counter_evidence": [
+    "Retrieved normal synthetic PaySim reference: The transaction appears to be a normal case. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 4402.14; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1828.32; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+  ],
+  "missing_evidence": [
+    "No relevant account history was retrieved from Cassandra.",
+    "No previous alerts were retrieved.",
+    "No previous investigations were retrieved."
+  ],
+  "historical_comparison": {
+    "fraud_cases": [],
+    "normal_cases": [
+      {
+        "source_id": "paysim_normal_144270545a9ddd6b71413fb0c954afe4a690ae6cb6b1d3413e97f6fc0fc2667c",
+        "comparison": "The transaction appears to be a normal case. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_73aee881a0054d4bd3b96ed4e67e45c51313074fd3524adf20c64f7f3474d87e",
+        "comparison": "The transaction appears to be a normal case. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_2b0f978242563a51ec3381499d30ccd15cdd5d40d4a776491c79d08ff4a76a00",
+        "comparison": "The transaction appears to be a normal case. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_6965583d812cf2169ca44a52c492320ef493eb6464feefd2260d1ad1d79f26c4",
+        "comparison": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 4402.14; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_75c208f2ace4323624746b6ba02dfb429b610acc591a490432ab9f1d3b974c59",
+        "comparison": "Synthetic PaySim normal reference; transaction type DEBIT; recorded amount 1828.32; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      }
+    ]
+  },
+  "regulatory_references": [
+    {
+      "source_id": "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "source_pages": "6, 7, 8",
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "reference": "Retrieved text discusses EWS/RFA, alert triggers, validation, real-time monitoring, transactional data, and unusual activities; it does not by itself define the current transaction's balance movements as an RBI-prescribed indicator."
+    },
+    {
+      "source_id": "knowledge_8070b4a011f2bbe36d0c159cb01bf7a2a6a1071043a92cb11a28ff0d4d5369f5",
+      "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "source_pages": "6, 7",
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "reference": "Retrieved text discusses EWS/RFA, alert triggers, validation, real-time monitoring, transactional data, and unusual activities; it does not by itself define the current transaction's balance movements as an RBI-prescribed indicator."
+    }
+  ],
+  "uncertainties": [],
+  "recommended_review_points": [
+    "Review applicable customer/account information available to the authorized investigator."
+  ],
+  "investigation_status": "partial",
+  "llm_model": "llama3.2",
+  "rag_version": "kb_v2"
+}

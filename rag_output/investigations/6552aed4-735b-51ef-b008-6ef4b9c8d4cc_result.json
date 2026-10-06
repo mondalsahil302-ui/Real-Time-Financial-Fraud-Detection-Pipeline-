@@ -1,0 +1,154 @@
+{
+  "investigation_id": "323bb6bc-6168-438d-a718-4e5f667017bd",
+  "alert_id": "6552aed4-735b-51ef-b008-6ef4b9c8d4cc",
+  "transaction_id": "TXN-b3d0c835-b6bd-4225-a68f-348841725c7e",
+  "generated_at": "2026-10-04T20:01:44.570707+00:00",
+  "investigation_summary": "The current alert is risk level L3, anomaly score 0.006815278736973962 according to supplied model outputs. The current CASH_IN transaction for amount 247575.4 has origin balance moved from 5790179.68 to 6037755.07 and destination balance moved from 8291485.93 to 12494367.15. Retrieved RBI primary material discusses EWS/RFA and transaction monitoring, but does not establish that this exact balance pattern is fraudulent or a prescribed indicator. Retrieved synthetic PaySim normal cases provide contextual comparison; similarity does not establish fraud in the current alert.",
+  "alert_assessment": {
+    "risk_level": "L3",
+    "model_prediction": 1,
+    "anomaly_score": 0.006815278736973962,
+    "xgboost_probability": null,
+    "decision_path": "Isolation Forest -> fraud-alerts"
+  },
+  "evidence": [
+    {
+      "source_type": "live_transaction",
+      "source_id": "TXN-b3d0c835-b6bd-4225-a68f-348841725c7e",
+      "finding": "The current CASH_IN transaction for amount 247575.4 has origin balance moved from 5790179.68 to 6037755.07 and destination balance moved from 8291485.93 to 12494367.15."
+    },
+    {
+      "source_type": "model_output",
+      "source_id": "model-output:TXN-b3d0c835-b6bd-4225-a68f-348841725c7e",
+      "finding": "The current alert has supplied risk level L3.; The current alert has Isolation Forest anomaly score 0.006815278736973962."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_549a44a67e39e3d343c6c91594ced242f749ad34780e726f90d14fabc91e8915",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_8070b4a011f2bbe36d0c159cb01bf7a2a6a1071043a92cb11a28ff0d4d5369f5",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_5f775ddf274edd1d11daed549220573803ab482e69daf03689d12eb3632aec4d",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_3085eb2ba66556e16d4867f7c6031fd4503cf4e20000ad97b0034635d1e49e17",
+      "finding": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 133787.45; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_bdb619816dd8b806f03d8c66ea23ca47f8db54a12e1617f96ee633ce5713005c",
+      "finding": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 145080.67; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_7241427d29b72a883631dd925ab5085f2c8a92fe31de05bff6d71dbf45090753",
+      "finding": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 263875.98; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_a0bdd26c99060b081a248af4354362d3e5e84c6398cffbbf66c031f875c05c22",
+      "finding": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 189191.15; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_f25f023877bf2fe19b746df644e1e5e30bddaba4e059200a502b4e618efd4b58",
+      "finding": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 187285.82; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "missing_evidence",
+      "source_id": "retrieval:cassandra",
+      "finding": "No relevant account history was retrieved from Cassandra.; No previous alerts were retrieved.; No previous investigations were retrieved."
+    }
+  ],
+  "risk_factors": [
+    "The current alert has supplied risk level L3.",
+    "The current alert has Isolation Forest anomaly score 0.006815278736973962.",
+    "The current CASH_IN transaction for amount 247575.4 has origin balance moved from 5790179.68 to 6037755.07 and destination balance moved from 8291485.93 to 12494367.15."
+  ],
+  "counter_evidence": [
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 133787.45; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 145080.67; observed origin balance decreased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 263875.98; observed origin balance decreased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 189191.15; observed origin balance decreased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 187285.82; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+  ],
+  "missing_evidence": [
+    "No relevant account history was retrieved from Cassandra.",
+    "No previous alerts were retrieved.",
+    "No previous investigations were retrieved."
+  ],
+  "historical_comparison": {
+    "fraud_cases": [],
+    "normal_cases": [
+      {
+        "source_id": "paysim_normal_3085eb2ba66556e16d4867f7c6031fd4503cf4e20000ad97b0034635d1e49e17",
+        "comparison": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 133787.45; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_bdb619816dd8b806f03d8c66ea23ca47f8db54a12e1617f96ee633ce5713005c",
+        "comparison": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 145080.67; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_7241427d29b72a883631dd925ab5085f2c8a92fe31de05bff6d71dbf45090753",
+        "comparison": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 263875.98; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_a0bdd26c99060b081a248af4354362d3e5e84c6398cffbbf66c031f875c05c22",
+        "comparison": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 189191.15; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_f25f023877bf2fe19b746df644e1e5e30bddaba4e059200a502b4e618efd4b58",
+        "comparison": "Synthetic PaySim normal reference; transaction type CASH_IN; recorded amount 187285.82; observed origin balance decreased. Similarity does not establish fraud in the current alert."
+      }
+    ]
+  },
+  "regulatory_references": [
+    {
+      "source_id": "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "source_pages": "6, 7, 8",
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "reference": "Retrieved text discusses EWS/RFA, alert triggers, validation, real-time monitoring, transactional data, and unusual activities; it does not by itself define the current transaction's balance movements as an RBI-prescribed indicator."
+    },
+    {
+      "source_id": "knowledge_8070b4a011f2bbe36d0c159cb01bf7a2a6a1071043a92cb11a28ff0d4d5369f5",
+      "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "source_pages": "6, 7",
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "reference": "Retrieved text discusses EWS/RFA, alert triggers, validation, real-time monitoring, transactional data, and unusual activities; it does not by itself define the current transaction's balance movements as an RBI-prescribed indicator."
+    }
+  ],
+  "uncertainties": [],
+  "recommended_review_points": [
+    "Review applicable customer/account information available to the authorized investigator."
+  ],
+  "investigation_status": "partial",
+  "llm_model": "llama3.2",
+  "rag_version": "kb_v2"
+}

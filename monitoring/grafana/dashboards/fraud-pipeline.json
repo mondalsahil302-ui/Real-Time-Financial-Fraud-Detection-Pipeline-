@@ -1,0 +1,21 @@
+{
+  "uid": "fraud-pipeline",
+  "title": "Fraud Detection Pipeline",
+  "tags": ["fraud", "pipeline"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {"from": "now-6h", "to": "now"},
+  "panels": [
+    {"id": 1, "title": "Pipeline events / sec", "type": "timeseries", "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8}, "targets": [{"expr": "fraud_pipeline:events_per_second:5m", "legendFormat": "{{component}} / {{event}} / {{status}}", "refId": "A"}]},
+    {"id": 2, "title": "LLM success ratio", "type": "stat", "gridPos": {"x": 12, "y": 0, "w": 6, "h": 8}, "targets": [{"expr": "fraud_pipeline:llm_success_ratio:5m", "legendFormat": "success ratio", "refId": "A"}]},
+    {"id": 3, "title": "Processing p95 (seconds)", "type": "timeseries", "gridPos": {"x": 18, "y": 0, "w": 6, "h": 8}, "targets": [{"expr": "histogram_quantile(0.95, sum by (le) (rate(fraud_pipeline_duration_seconds_bucket[5m])))", "legendFormat": "p95", "refId": "A"}]},
+    {"id": 4, "title": "Prometheus target status", "type": "stat", "gridPos": {"x": 0, "y": 8, "w": 12, "h": 7}, "targets": [{"expr": "up", "legendFormat": "{{job}} / {{instance}}", "refId": "A"}]},
+    {"id": 5, "title": "Container CPU", "type": "timeseries", "gridPos": {"x": 12, "y": 8, "w": 12, "h": 7}, "targets": [{"expr": "sum by (name) (rate(container_cpu_usage_seconds_total[5m]))", "legendFormat": "{{name}}", "refId": "A"}]},
+    {"id": 6, "title": "Container memory (bytes)", "type": "timeseries", "gridPos": {"x": 0, "y": 15, "w": 12, "h": 7}, "targets": [{"expr": "container_memory_usage_bytes", "legendFormat": "{{name}}", "refId": "A"}]},
+    {"id": 7, "title": "Container network receive (bytes/sec)", "type": "timeseries", "gridPos": {"x": 12, "y": 15, "w": 12, "h": 7}, "targets": [{"expr": "sum by (name) (rate(container_network_receive_bytes_total[5m]))", "legendFormat": "{{name}}", "refId": "A"}]},
+    {"id": 8, "title": "Container uptime (seconds)", "type": "timeseries", "gridPos": {"x": 0, "y": 22, "w": 12, "h": 7}, "targets": [{"expr": "time() - container_start_time_seconds", "legendFormat": "{{name}}", "refId": "A"}]},
+    {"id": 9, "title": "Container restarts (last 10m)", "type": "stat", "gridPos": {"x": 12, "y": 22, "w": 12, "h": 7}, "targets": [{"expr": "changes(container_start_time_seconds[10m])", "legendFormat": "{{name}}", "refId": "A"}]}
+  ]
+}

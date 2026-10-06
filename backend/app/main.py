@@ -59,7 +59,7 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
         runtime.close()
 
     app = FastAPI(title="Fraud Detection Control Center API", version="1.0.0", lifespan=lifespan)
-    app.add_middleware(CORSMiddleware, allow_origins=[config.FRONTEND_ORIGIN], allow_credentials=False,
+    app.add_middleware(CORSMiddleware, allow_origins=config.FRONTEND_ORIGINS, allow_credentials=False,
                        allow_methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "Idempotency-Key"])
     app.mount("/metrics", make_asgi_app())
 

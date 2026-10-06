@@ -1,0 +1,88 @@
+groups:
+  - name: fraud-pipeline-recording
+    interval: 1m
+    rules:
+      - record: fraud_pipeline:events_per_second:5m
+        expr: sum by (component,event,status) (rate(fraud_pipeline_events_total[5m]))
+      - record: fraud_pipeline:transactions_per_second:5m
+        expr: sum(rate(fraud_pipeline_events_total{component="spark",event="transactions_processed"}[5m]))
+      - record: fraud_pipeline:fraud_alerts_per_second:5m
+        expr: sum(rate(fraud_pipeline_events_total{component="spark",event="fraud_alerts_produced"}[5m]))
+      - record: fraud_pipeline:low_risk_per_second:5m
+        expr: sum(rate(fraud_pipeline_events_total{component="spark",event="low_risk_produced"}[5m]))
+      - record: fraud_pipeline:llm_success_ratio:5m
+        expr: sum(rate(fraud_pipeline_events_total{component="llm",event="generation",status="success"}[5m])) / clamp_min(sum(rate(fraud_pipeline_events_total{component="llm",event="generation"}[5m])), 0.001)
+      - record: fraud_pipeline:failure_ratio:5m
+        expr: sum(rate(fraud_pipeline_events_total{status=~"failure|invalid_response"}[5m])) / clamp_min(sum(rate(fraud_pipeline_events_total[5m])), 0.001)
+  - name: fraud-pipeline-alerts
+    rules:
+      - alert: FraudApplicationMetricsUnavailable
+        expr: up{job="fraud-pipeline-app"} == 0
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "Fraud application metrics endpoint is unavailable"}
+      - alert: PipelineNoTraffic
+        expr: sum(increase(fraud_pipeline_events_total{component="spark",event="transactions_processed"}[10m])) == 0
+        for: 10m
+        labels: {severity: warning}
+        annotations: {summary: "No investigation activity observed for ten minutes"}
+      - alert: LLMUnavailable
+        expr: increase(fraud_pipeline_events_total{component="llm",event="generation",status=~"failure|timeout"}[5m]) > 0
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "LLM generation failures observed"}
+      - alert: LLMTimeout
+        expr: increase(fraud_pipeline_events_total{component="llm",event="generation",status="timeout"}[5m]) > 0
+        for: 1m
+        labels: {severity: warning}
+        annotations: {summary: "LLM requests timed out"}
+      - alert: KafkaConsumerErrors
+        expr: increase(fraud_pipeline_events_total{component="kafka",event="consume",status="failure"}[5m]) > 0
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "Investigation Kafka consumer failures observed"}
+      - alert: KafkaProducerErrors
+        expr: increase(fraud_pipeline_events_total{component="kafka",event="transaction_produced",status="failure"}[5m]) > 0
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "Kafka producer failures observed"}
+      - alert: CassandraUnavailable
+        expr: increase(fraud_pipeline_events_total{component="cassandra",event="retrieval",status="failure"}[5m]) > 0
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "Cassandra retrieval failures observed"}
+      - alert: CassandraWriteErrors
+        expr: increase(fraud_pipeline_events_total{component="cassandra",event="write",status="failure"}[5m]) > 0
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "Cassandra persistence failures observed"}
+      - alert: RAGRetrievalFailures
+        expr: increase(fraud_pipeline_events_total{component="rag",event="retrieval",status="failure"}[5m]) > 0
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "One or more RAG evidence sources failed retrieval"}
+      - alert: LLMHighFailureRate
+        expr: fraud_pipeline:failure_ratio:5m > 0.25
+        for: 5m
+        labels: {severity: warning}
+        annotations: {summary: "Pipeline failure ratio exceeds 25 percent"}
+      - alert: InvestigationFailureRateHigh
+        expr: increase(fraud_pipeline_events_total{component="investigation",status="failed"}[10m]) >= 3
+        for: 2m
+        labels: {severity: warning}
+        annotations: {summary: "At least three investigations failed in ten minutes"}
+      - alert: PipelineProcessingLatencyHigh
+        expr: histogram_quantile(0.95, sum by (le) (rate(fraud_pipeline_duration_seconds_bucket[5m]))) > 30
+        for: 5m
+        labels: {severity: warning}
+        annotations: {summary: "Investigation processing p95 exceeds 30 seconds"}
+      - alert: PrometheusTargetDown
+        expr: up{job=~"prometheus|cadvisor"} == 0
+        for: 3m
+        labels: {severity: warning}
+        annotations: {summary: "A configured Prometheus target is unavailable"}
+      - alert: ContainerRestarting
+        expr: changes(container_start_time_seconds[10m]) > 0
+        for: 0m
+        labels: {severity: info}
+        annotations: {summary: "Container telemetry is stale; verify cAdvisor target and runtime"}

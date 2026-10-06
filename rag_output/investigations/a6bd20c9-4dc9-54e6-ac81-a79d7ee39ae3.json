@@ -1,0 +1,455 @@
+{
+  "context_version": "1.0",
+  "retrieval_timestamp": "2026-10-04T20:13:19.310457+00:00",
+  "alert": {
+    "transaction_id": "TXN-cdc3637e-1206-4d99-94a6-9e84b3f4d08e",
+    "event_time": "2026-10-04T16:14:16.109451+00:00",
+    "source": "frontend_simulator",
+    "batch_id": "BATCH-20261004-995910127C",
+    "producer_sequence": 359,
+    "step": 1,
+    "event_step": 1,
+    "amount": 1538200.39,
+    "anomaly_score": 0.09812941778633444,
+    "risk_level": "L4",
+    "alert_required": 1,
+    "risk_action": "PRIORITY_INVESTIGATE",
+    "model_version": "isolation_forest_33_feature_v1",
+    "final_prediction": 1,
+    "final_decision_path": "Isolation Forest -> fraud-alerts",
+    "final_risk_action": "PRIORITY_INVESTIGATE",
+    "transaction_type": "TRANSFER",
+    "name_orig": "C476579021",
+    "name_dest": "C1590550415",
+    "old_balance_orig": 0.0,
+    "new_balance_orig": 0.0,
+    "old_balance_dest": 6977445.38,
+    "new_balance_dest": 19169204.93,
+    "alert_id": "a6bd20c9-4dc9-54e6-ac81-a79d7ee39ae3",
+    "event_date": "2026-10-04",
+    "event_hour": 16
+  },
+  "live_account_context": {
+    "current_alert": {
+      "transaction_id": "TXN-cdc3637e-1206-4d99-94a6-9e84b3f4d08e",
+      "event_time": "2026-10-04T16:14:16.109451+00:00",
+      "source": "frontend_simulator",
+      "batch_id": "BATCH-20261004-995910127C",
+      "producer_sequence": 359,
+      "step": 1,
+      "event_step": 1,
+      "amount": 1538200.39,
+      "anomaly_score": 0.09812941778633444,
+      "risk_level": "L4",
+      "alert_required": 1,
+      "risk_action": "PRIORITY_INVESTIGATE",
+      "model_version": "isolation_forest_33_feature_v1",
+      "final_prediction": 1,
+      "final_decision_path": "Isolation Forest -> fraud-alerts",
+      "final_risk_action": "PRIORITY_INVESTIGATE",
+      "transaction_type": "TRANSFER",
+      "name_orig": "C476579021",
+      "name_dest": "C1590550415",
+      "old_balance_orig": 0.0,
+      "new_balance_orig": 0.0,
+      "old_balance_dest": 6977445.38,
+      "new_balance_dest": 19169204.93,
+      "alert_id": "a6bd20c9-4dc9-54e6-ac81-a79d7ee39ae3",
+      "event_date": "2026-10-04",
+      "event_hour": 16
+    },
+    "recent_transactions": [],
+    "recent_alerts": [],
+    "previous_investigations": []
+  },
+  "regulatory_context": [
+    {
+      "document_id": "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [6, 7, 8]\nsynthetic: false\n---\n\n# Detection Stage\n\n## Source-derived knowledge\n\nEarly Detection of Frauds – Framework for Early Warning Signals (EWS) and \nRed Flagging of Accounts (RFA) \n3.1 Governance Structure \n3.1.1 Banks shall have a framework for Early Warning Signals (EWS) and Red \nFlagging of Accounts (RFA) under the overall Fraud Risk Management Policy \napproved by the Board.\n\nA Red Flagged Account is one where suspicion of \nfraudulent activity is thrown up by the presence of one or more EWS indicators, \nalerting / triggering deeper investigation from potential fraud angle and initiating \npreventive measures by the banks.\n\n3.1.2 The Risk Management Committee of the Board (RMCB) shall oversee the \neffectiveness of the framework for EWS and RFA.\n\nThe Senior Management \nshall be responsible for implementation of a robust Framework for EWS and \nRFA within the bank.\n\n3.1.3 The EWS indicators identified for monitoring credit facilities / loan \naccounts and other banking transactions shall be approved by the RMCB.\n\nAppropriate Turnaround Time (TAT), preferably not more than 30 days , for \nexamination of EWS alerts / triggers shall be prescribed by the RMCB.\n\n3.1.4 RMCB shall review the status of red flagged accounts, including the EWS \nalerts / triggers, remedial actions initiated by the bank, etc.\n\nprevention, early detection, investigation, staff accountability, monitoring, recovery, analysis and \nreporting of frauds, etc.\n\n[Page 7]\n6 \n \n3.1.5 The EWS / RFA framework shall be subject to suitable validation in \naccordance with the directions of RMCB so as to ensure its integrity, robustness \nand consistency of the outcomes.\n\n3.2 The EWS / RFA Framework shall provide for, among others: \n(i) A system of robust EWS which is integrated with Core Banking Solution \n(CBS) or other operational systems ; (ii) Initiation of remedial action on alerts / \ntriggers from EWS System in a timely manner ; (iii) Periodic review of credit \nsanction and monitoring processes, internal controls and systems; and (iv) \nEffective use of C entral Repository of I nformation on L arge Credits (CRILC) \ndatabase and the Central Fraud Registry (CFR)10.\n\n3.3 EWS / RFA Framework for Credit Facilities / Loan Accounts \n3.3.1 Development of EWS System: The EWS system shall be comprehensive \nand designed to include both the quantitative and qualitative indicators to make \nthe framework robust and effective.\n\nThe broad indicators which the EWS \nsystem may illustratively capture could be based on the transactional data of \naccounts, financial performance of borrowers, market intelligence, conduct of \nthe borrowers, etc.\n\nSuch Unit shall facilitate collection and \nprocessing of relevant information to enable an early detection and prevention \nof potentially fraudulent activities.\n\n3.3.3 Generation of EWS alert(s) / trigger(s) shall necessitate examination \nwhether the account needs to be red flagged and consequently, investigation \nfrom potential fraud angle.\n\n[Page 8]\n7 \n \n3.4 EWS Framework for other banking / non-credit related transactions12 \n3.4.1 Banks shall develop / strengthen their EWS system by identifying suitable \nindicators and parameterising them in their EWS system for monitoring other \nbanking / non- credit related transactions .\n\nBanks shall strive to continuously \nupgrade the EWS system for enhancing its integrity and robustness , monitor \nother banking / non-credit related transactions efficiently and prevent fraudulent \nactivities through the banking channel .\n\nFurther, the effectiveness of EWS \nsystem shall be tested periodically.\n\n3.4.2 The design and specification of EWS system shall be robust and resilient \nto ensure that integrity of system is maintained, personal and financial data of \ncustomers are secure and transaction monitoring for prevention / detection of \npotential fraud is on real-time basis13.\n\n3.5 Banks shall put in place / suitably upgrade their existing EWS system within six \nmonths from the date of issuance of these Directions.\n\n13 or with a minimum time lag without compromising the effectiveness of the outcome of EWS system \nin prevention / detection of potential frauds.\n\n## Retrieval semantics\n\nUse this document when an alert-investigation query needs authoritative RBI 2024 context on: early detection, EWS, unusual activity.\n\nThe material is context for retrieval and explanation; it should not be converted into automatic fraud decisions without an explicit, separately governed policy mapping.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.3021165132522583,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "case_lifecycle",
+      "relative_path": "08_fraud_case_lifecycle/01_detection/detection_stage.md",
+      "metadata": {
+        "current_authority": true,
+        "document_type": "case_lifecycle",
+        "version": "2024",
+        "relative_path": "08_fraud_case_lifecycle/01_detection/detection_stage.md",
+        "source_type": "primary_regulatory",
+        "chunk_index": 0,
+        "status": "current",
+        "topic": "case_lifecycle",
+        "source_pages": "6, 7, 8",
+        "authority": "RBI",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.3021165132522583
+      }
+    },
+    {
+      "document_id": "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nFraudulent electronic banking / digital payment related transactions committed on banks.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.30568617582321167,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/10_digital_banking/category_knowledge.md",
+      "metadata": {
+        "status": "current",
+        "chunk_index": 0,
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "relative_path": "04_fraud_classification/10_digital_banking/category_knowledge.md",
+        "topic": "fraud_classification",
+        "source_type": "primary_regulatory",
+        "document_type": "fraud_classification",
+        "authority": "RBI",
+        "current_authority": true,
+        "source_pages": "13, 14",
+        "version": "2024"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.30568617582321167
+      }
+    },
+    {
+      "document_id": "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nFraudulent transactions involving foreign exchange.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.30589616298675537,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/09_foreign_exchange/category_knowledge.md",
+      "metadata": {
+        "document_type": "fraud_classification",
+        "status": "current",
+        "relative_path": "04_fraud_classification/09_foreign_exchange/category_knowledge.md",
+        "topic": "fraud_classification",
+        "source_type": "primary_regulatory",
+        "source_pages": "13, 14",
+        "current_authority": true,
+        "version": "2024",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "chunk_index": 0,
+        "authority": "RBI"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.30589616298675537
+      }
+    },
+    {
+      "document_id": "knowledge_8070b4a011f2bbe36d0c159cb01bf7a2a6a1071043a92cb11a28ff0d4d5369f5",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [6, 7]\nsynthetic: false\n---\n\n# Ews Framework\n\n## Source-derived knowledge\n\nEarly Detection of Frauds – Framework for Early Warning Signals (EWS) and \nRed Flagging of Accounts (RFA) \n3.1 Governance Structure \n3.1.1 Banks shall have a framework for Early Warning Signals (EWS) and Red \nFlagging of Accounts (RFA) under the overall Fraud Risk Management Policy \napproved by the Board.\n\nA Red Flagged Account is one where suspicion of \nfraudulent activity is thrown up by the presence of one or more EWS indicators, \nalerting / triggering deeper investigation from potential fraud angle and initiating \npreventive measures by the banks.\n\n3.1.2 The Risk Management Committee of the Board (RMCB) shall oversee the \neffectiveness of the framework for EWS and RFA.\n\nThe Senior Management \nshall be responsible for implementation of a robust Framework for EWS and \nRFA within the bank.\n\n3.1.3 The EWS indicators identified for monitoring credit facilities / loan \naccounts and other banking transactions shall be approved by the RMCB.\n\nAppropriate Turnaround Time (TAT), preferably not more than 30 days , for \nexamination of EWS alerts / triggers shall be prescribed by the RMCB.\n\n3.1.4 RMCB shall review the status of red flagged accounts, including the EWS \nalerts / triggers, remedial actions initiated by the bank, etc.\n\n[Page 7]\n6 \n \n3.1.5 The EWS / RFA framework shall be subject to suitable validation in \naccordance with the directions of RMCB so as to ensure its integrity, robustness \nand consistency of the outcomes.\n\n3.2 The EWS / RFA Framework shall provide for, among others: \n(i) A system of robust EWS which is integrated with Core Banking Solution \n(CBS) or other operational systems ; (ii) Initiation of remedial action on alerts / \ntriggers from EWS System in a timely manner ; (iii) Periodic review of credit \nsanction and monitoring processes, internal controls and systems; and (iv) \nEffective use of C entral Repository of I nformation on L arge Credits (CRILC) \ndatabase and the Central Fraud Registry (CFR)10.\n\n3.3 EWS / RFA Framework for Credit Facilities / Loan Accounts \n3.3.1 Development of EWS System: The EWS system shall be comprehensive \nand designed to include both the quantitative and qualitative indicators to make \nthe framework robust and effective.\n\nThe broad indicators which the EWS \nsystem may illustratively capture could be based on the transactional data of \naccounts, financial performance of borrowers, market intelligence, conduct of \nthe borrowers, etc.\n\n3.3.3 Generation of EWS alert(s) / trigger(s) shall necessitate examination \nwhether the account needs to be red flagged and consequently, investigation \nfrom potential fraud angle.\n\n## Retrieval semantics\n\nUse this document when an alert-investigation query needs authoritative RBI 2024 context on: EWS, RFA, validation, transactional data.\n\nThe material is context for retrieval and explanation; it should not be converted into automatic fraud decisions without an explicit, separately governed policy mapping.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.30601364374160767,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "early_warning_signals",
+      "relative_path": "02_early_warning_signals_ews_rfa/01_ews_foundation/ews_framework.md",
+      "metadata": {
+        "authority": "RBI",
+        "current_authority": true,
+        "version": "2024",
+        "relative_path": "02_early_warning_signals_ews_rfa/01_ews_foundation/ews_framework.md",
+        "chunk_index": 0,
+        "source_pages": "6, 7",
+        "document_type": "early_warning_signals",
+        "status": "current",
+        "topic": "early_warning_signals",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "source_type": "primary_regulatory"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.30601364374160767
+      }
+    },
+    {
+      "document_id": "knowledge_ccfd8ffc98d867f9da49fdef7ad645f30925ca381483fb25e8a305c146a2adf7",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nWilful falsification, destruction, alteration or mutilation of records with intent to defraud.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.3100394010543823,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/07_record_falsification/category_knowledge.md",
+      "metadata": {
+        "authority": "RBI",
+        "relative_path": "04_fraud_classification/07_record_falsification/category_knowledge.md",
+        "chunk_index": 0,
+        "source_pages": "13, 14",
+        "source_type": "primary_regulatory",
+        "version": "2024",
+        "status": "current",
+        "document_type": "fraud_classification",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "current_authority": true,
+        "topic": "fraud_classification"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.3100394010543823
+      }
+    }
+  ],
+  "historical_paysim_context": {
+    "fraud_cases": [],
+    "normal_cases": [
+      {
+        "document_id": "paysim_normal_b63a350e38c4dadf21182f78a30acda156f869a5a551faffd7e11badf62bc70b",
+        "text": "Historical PaySim Normal Case\nStep: 48\nTransaction type: TRANSFER\nAmount: 866886.33\nOrigin account: C111799996\nOrigin balance before: 0.0\nOrigin balance after: 0.0\nDestination account: C741429346\nDestination balance before: 1918470.02\nDestination balance after: 2785356.35\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account had zero balance before and after the transaction.\nObserved transactional characteristics: Destination account balance increased from 1918470.02 to 2785356.35.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "1029124",
+        "transaction_type": "TRANSFER",
+        "label": "normal",
+        "distance": 0.22107064723968506,
+        "metadata": {
+          "dataset": "PaySim",
+          "isFraud": "0",
+          "step": "48",
+          "source_row_id": "1029124",
+          "source_type": "paysim",
+          "transaction_type": "TRANSFER",
+          "document_type": "normal_case",
+          "destination_balance_increased": true,
+          "origin_balance_unchanged": true,
+          "amount": "866886.33",
+          "destination_balance_unchanged": false,
+          "label": "normal",
+          "origin_balance_depleted": false,
+          "balance_change_amount": "0.0"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.7743968693104204,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.22107064723968506
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_f3e30074b61b6ad4d53de3f1131ee71405614f8c3df32689304e47744a0cc4b2",
+        "text": "Historical PaySim Normal Case\nStep: 203\nTransaction type: TRANSFER\nAmount: 851602.2\nOrigin account: C418396870\nOrigin balance before: 0.0\nOrigin balance after: 0.0\nDestination account: C18198102\nDestination balance before: 1856126.0\nDestination balance after: 2707728.2\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account had zero balance before and after the transaction.\nObserved transactional characteristics: Destination account balance increased from 1856126.0 to 2707728.2.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "2438382",
+        "transaction_type": "TRANSFER",
+        "label": "normal",
+        "distance": 0.2243363857269287,
+        "metadata": {
+          "destination_balance_increased": true,
+          "label": "normal",
+          "source_type": "paysim",
+          "source_row_id": "2438382",
+          "document_type": "normal_case",
+          "origin_balance_unchanged": true,
+          "balance_change_amount": "0.0",
+          "transaction_type": "TRANSFER",
+          "amount": "851602.2",
+          "step": "203",
+          "dataset": "PaySim",
+          "isFraud": "0",
+          "origin_balance_depleted": false,
+          "destination_balance_unchanged": false
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.8062428561128658,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.2243363857269287
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_e917726d215ceaa1a37126b34b7cb0150fde1dc389634c32efa686453d9b028f",
+        "text": "Historical PaySim Normal Case\nStep: 47\nTransaction type: TRANSFER\nAmount: 773182.95\nOrigin account: C1122651206\nOrigin balance before: 0.0\nOrigin balance after: 0.0\nDestination account: C119950815\nDestination balance before: 4609429.04\nDestination balance after: 5382611.99\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account had zero balance before and after the transaction.\nObserved transactional characteristics: Destination account balance increased from 4609429.04 to 5382611.99.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "1022902",
+        "transaction_type": "TRANSFER",
+        "label": "normal",
+        "distance": 0.2271742820739746,
+        "metadata": {
+          "amount": "773182.95",
+          "transaction_type": "TRANSFER",
+          "destination_balance_unchanged": false,
+          "document_type": "normal_case",
+          "origin_balance_unchanged": true,
+          "label": "normal",
+          "source_type": "paysim",
+          "source_row_id": "1022902",
+          "balance_change_amount": "0.0",
+          "origin_balance_depleted": false,
+          "isFraud": "0",
+          "step": "47",
+          "destination_balance_increased": true,
+          "dataset": "PaySim"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.98943909717616,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.2271742820739746
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_4a7e05fc695df59236f43cb9f02646aaf06de020ff2fb2198ee882881818e2e2",
+        "text": "Historical PaySim Normal Case\nStep: 154\nTransaction type: TRANSFER\nAmount: 865368.9\nOrigin account: C666487996\nOrigin balance before: 0.0\nOrigin balance after: 0.0\nDestination account: C20683076\nDestination balance before: 1478371.33\nDestination balance after: 2343740.24\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account had zero balance before and after the transaction.\nObserved transactional characteristics: Destination account balance increased from 1478371.33 to 2343740.24.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "1554977",
+        "transaction_type": "TRANSFER",
+        "label": "normal",
+        "distance": 0.22737181186676025,
+        "metadata": {
+          "destination_balance_unchanged": false,
+          "origin_balance_unchanged": true,
+          "destination_balance_increased": true,
+          "balance_change_amount": "0.0",
+          "source_type": "paysim",
+          "isFraud": "0",
+          "dataset": "PaySim",
+          "label": "normal",
+          "transaction_type": "TRANSFER",
+          "amount": "865368.9",
+          "step": "154",
+          "source_row_id": "1554977",
+          "origin_balance_depleted": false,
+          "document_type": "normal_case"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.7775082857726916,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.22737181186676025
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_3c54f71278b3c982bdd7d8e28d63fc9f7515021fc3f1028bf151bc0956e88d30",
+        "text": "Historical PaySim Normal Case\nStep: 34\nTransaction type: TRANSFER\nAmount: 970439.31\nOrigin account: C1133764388\nOrigin balance before: 0.0\nOrigin balance after: 0.0\nDestination account: C79241601\nDestination balance before: 1454883.43\nDestination balance after: 2425322.74\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account had zero balance before and after the transaction.\nObserved transactional characteristics: Destination account balance increased from 1454883.43 to 2425322.74.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "622429",
+        "transaction_type": "TRANSFER",
+        "label": "normal",
+        "distance": 0.22850126028060913,
+        "metadata": {
+          "source_type": "paysim",
+          "origin_balance_unchanged": true,
+          "destination_balance_increased": true,
+          "source_row_id": "622429",
+          "step": "34",
+          "transaction_type": "TRANSFER",
+          "balance_change_amount": "0.0",
+          "origin_balance_depleted": false,
+          "destination_balance_unchanged": false,
+          "amount": "970439.31",
+          "dataset": "PaySim",
+          "label": "normal",
+          "document_type": "normal_case",
+          "isFraud": "0"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.5850557310997633,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.22850126028060913
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      }
+    ]
+  },
+  "model_output": {
+    "anomaly_score": 0.09812941778633444,
+    "risk_level": "L4",
+    "risk_action": "PRIORITY_INVESTIGATE",
+    "final_prediction": 1,
+    "final_decision_path": "Isolation Forest -> fraud-alerts",
+    "final_risk_action": "PRIORITY_INVESTIGATE",
+    "model_version": "isolation_forest_33_feature_v1"
+  },
+  "evidence_categories": {
+    "factual_live_data": [
+      "alert",
+      "live_account_context"
+    ],
+    "regulatory_knowledge": [
+      "regulatory_context"
+    ],
+    "historical_synthetic_data": [
+      "historical_paysim_context.fraud_cases",
+      "historical_paysim_context.normal_cases"
+    ],
+    "model_output": [
+      "model_output"
+    ]
+  },
+  "retrieval_status": {
+    "cassandra": "success",
+    "fraud_knowledge": "success",
+    "paysim_cases": "success"
+  },
+  "retrieval_errors": {},
+  "evidence_summary": {
+    "current_alert_count": 1,
+    "recent_transaction_count": 0,
+    "recent_alert_count": 0,
+    "investigation_count": 0,
+    "knowledge_count": 5,
+    "paysim_case_count": 5,
+    "total_evidence_items": 11,
+    "knowledge_document_ids": [
+      "knowledge_8d286bc212741793872fabbec266a76a198a69f06f81a728ef8438843692e081",
+      "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "knowledge_8070b4a011f2bbe36d0c159cb01bf7a2a6a1071043a92cb11a28ff0d4d5369f5",
+      "knowledge_ccfd8ffc98d867f9da49fdef7ad645f30925ca381483fb25e8a305c146a2adf7"
+    ],
+    "paysim_document_ids": [
+      "paysim_normal_b63a350e38c4dadf21182f78a30acda156f869a5a551faffd7e11badf62bc70b",
+      "paysim_normal_f3e30074b61b6ad4d53de3f1131ee71405614f8c3df32689304e47744a0cc4b2",
+      "paysim_normal_e917726d215ceaa1a37126b34b7cb0150fde1dc389634c32efa686453d9b028f",
+      "paysim_normal_4a7e05fc695df59236f43cb9f02646aaf06de020ff2fb2198ee882881818e2e2",
+      "paysim_normal_3c54f71278b3c982bdd7d8e28d63fc9f7515021fc3f1028bf151bc0956e88d30"
+    ],
+    "cassandra_transaction_ids": [],
+    "cassandra_alert_ids": [],
+    "cassandra_investigation_ids": [],
+    "summary_type": "deterministic_retrieval_inventory"
+  }
+}

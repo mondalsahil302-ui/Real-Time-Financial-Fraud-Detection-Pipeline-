@@ -1,0 +1,15 @@
+{
+  "uid": "fraud-infrastructure-health",
+  "title": "Infrastructure and Application Health",
+  "tags": ["fraud", "infrastructure", "health"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {"from": "now-6h", "to": "now"},
+  "panels": [
+    {"id": 1, "title": "Scrape target availability", "type": "stat", "gridPos": {"x": 0, "y": 0, "w": 24, "h": 7}, "targets": [{"expr": "up", "legendFormat": "{{job}} / {{instance}}", "refId": "A"}]},
+    {"id": 2, "title": "Container CPU (Docker runtime metrics)", "type": "timeseries", "gridPos": {"x": 0, "y": 7, "w": 12, "h": 8}, "targets": [{"expr": "sum by (name) (rate(container_cpu_usage_seconds_total[5m]))", "legendFormat": "{{name}}", "refId": "A"}]},
+    {"id": 3, "title": "Container memory bytes (Docker runtime metrics)", "type": "timeseries", "gridPos": {"x": 12, "y": 7, "w": 12, "h": 8}, "targets": [{"expr": "container_memory_usage_bytes", "legendFormat": "{{name}}", "refId": "A"}]}
+  ]
+}

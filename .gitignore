@@ -7,6 +7,8 @@ __pycache__/
 
 # Large dataset (tracked via Git LFS)
 data/*.csv
+# Knowledge base CSV files
+fraud_rag_knowledge_base/*.csv
 
 # Spark checkpoints (runtime-generated)
 checkpoints/

@@ -1,0 +1,131 @@
+{
+  "investigation_id": "ed0df6e1-f27d-4e38-81b4-3080b3b7964d",
+  "alert_id": "80b5e20d-03fa-54c3-b4ad-c9d728f2e389",
+  "transaction_id": "abd7368d-5a93-4188-aed0-9ad66e3230fd",
+  "generated_at": "2026-10-04T18:27:35.372597+00:00",
+  "investigation_summary": "The current alert is risk level L3, anomaly score 0.020706210508804945 according to supplied model outputs. The current TRANSFER transaction for amount 61846.05 has origin balance moved from 61846.05 to 0.0. No regulatory reference was retrieved. Retrieved synthetic PaySim normal cases provide contextual comparison; similarity does not establish fraud in the current alert.",
+  "alert_assessment": {
+    "risk_level": "L3",
+    "model_prediction": 1,
+    "anomaly_score": 0.020706210508804945,
+    "xgboost_probability": null,
+    "decision_path": "Isolation Forest -> fraud-alerts"
+  },
+  "evidence": [
+    {
+      "source_type": "live_transaction",
+      "source_id": "abd7368d-5a93-4188-aed0-9ad66e3230fd",
+      "finding": "The current TRANSFER transaction for amount 61846.05 has origin balance moved from 61846.05 to 0.0."
+    },
+    {
+      "source_type": "model_output",
+      "source_id": "model-output:abd7368d-5a93-4188-aed0-9ad66e3230fd",
+      "finding": "The current alert has supplied risk level L3.; The current alert has Isolation Forest anomaly score 0.020706210508804945."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_ccfd8ffc98d867f9da49fdef7ad645f30925ca381483fb25e8a305c146a2adf7",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_5f775ddf274edd1d11daed549220573803ab482e69daf03689d12eb3632aec4d",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "rbi_knowledge",
+      "source_id": "knowledge_f08db2a3b42ae0e2b02c38bff5ea24cbf39d4ae17cbbabc6f77a160274b51ffa",
+      "finding": "Retrieved regulatory text; see its source-linked regulatory reference."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_2685ce552abbae14b6ccc8edb7bf31f8ff08e0de03a4be454291c52327f7e2a3",
+      "finding": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 37805.3; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_a3e88cc24c8cee6319d2caa2be885182bf9f83641e8591dad0c80436432fcf2e",
+      "finding": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 45009.46; observed destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_13d8e3aeb239a7961e54aef5e9b9ee52c17b7c0fd80a23a8251a002b38100e90",
+      "finding": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 235381.98; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_f3e30074b61b6ad4d53de3f1131ee71405614f8c3df32689304e47744a0cc4b2",
+      "finding": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 851602.2; observed destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "paysim_normal",
+      "source_id": "paysim_normal_e917726d215ceaa1a37126b34b7cb0150fde1dc389634c32efa686453d9b028f",
+      "finding": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 773182.95; observed destination balance increased. Similarity does not establish fraud in the current alert."
+    },
+    {
+      "source_type": "missing_evidence",
+      "source_id": "retrieval:cassandra",
+      "finding": "No relevant account history was retrieved from Cassandra.; No previous alerts were retrieved.; No previous investigations were retrieved."
+    }
+  ],
+  "risk_factors": [
+    "The current alert has supplied risk level L3.",
+    "The current alert has Isolation Forest anomaly score 0.020706210508804945.",
+    "The current TRANSFER transaction for amount 61846.05 has origin balance moved from 61846.05 to 0.0."
+  ],
+  "counter_evidence": [
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 37805.3; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 45009.46; observed destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 235381.98; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 851602.2; observed destination balance increased. Similarity does not establish fraud in the current alert.",
+    "Retrieved normal synthetic PaySim reference: Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 773182.95; observed destination balance increased. Similarity does not establish fraud in the current alert."
+  ],
+  "missing_evidence": [
+    "No relevant account history was retrieved from Cassandra.",
+    "No previous alerts were retrieved.",
+    "No previous investigations were retrieved."
+  ],
+  "historical_comparison": {
+    "fraud_cases": [],
+    "normal_cases": [
+      {
+        "source_id": "paysim_normal_2685ce552abbae14b6ccc8edb7bf31f8ff08e0de03a4be454291c52327f7e2a3",
+        "comparison": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 37805.3; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_a3e88cc24c8cee6319d2caa2be885182bf9f83641e8591dad0c80436432fcf2e",
+        "comparison": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 45009.46; observed destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_13d8e3aeb239a7961e54aef5e9b9ee52c17b7c0fd80a23a8251a002b38100e90",
+        "comparison": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 235381.98; observed origin balance decreased and destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_f3e30074b61b6ad4d53de3f1131ee71405614f8c3df32689304e47744a0cc4b2",
+        "comparison": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 851602.2; observed destination balance increased. Similarity does not establish fraud in the current alert."
+      },
+      {
+        "source_id": "paysim_normal_e917726d215ceaa1a37126b34b7cb0150fde1dc389634c32efa686453d9b028f",
+        "comparison": "Synthetic PaySim normal reference; transaction type TRANSFER; recorded amount 773182.95; observed destination balance increased. Similarity does not establish fraud in the current alert."
+      }
+    ]
+  },
+  "regulatory_references": [],
+  "uncertainties": [],
+  "recommended_review_points": [
+    "Review applicable customer/account information available to the authorized investigator."
+  ],
+  "investigation_status": "partial",
+  "llm_model": "llama3.2",
+  "rag_version": "kb_v2"
+}

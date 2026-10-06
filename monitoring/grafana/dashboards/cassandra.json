@@ -1,0 +1,14 @@
+{
+  "uid": "fraud-cassandra",
+  "title": "Cassandra",
+  "tags": ["fraud", "cassandra"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {"from": "now-6h", "to": "now"},
+  "panels": [
+    {"id": 1, "title": "Cassandra operations / sec", "type": "timeseries", "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8}, "targets": [{"expr": "sum by (event,status) (rate(fraud_pipeline_events_total{component=\"cassandra\"}[5m]))", "legendFormat": "{{event}} / {{status}}", "refId": "A"}]},
+    {"id": 2, "title": "Cassandra failures / sec", "type": "timeseries", "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8}, "targets": [{"expr": "sum by (event) (rate(fraud_pipeline_events_total{component=\"cassandra\",status=\"failure\"}[5m]))", "legendFormat": "{{event}}", "refId": "A"}]}
+  ]
+}

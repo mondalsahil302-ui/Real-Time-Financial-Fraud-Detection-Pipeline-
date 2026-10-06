@@ -1,0 +1,455 @@
+{
+  "context_version": "1.0",
+  "retrieval_timestamp": "2026-10-04T20:07:01.048671+00:00",
+  "alert": {
+    "transaction_id": "TXN-5bbb0065-dec5-401c-8a33-59a9d4e09b79",
+    "event_time": "2026-10-04T16:14:31.812428+00:00",
+    "source": "frontend_simulator",
+    "batch_id": "BATCH-20261004-995910127C",
+    "producer_sequence": 476,
+    "step": 1,
+    "event_step": 1,
+    "amount": 355500.25,
+    "anomaly_score": 0.024440167060285067,
+    "risk_level": "L3",
+    "alert_required": 1,
+    "risk_action": "INVESTIGATE",
+    "model_version": "isolation_forest_33_feature_v1",
+    "final_prediction": 1,
+    "final_decision_path": "Isolation Forest -> fraud-alerts",
+    "final_risk_action": "INVESTIGATE",
+    "transaction_type": "CASH_IN",
+    "name_orig": "C1967496309",
+    "name_dest": "C766572210",
+    "old_balance_orig": 4851323.08,
+    "new_balance_orig": 5206823.33,
+    "old_balance_dest": 1166753.44,
+    "new_balance_dest": 0.0,
+    "alert_id": "9eda229e-2379-5eee-bb1a-3ccf2d7bcdb6",
+    "event_date": "2026-10-04",
+    "event_hour": 16
+  },
+  "live_account_context": {
+    "current_alert": {
+      "transaction_id": "TXN-5bbb0065-dec5-401c-8a33-59a9d4e09b79",
+      "event_time": "2026-10-04T16:14:31.812428+00:00",
+      "source": "frontend_simulator",
+      "batch_id": "BATCH-20261004-995910127C",
+      "producer_sequence": 476,
+      "step": 1,
+      "event_step": 1,
+      "amount": 355500.25,
+      "anomaly_score": 0.024440167060285067,
+      "risk_level": "L3",
+      "alert_required": 1,
+      "risk_action": "INVESTIGATE",
+      "model_version": "isolation_forest_33_feature_v1",
+      "final_prediction": 1,
+      "final_decision_path": "Isolation Forest -> fraud-alerts",
+      "final_risk_action": "INVESTIGATE",
+      "transaction_type": "CASH_IN",
+      "name_orig": "C1967496309",
+      "name_dest": "C766572210",
+      "old_balance_orig": 4851323.08,
+      "new_balance_orig": 5206823.33,
+      "old_balance_dest": 1166753.44,
+      "new_balance_dest": 0.0,
+      "alert_id": "9eda229e-2379-5eee-bb1a-3ccf2d7bcdb6",
+      "event_date": "2026-10-04",
+      "event_hour": 16
+    },
+    "recent_transactions": [],
+    "recent_alerts": [],
+    "previous_investigations": []
+  },
+  "regulatory_context": [
+    {
+      "document_id": "knowledge_549a44a67e39e3d343c6c91594ced242f749ad34780e726f90d14fabc91e8915",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nCash shortages on account of frauds.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.2926803231239319,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/08_cash_shortage/category_knowledge.md",
+      "metadata": {
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "version": "2024",
+        "source_type": "primary_regulatory",
+        "document_type": "fraud_classification",
+        "status": "current",
+        "current_authority": true,
+        "chunk_index": 0,
+        "topic": "fraud_classification",
+        "source_pages": "13, 14",
+        "authority": "RBI",
+        "relative_path": "04_fraud_classification/08_cash_shortage/category_knowledge.md"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.2926803231239319
+      }
+    },
+    {
+      "document_id": "knowledge_5f775ddf274edd1d11daed549220573803ab482e69daf03689d12eb3632aec4d",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nFraudulent encashment through forged instruments.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.29667794704437256,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/02_forged_instruments/category_knowledge.md",
+      "metadata": {
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "relative_path": "04_fraud_classification/02_forged_instruments/category_knowledge.md",
+        "source_type": "primary_regulatory",
+        "source_pages": "13, 14",
+        "current_authority": true,
+        "status": "current",
+        "document_type": "fraud_classification",
+        "chunk_index": 0,
+        "authority": "RBI",
+        "topic": "fraud_classification",
+        "version": "2024"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.29667794704437256
+      }
+    },
+    {
+      "document_id": "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nFraudulent transactions involving foreign exchange.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.29767197370529175,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/09_foreign_exchange/category_knowledge.md",
+      "metadata": {
+        "relative_path": "04_fraud_classification/09_foreign_exchange/category_knowledge.md",
+        "source_type": "primary_regulatory",
+        "source_pages": "13, 14",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "document_type": "fraud_classification",
+        "current_authority": true,
+        "status": "current",
+        "chunk_index": 0,
+        "authority": "RBI",
+        "topic": "fraud_classification",
+        "version": "2024"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.29767197370529175
+      }
+    },
+    {
+      "document_id": "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nFraudulent electronic banking / digital payment related transactions committed on banks.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.2998863458633423,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/10_digital_banking/category_knowledge.md",
+      "metadata": {
+        "chunk_index": 0,
+        "relative_path": "04_fraud_classification/10_digital_banking/category_knowledge.md",
+        "current_authority": true,
+        "authority": "RBI",
+        "document_type": "fraud_classification",
+        "version": "2024",
+        "source_type": "primary_regulatory",
+        "topic": "fraud_classification",
+        "source_pages": "13, 14",
+        "status": "current",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.2998863458633423
+      }
+    },
+    {
+      "document_id": "knowledge_f08db2a3b42ae0e2b02c38bff5ea24cbf39d4ae17cbbabc6f77a160274b51ffa",
+      "text": "---\nkb_version: kb_v2\nsource_type: primary_regulatory\nsource_file: RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf\nsource_pages: [13, 14]\nsynthetic: false\n---\n\n# RBI 2024 Fraud Category\n\n## Category\n\nOther type of fraudulent activity not covered under the listed categories.\n\n## Source position\n\nThis category appears in the RBI 2024 fraud-reporting taxonomy. It should be selected only when the facts of a case support the category under the applicable reporting framework.\n\n## Important boundary\n\nThe presence of a transaction alert in this project does not by itself establish that this regulatory fraud category applies. The ML alert and later investigation are separate from formal classification/reporting.\n\n## Retrieval use\n\nUseful for questions asking:\n- What fraud category may be relevant?\n- What terminology does RBI use for this category?\n- Which reporting taxonomy entry corresponds to a described fact pattern?\n\nPrimary source: RBI Master Direction on Fraud Risk Management, 15 July 2024.",
+      "source": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+      "distance": 0.30066436529159546,
+      "authority": "RBI",
+      "version": "2024",
+      "status": "current",
+      "current_authority": true,
+      "source_type": "primary_regulatory",
+      "topic": "fraud_classification",
+      "relative_path": "04_fraud_classification/11_other/category_knowledge.md",
+      "metadata": {
+        "chunk_index": 0,
+        "version": "2024",
+        "topic": "fraud_classification",
+        "status": "current",
+        "authority": "RBI",
+        "source_type": "primary_regulatory",
+        "document_type": "fraud_classification",
+        "source_file": "RBI-FRAUD-RISK-MANAGEMENT-15-07-24.pdf",
+        "current_authority": true,
+        "relative_path": "04_fraud_classification/11_other/category_knowledge.md",
+        "source_pages": "13, 14"
+      },
+      "ranking_reason": {
+        "current_rbi_primary": true,
+        "metadata_priority": 0,
+        "vector_distance": 0.30066436529159546
+      }
+    }
+  ],
+  "historical_paysim_context": {
+    "fraud_cases": [],
+    "normal_cases": [
+      {
+        "document_id": "paysim_normal_7241427d29b72a883631dd925ab5085f2c8a92fe31de05bff6d71dbf45090753",
+        "text": "Historical PaySim Normal Case\nStep: 34\nTransaction type: CASH_IN\nAmount: 263875.98\nOrigin account: C1368078211\nOrigin balance before: 18991.0\nOrigin balance after: 282866.98\nDestination account: C1701227923\nDestination balance before: 2260719.58\nDestination balance after: 1996843.6\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance increased from 18991.0 to 282866.98.\nObserved transactional characteristics: Destination account balance decreased from 2260719.58 to 1996843.6.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "611561",
+        "transaction_type": "CASH_IN",
+        "label": "normal",
+        "distance": 0.20951837301254272,
+        "metadata": {
+          "isFraud": "0",
+          "origin_balance_unchanged": false,
+          "dataset": "PaySim",
+          "destination_balance_unchanged": false,
+          "source_row_id": "611561",
+          "balance_change_amount": "263875.98",
+          "origin_balance_depleted": false,
+          "amount": "263875.98",
+          "document_type": "normal_case",
+          "source_type": "paysim",
+          "destination_balance_increased": false,
+          "step": "34",
+          "label": "normal",
+          "transaction_type": "CASH_IN"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.3472247455035506,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.20951837301254272
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_a0bdd26c99060b081a248af4354362d3e5e84c6398cffbbf66c031f875c05c22",
+        "text": "Historical PaySim Normal Case\nStep: 44\nTransaction type: CASH_IN\nAmount: 189191.15\nOrigin account: C723474397\nOrigin balance before: 10638.0\nOrigin balance after: 199829.15\nDestination account: C1061077185\nDestination balance before: 303719.83\nDestination balance after: 114528.69\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance increased from 10638.0 to 199829.15.\nObserved transactional characteristics: Destination account balance decreased from 303719.83 to 114528.69.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "965023",
+        "transaction_type": "CASH_IN",
+        "label": "normal",
+        "distance": 0.2105075716972351,
+        "metadata": {
+          "amount": "189191.15",
+          "source_row_id": "965023",
+          "transaction_type": "CASH_IN",
+          "origin_balance_unchanged": false,
+          "document_type": "normal_case",
+          "destination_balance_increased": false,
+          "origin_balance_depleted": false,
+          "source_type": "paysim",
+          "balance_change_amount": "189191.15",
+          "dataset": "PaySim",
+          "label": "normal",
+          "isFraud": "0",
+          "step": "44",
+          "destination_balance_unchanged": false
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.879053274954986,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.2105075716972351
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_f25f023877bf2fe19b746df644e1e5e30bddaba4e059200a502b4e618efd4b58",
+        "text": "Historical PaySim Normal Case\nStep: 42\nTransaction type: CASH_IN\nAmount: 187285.82\nOrigin account: C658788771\nOrigin balance before: 1139.0\nOrigin balance after: 188424.82\nDestination account: C126953631\nDestination balance before: 1993593.65\nDestination balance after: 1806307.83\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance increased from 1139.0 to 188424.82.\nObserved transactional characteristics: Destination account balance decreased from 1993593.65 to 1806307.83.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "887155",
+        "transaction_type": "CASH_IN",
+        "label": "normal",
+        "distance": 0.2111470103263855,
+        "metadata": {
+          "amount": "187285.82",
+          "origin_balance_depleted": false,
+          "step": "42",
+          "transaction_type": "CASH_IN",
+          "source_row_id": "887155",
+          "label": "normal",
+          "destination_balance_unchanged": false,
+          "isFraud": "0",
+          "origin_balance_unchanged": false,
+          "balance_change_amount": "187285.82",
+          "destination_balance_increased": false,
+          "dataset": "PaySim",
+          "document_type": "normal_case",
+          "source_type": "paysim"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.8981695998127353,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.2111470103263855
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_8c2d49b1ae33d1b0c40f6a15429965b27f20b86e295144191cfcb5faf16315f7",
+        "text": "Historical PaySim Normal Case\nStep: 249\nTransaction type: CASH_IN\nAmount: 265970.13\nOrigin account: C1551297668\nOrigin balance before: 3183.0\nOrigin balance after: 269153.13\nDestination account: C1919907042\nDestination balance before: 101680.7\nDestination balance after: 0.0\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance increased from 3183.0 to 269153.13.\nObserved transactional characteristics: Destination account balance decreased from 101680.7 to 0.0.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "3205847",
+        "transaction_type": "CASH_IN",
+        "label": "normal",
+        "distance": 0.21199220418930054,
+        "metadata": {
+          "source_type": "paysim",
+          "destination_balance_unchanged": false,
+          "destination_balance_increased": false,
+          "step": "249",
+          "amount": "265970.13",
+          "source_row_id": "3205847",
+          "origin_balance_depleted": false,
+          "balance_change_amount": "265970.13",
+          "dataset": "PaySim",
+          "isFraud": "0",
+          "document_type": "normal_case",
+          "origin_balance_unchanged": false,
+          "label": "normal",
+          "transaction_type": "CASH_IN"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.3366171983297523,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.21199220418930054
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      },
+      {
+        "document_id": "paysim_normal_b46b28896248d06a9cb8dcd87cf3cdbefba4fccdabf4e274051559688d2afbb7",
+        "text": "Historical PaySim Normal Case\nStep: 12\nTransaction type: CASH_IN\nAmount: 492614.68\nOrigin account: C185971132\nOrigin balance before: 103474.0\nOrigin balance after: 596088.68\nDestination account: C650657798\nDestination balance before: 2723223.83\nDestination balance after: 2565579.04\nFraud label: NORMAL\nFlagged by source dataset: 0\nObserved transactional characteristics: Origin account balance increased from 103474.0 to 596088.68.\nObserved transactional characteristics: Destination account balance decreased from 2723223.83 to 2565579.04.",
+        "source": "PaySim synthetic historical reference",
+        "source_row_id": "146904",
+        "transaction_type": "CASH_IN",
+        "label": "normal",
+        "distance": 0.2124059796333313,
+        "metadata": {
+          "isFraud": "0",
+          "origin_balance_depleted": false,
+          "destination_balance_unchanged": false,
+          "transaction_type": "CASH_IN",
+          "source_type": "paysim",
+          "document_type": "normal_case",
+          "destination_balance_increased": false,
+          "origin_balance_unchanged": false,
+          "dataset": "PaySim",
+          "balance_change_amount": "492614.68",
+          "step": "12",
+          "amount": "492614.68",
+          "source_row_id": "146904",
+          "label": "normal"
+        },
+        "ranking_reason": {
+          "same_transaction_type": true,
+          "similar_amount_range": true,
+          "amount_ratio": 1.3856943279224134,
+          "balance_behavior_match_score": 1.0,
+          "balance_behavior_comparisons": 5,
+          "vector_distance": 0.2124059796333313
+        },
+        "evidence_kind": "synthetic_historical_reference"
+      }
+    ]
+  },
+  "model_output": {
+    "anomaly_score": 0.024440167060285067,
+    "risk_level": "L3",
+    "risk_action": "INVESTIGATE",
+    "final_prediction": 1,
+    "final_decision_path": "Isolation Forest -> fraud-alerts",
+    "final_risk_action": "INVESTIGATE",
+    "model_version": "isolation_forest_33_feature_v1"
+  },
+  "evidence_categories": {
+    "factual_live_data": [
+      "alert",
+      "live_account_context"
+    ],
+    "regulatory_knowledge": [
+      "regulatory_context"
+    ],
+    "historical_synthetic_data": [
+      "historical_paysim_context.fraud_cases",
+      "historical_paysim_context.normal_cases"
+    ],
+    "model_output": [
+      "model_output"
+    ]
+  },
+  "retrieval_status": {
+    "cassandra": "success",
+    "fraud_knowledge": "success",
+    "paysim_cases": "success"
+  },
+  "retrieval_errors": {},
+  "evidence_summary": {
+    "current_alert_count": 1,
+    "recent_transaction_count": 0,
+    "recent_alert_count": 0,
+    "investigation_count": 0,
+    "knowledge_count": 5,
+    "paysim_case_count": 5,
+    "total_evidence_items": 11,
+    "knowledge_document_ids": [
+      "knowledge_549a44a67e39e3d343c6c91594ced242f749ad34780e726f90d14fabc91e8915",
+      "knowledge_5f775ddf274edd1d11daed549220573803ab482e69daf03689d12eb3632aec4d",
+      "knowledge_d2858745c8dd6ae6c17953e0c32cb3821862c2ee8e3603b4284c86bdb1f25630",
+      "knowledge_d9d14f4b8b4f14ed2ef79a3b4980f9f851bd2749394a13a60ca4daacd646bdca",
+      "knowledge_f08db2a3b42ae0e2b02c38bff5ea24cbf39d4ae17cbbabc6f77a160274b51ffa"
+    ],
+    "paysim_document_ids": [
+      "paysim_normal_7241427d29b72a883631dd925ab5085f2c8a92fe31de05bff6d71dbf45090753",
+      "paysim_normal_a0bdd26c99060b081a248af4354362d3e5e84c6398cffbbf66c031f875c05c22",
+      "paysim_normal_f25f023877bf2fe19b746df644e1e5e30bddaba4e059200a502b4e618efd4b58",
+      "paysim_normal_8c2d49b1ae33d1b0c40f6a15429965b27f20b86e295144191cfcb5faf16315f7",
+      "paysim_normal_b46b28896248d06a9cb8dcd87cf3cdbefba4fccdabf4e274051559688d2afbb7"
+    ],
+    "cassandra_transaction_ids": [],
+    "cassandra_alert_ids": [],
+    "cassandra_investigation_ids": [],
+    "summary_type": "deterministic_retrieval_inventory"
+  }
+}
