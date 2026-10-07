@@ -26,3 +26,10 @@ rag_output/paysim_documents/*.jsonl
 # OS files
 .DS_Store
 Thumbs.db
+
+# Environment variables & secrets
+.env
+.env.backup
+.env.*
+!.env.example
+
