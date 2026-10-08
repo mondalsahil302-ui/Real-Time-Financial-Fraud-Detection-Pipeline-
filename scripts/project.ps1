@@ -190,6 +190,18 @@ function Start-Project([switch]$DemoMode) {
             if (-not (Wait-Http 'http://localhost:8000/metrics' 20 $proc)) { Add-Failure 'Investigation consumer metrics did not start on port 8000.' }
         }
 
+        if (Test-Http 'http://localhost:8003/metrics') {
+            Write-Host 'Transaction producer metrics are already active on port 8003.'
+        } elseif (Test-Port 8003) {
+            Write-Host 'Port 8003 is open.'
+        } else {
+            $producerArgs = @('-m', 'producer.metrics_server')
+            $proc = Start-ManagedProcess 'transaction-producer' $python $producerArgs 'producer.metrics_server'
+            if (-not (Wait-Http 'http://localhost:8003/metrics' 15 $proc)) {
+                Add-Failure 'Transaction producer metrics did not start on port 8003.'
+            }
+        }
+
         if ((Test-Path (Join-Path $root 'models\isolation_forest_final.pkl')) -and (Test-Path (Join-Path $root 'models\xgboost_second_stage.json'))) {
             if (Test-Port 8002) {
                 Write-Host 'Spark metrics port 8002 is already occupied.'

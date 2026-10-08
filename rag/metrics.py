@@ -18,6 +18,7 @@ LLM_SUCCESSES = Counter("llm_success_total", "Successful Ask AI provider respons
 LLM_FAILURES = Counter("llm_failure_total", "Failed Ask AI provider responses", ("provider", "status", "operation"))
 LLM_LATENCY = Histogram("llm_latency_seconds", "Ask AI provider request latency", ("provider", "status", "operation"))
 _SERVER = None
+_SERVERS: dict[int, ThreadingHTTPServer] = {}
 
 # Publish zero-valued known series so a freshly started process can be scraped
 # and monitored before its first transaction. Labels remain fixed-cardinality.
@@ -99,11 +100,18 @@ class _Handler(BaseHTTPRequestHandler):
 
 def start_metrics_server(host: str | None = None, port: int | None = None):
     global _SERVER
-    if _SERVER is not None:
-        return _SERVER
     host = host or os.getenv("METRICS_HOST", "0.0.0.0")
     port = int(port or os.getenv("METRICS_PORT", "8000"))
-    _SERVER = ThreadingHTTPServer((host, port), _Handler)
-    threading.Thread(target=_SERVER.serve_forever, name="prometheus-metrics", daemon=True).start()
-    LOGGER.info("Application metrics endpoint listening port=%s", port)
-    return _SERVER
+    if port in _SERVERS:
+        return _SERVERS[port]
+    try:
+        server = ThreadingHTTPServer((host, port), _Handler)
+        _SERVERS[port] = server
+        if _SERVER is None:
+            _SERVER = server
+        threading.Thread(target=server.serve_forever, name=f"prometheus-metrics-{port}", daemon=True).start()
+        LOGGER.info("Application metrics endpoint listening port=%s", port)
+        return server
+    except OSError as exc:
+        LOGGER.warning("Metrics server port %s already bound or unavailable: %s", port, exc)
+        return _SERVERS.get(port)

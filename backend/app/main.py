@@ -4,6 +4,7 @@ import asyncio
 import hashlib
 import json
 import logging
+import os
 import time
 import uuid
 from contextlib import asynccontextmanager
@@ -20,6 +21,7 @@ from .runtime import Runtime
 from .schemas import AssistantChatRequest, BatchRequest, ManualTransaction
 from .storage import Store
 from rag.investigation.llm_provider import verify_configured_chat_provider
+from rag.metrics import start_metrics_server
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 LOGGER = logging.getLogger(__name__)
@@ -55,6 +57,12 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
         runtime_box["runtime"] = runtime
         app.state.runtime = runtime
         app.state.store = store
+        producer_metrics_port = int(os.getenv("PRODUCER_METRICS_PORT", "8003"))
+        try:
+            start_metrics_server(port=producer_metrics_port)
+            LOGGER.info("Producer metrics endpoint active on port %s", producer_metrics_port)
+        except Exception as exc:
+            LOGGER.warning("Could not start producer metrics on port %s: %s", producer_metrics_port, exc)
         yield
         runtime.close()
 
