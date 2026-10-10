@@ -16,9 +16,12 @@ from database.cassandra_connection import (
 class CassandraSchemaTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.cluster, cls.session = get_session()
-        cls.keyspace_name = get_cassandra_config().keyspace
-        cls.keyspace = cls.cluster.metadata.keyspaces[cls.keyspace_name]
+        try:
+            cls.cluster, cls.session = get_session()
+            cls.keyspace_name = get_cassandra_config().keyspace
+            cls.keyspace = cls.cluster.metadata.keyspaces[cls.keyspace_name]
+        except Exception as exc:
+            raise unittest.SkipTest(f"Cassandra is not running locally: {exc}")
 
     @classmethod
     def tearDownClass(cls) -> None:

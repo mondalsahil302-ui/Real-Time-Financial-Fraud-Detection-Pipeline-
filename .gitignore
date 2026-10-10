@@ -33,3 +33,27 @@ Thumbs.db
 .env.*
 !.env.example
 
+# Frontend & Node dependencies
+node_modules/
+frontend/node_modules/
+.vite/
+frontend/.vite/
+
+# Python test caches & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Logs and temporary files
+*.log
+logs/
+*.sqlite3-wal
+*.sqlite3-shm
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+

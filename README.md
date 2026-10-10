@@ -99,52 +99,59 @@ Stop producer, investigation consumer, and Spark with Ctrl+C in their terminals,
 
 This does not delete Kafka, Cassandra, Prometheus, or Grafana volumes. If Kafka is reachable but has no output, check that Spark is running and that its checkpoint belongs to the current job. Cassandra startup can take several minutes. A Gemini failure is explicit: verify `GEMINI_API_KEY`, `GEMINI_MODEL`, and provider reachability. A malformed LLM response becomes a controlled failed investigation with `missing_key` or `invalid_field` diagnostics; the offline artifact command can save a debug response under `rag_output/investigations/`. Docker Compose errors should be checked with `docker compose logs <service>` after Docker Desktop is available.
 
-> **Project docs:** [Architecture](docs/architecture.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md)
+> **Project docs:** [System Architecture & Structure](docs/PROJECT_STRUCTURE.md) | [Operational Runbook](docs/RUNBOOK.md) | [Security Validation](docs/SECURITY_VALIDATION.md)
 
 ## 1. Project Overview
 
-This project implements a real-time financial fraud detection platform using a microservice-oriented architecture.
+This project implements a production-grade, real-time financial fraud detection platform using an event-driven microservice architecture with machine learning anomaly detection, Retrieval-Augmented Generation (RAG), and a Gemini-powered Control Center.
 
 The core technologies are:
 
-- Apache Kafka — event streaming backbone
-- Apache Spark Structured Streaming — real-time stream processing
-- Isolation Forest — primary anomaly-detection model
-- Apache Cassandra — operational persistent storage
-- RAG + Vector Database — contextual knowledge retrieval
-- LLM — human-readable investigation explanation
-- Grafana — monitoring and observability
-- Docker / Docker Compose — local service orchestration
+- **Apache Kafka** — event streaming backbone for transactions and alerts
+- **Apache Spark Structured Streaming** — real-time stream processing & 33-feature enrichment
+- **Machine Learning Models** — primary Isolation Forest anomaly detector + secondary XGBoost classifier
+- **Apache Cassandra** — operational persistent storage for account histories and alerts
+- **Chroma Vector Database & RAG** — contextual domain and PaySim reference retrieval
+- **Google Gemini (`gemini-3.5-flash-lite`)** — sole LLM for grounded narrative investigation and analyst assistance
+- **FastAPI Control Center** — hardened backend ASGI application with REST & WebSocket interfaces
+- **React 18 / TypeScript / Vite** — enterprise fraud operations control center dashboard
+- **Prometheus & Grafana** — full-stack telemetry and operational monitoring
+- **Docker Compose** — local service orchestration
 
-The central detection path is:
+The end-to-end pipeline strictly enforces the following separation of responsibilities:
 
 ```text
-Transaction Producer
-        ↓
-Apache Kafka
-        ↓
-Apache Spark Structured Streaming
-        ↓
-19-Feature Engineering
-        ↓
-Pre-trained Isolation Forest
-        ↓
-Anomaly Score
-        ↓
-5-Level Risk Classification
-        ↓
-Fraud Alert Routing
-        ↓
-Apache Cassandra
-        ↓
-RAG Context Retrieval
-        ↓
-LLM Explanation
-        ↓
-Grafana Monitoring
+Transaction Source (PaySim CSV / Batch Simulator)
+       |
+       v
+     Kafka (Topic: `transactions`)
+       |
+       v
+Spark Structured Streaming (19 Base + 14 Behavioral = 33 Features)
+       |
+       v
+Fraud Detection Models (Primary: Isolation Forest | Secondary: XGBoost)
+       |
+       v
+Risk Score / Prediction / Decision (L1-L5 Risk Levels)
+       |
+       v
+Cassandra / Alert Storage (Topics: `fraud-alerts`, `low-risk-transactions`)
+       |
+       v
+RAG Evidence Retrieval (Chroma Collections + Cassandra Account History)
+       |
+       v
+Gemini — Sole LLM (`gemini-3.5-flash-lite`)
+       |
+       v
+Investigation / Explanation (Structured Evidence & Uncertainties)
+       |
+       v
+React Control Center (Vite Dashboard on Port 5173 / API on Port 8001)
 ```
 
-The architecture intentionally separates detection, routing, storage, contextual retrieval, explanation, and observability.
+The architecture deliberately decouples fast-path transaction scoring and deterministic routing from asynchronous, context-grounded LLM narrative explanation and analyst review.
 
 ---
 

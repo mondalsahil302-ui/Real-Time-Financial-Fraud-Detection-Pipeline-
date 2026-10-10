@@ -11,8 +11,9 @@ from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
-from fastapi import FastAPI, Header, HTTPException, Query, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Header, HTTPException, Path as FastApiPath, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from prometheus_client import make_asgi_app
 
 from . import config, monitoring
@@ -71,6 +72,13 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
                        allow_methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "Idempotency-Key"])
     app.mount("/metrics", make_asgi_app())
 
+    @app.exception_handler(Exception)
+    async def global_exception_handler(request: Request, exc: Exception):
+        if isinstance(exc, HTTPException):
+            return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail}, headers=exc.headers)
+        LOGGER.exception("Unhandled server exception on %s %s: %s", request.method, request.url.path, exc)
+        return JSONResponse(status_code=500, content={"detail": "An internal server error occurred"})
+
     def get_runtime() -> Runtime:
         value = runtime_box.get("runtime")
         if value is None:
@@ -95,7 +103,10 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
 
     @app.get("/api/llm/status")
     def llm_status():
-        return app.state.llm_provider_status
+        status = getattr(app.state, "llm_provider_status", None)
+        if status is not None:
+            return status
+        return verify_configured_chat_provider()
 
     @app.post("/api/llm/chat")
     def llm_chat(body: AssistantChatRequest):
@@ -112,7 +123,7 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
             raise HTTPException(status_code=503, detail=str(exc)) from None
 
     @app.get("/api/llm/conversations/{conversation_id}")
-    def llm_conversation(conversation_id: str):
+    def llm_conversation(conversation_id: str = FastApiPath(..., min_length=1, max_length=128)):
         messages = store.chat_messages(conversation_id)
         if messages is None:
             raise HTTPException(status_code=404, detail="Conversation not found")
@@ -120,7 +131,7 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
                 "message_count": len(messages), "messages": messages}
 
     @app.get("/api/llm/conversations/{conversation_id}/messages")
-    def llm_conversation_messages(conversation_id: str):
+    def llm_conversation_messages(conversation_id: str = FastApiPath(..., min_length=1, max_length=128)):
         messages = store.chat_messages(conversation_id)
         if messages is None:
             raise HTTPException(status_code=404, detail="Conversation not found")
@@ -209,14 +220,14 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
         return _batch_progress(batch)
 
     @app.get("/api/batches/{batch_id}")
-    def get_batch(batch_id: str):
+    def get_batch(batch_id: str = FastApiPath(..., min_length=1, max_length=128)):
         batch = store.batch(batch_id)
         if not batch:
             raise HTTPException(status_code=404, detail="Batch not found")
         return _batch_progress(batch)
 
     @app.post("/api/batches/{batch_id}/cancel")
-    def cancel_batch(batch_id: str):
+    def cancel_batch(batch_id: str = FastApiPath(..., min_length=1, max_length=128)):
         batch = store.batch(batch_id)
         if not batch:
             raise HTTPException(status_code=404, detail="Batch not found")
@@ -235,13 +246,19 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
             amount_min=amount_min, amount_max=amount_max, sort_by=sort_by, sort_order=sort_order)
 
     @app.get("/api/batches/{batch_id}/transactions")
-    def batch_transactions(batch_id: str, page: int = Query(1, ge=1), page_size: int = Query(25, ge=1, le=100),
-                          search: str | None = None, transaction_type: str | None = None,
-                          risk_level: str | None = None, decision: str | None = None,
-                          kafka_status: str | None = None, processing_status: str | None = None,
-                          investigation_status: str | None = None, amount_min: float | None = Query(None, ge=0),
-                          amount_max: float | None = Query(None, ge=0), sort_by: str = "generated_at",
-                          sort_order: str = "desc"):
+    def batch_transactions(batch_id: str = FastApiPath(..., min_length=1, max_length=128),
+                           page: int = Query(1, ge=1), page_size: int = Query(25, ge=1, le=100),
+                           search: str | None = Query(None, max_length=128),
+                           transaction_type: str | None = Query(None, max_length=32),
+                           risk_level: str | None = Query(None, max_length=16),
+                           decision: str | None = Query(None, max_length=32),
+                           kafka_status: str | None = Query(None, max_length=32),
+                           processing_status: str | None = Query(None, max_length=32),
+                           investigation_status: str | None = Query(None, max_length=32),
+                           amount_min: float | None = Query(None, ge=0),
+                           amount_max: float | None = Query(None, ge=0),
+                           sort_by: str = Query("generated_at", max_length=32),
+                           sort_order: str = Query("desc", max_length=8)):
         if not store.batch(batch_id):
             raise HTTPException(status_code=404, detail="Batch not found")
         return transaction_filters(page, page_size, search, transaction_type, risk_level, decision,
@@ -249,26 +266,31 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
 
     @app.get("/api/transactions")
     def list_transactions(page: int = Query(1, ge=1), page_size: int = Query(25, ge=1, le=100),
-                          search: str | None = None, transaction_type: str | None = None,
-                          risk_level: str | None = None, decision: str | None = None,
-                          kafka_status: str | None = None, processing_status: str | None = None,
-                          investigation_status: str | None = None, amount_min: float | None = Query(None, ge=0),
-                          amount_max: float | None = Query(None, ge=0), sort_by: str = "generated_at",
-                          sort_order: str = "desc"):
+                          search: str | None = Query(None, max_length=128),
+                          transaction_type: str | None = Query(None, max_length=32),
+                          risk_level: str | None = Query(None, max_length=16),
+                          decision: str | None = Query(None, max_length=32),
+                          kafka_status: str | None = Query(None, max_length=32),
+                          processing_status: str | None = Query(None, max_length=32),
+                          investigation_status: str | None = Query(None, max_length=32),
+                          amount_min: float | None = Query(None, ge=0),
+                          amount_max: float | None = Query(None, ge=0),
+                          sort_by: str = Query("generated_at", max_length=32),
+                          sort_order: str = Query("desc", max_length=8)):
         return transaction_filters(page, page_size, search, transaction_type, risk_level=risk_level, decision=decision,
             kafka_status=kafka_status, processing_status=processing_status, investigation_status=investigation_status,
             amount_min=amount_min, amount_max=amount_max, sort_by=sort_by, sort_order=sort_order,
             )
 
     @app.get("/api/transactions/{transaction_id}")
-    def get_transaction(transaction_id: str):
+    def get_transaction(transaction_id: str = FastApiPath(..., min_length=1, max_length=128)):
         result = store.transaction(transaction_id)
         if not result:
             raise HTTPException(status_code=404, detail="Transaction not found in Control Center batches")
         return result
 
     @app.get("/api/transactions/{transaction_id}/investigation")
-    def get_investigation(transaction_id: str):
+    def get_investigation(transaction_id: str = FastApiPath(..., min_length=1, max_length=128)):
         result = store.transaction(transaction_id)
         if not result:
             raise HTTPException(status_code=404, detail="Transaction not found")
@@ -278,17 +300,19 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
                 "investigation_id": result["investigation_id"], "result": result.get("investigation")}
 
     @app.get("/api/alerts")
-    def list_alerts(page: int = Query(1, ge=1), page_size: int = Query(25, ge=1, le=100), search: str | None = None):
+    def list_alerts(page: int = Query(1, ge=1), page_size: int = Query(25, ge=1, le=100),
+                    search: str | None = Query(None, max_length=128)):
         return store.list_transactions(page=page, page_size=page_size, search=search, processing_status="FRAUD_ALERT")
 
     @app.get("/api/investigations")
     def list_investigations(page: int = Query(1, ge=1), page_size: int = Query(25, ge=1, le=100),
-                            search: str | None = None, status: str | None = None):
+                            search: str | None = Query(None, max_length=128),
+                            status: str | None = Query(None, max_length=32)):
         return store.list_transactions(page=page, page_size=page_size, search=search,
                                        investigation_status=status or "ALL")
 
     @app.get("/api/activity")
-    def activity(batch_id: str | None = None, limit: int = Query(50, ge=1, le=200)):
+    def activity(batch_id: str | None = Query(None, max_length=128), limit: int = Query(50, ge=1, le=200)):
         return {"items": store.activity(batch_id=batch_id, limit=limit)}
 
     @app.post("/api/transactions", status_code=201)
