@@ -155,14 +155,32 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
         return {"conversation_id": conversation_id, "items": messages}
 
     @app.get("/api/monitoring/overview")
-    def monitoring_overview():
+    def monitoring_overview(request: Request):
         overview = monitoring.metrics_overview()
         overview["targets"] = monitoring.prometheus_targets()
         overview["grafana"] = monitoring.grafana_health()
         overview["grafana"]["dashboards"] = monitoring.grafana_dashboards()
         overview["alertmanager"] = monitoring.alertmanager_health()
-        overview["links"] = {"prometheus": config.PROMETHEUS_URL, "grafana": config.GRAFANA_URL,
-                              "alertmanager": config.ALERTMANAGER_URL}
+
+        client_host = request.url.hostname or "localhost"
+        if client_host in ("0.0.0.0", "backend", "frontend"):
+            client_host = "localhost"
+
+        def _public_link(internal_url: str, public_setting: str, default_port: int) -> str:
+            if public_setting and not any(h in public_setting for h in ("grafana:", "prometheus:", "alertmanager:")):
+                return public_setting
+            import urllib.parse
+            parsed = urllib.parse.urlparse(internal_url)
+            port = parsed.port or default_port
+            if parsed.hostname in ("grafana", "prometheus", "alertmanager", "localhost", "127.0.0.1", "0.0.0.0"):
+                return f"{parsed.scheme or 'http'}://{client_host}:{port}"
+            return internal_url
+
+        overview["links"] = {
+            "prometheus": _public_link(config.PROMETHEUS_URL, config.PUBLIC_PROMETHEUS_URL, 9090),
+            "grafana": _public_link(config.GRAFANA_URL, config.PUBLIC_GRAFANA_URL, 3000),
+            "alertmanager": _public_link(config.ALERTMANAGER_URL, config.PUBLIC_ALERTMANAGER_URL, 9093),
+        }
         return overview
 
     @app.get("/api/monitoring/metrics")

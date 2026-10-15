@@ -177,6 +177,9 @@ services:
       - PROMETHEUS_URL=http://prometheus:9090
       - GRAFANA_URL=http://grafana:3000
       - ALERTMANAGER_URL=http://alertmanager:9093
+      - PUBLIC_PROMETHEUS_URL=http://localhost:9090
+      - PUBLIC_GRAFANA_URL=http://localhost:3000
+      - PUBLIC_ALERTMANAGER_URL=http://localhost:9093
       - CONTROL_CENTER_DB=/app/backend/data/control_center.sqlite3
       - BACKEND_HOST=0.0.0.0
       - BACKEND_PORT=8001
@@ -184,6 +187,7 @@ services:
       - backend_data:/app/backend/data
       - ./vector_db:/app/vector_db
       - ./data:/app/data:ro
+      - ./backend/app:/app/backend/app:ro
     depends_on:
       kafka:
         condition: service_healthy
@@ -203,6 +207,8 @@ services:
     container_name: fraud-frontend
     ports:
       - "5173:80"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
     depends_on:
       backend:
         condition: service_healthy

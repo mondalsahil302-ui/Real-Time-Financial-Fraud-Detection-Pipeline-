@@ -97,6 +97,17 @@ function Metric({
   );
 }
 
+function resolveExternalUrl(url: string | undefined, defaultPort: number): string {
+  const currentHost = (typeof window !== 'undefined' && window.location?.hostname) || 'localhost';
+  if (!url) {
+    return `http://${currentHost}:${defaultPort}`;
+  }
+  return url
+    .replace('://grafana:', `://${currentHost}:`)
+    .replace('://prometheus:', `://${currentHost}:`)
+    .replace('://alertmanager:', `://${currentHost}:`);
+}
+
 export default function App() {
   const [tab, setTab] = useState<Tab>('Dashboard');
   const [dashboard, setDashboard] = useState<DashboardData>();
@@ -2073,17 +2084,17 @@ export default function App() {
               <div className="monitor-links">
                 <ExternalLinkCard
                   label="Prometheus"
-                  href={monitor?.links?.prometheus ?? 'http://localhost:9090'}
+                  href={resolveExternalUrl(monitor?.links?.prometheus, 9090)}
                   status={monitor?.prometheus?.status}
                 />
                 <ExternalLinkCard
                   label="Grafana"
-                  href={monitor?.links?.grafana ?? 'http://localhost:3000'}
+                  href={resolveExternalUrl(monitor?.links?.grafana, 3000)}
                   status={monitor?.grafana?.status}
                 />
                 <ExternalLinkCard
                   label="Alertmanager"
-                  href={monitor?.links?.alertmanager ?? 'http://localhost:9093'}
+                  href={resolveExternalUrl(monitor?.links?.alertmanager, 9093)}
                   status={monitor?.alertmanager?.status}
                 />
               </div>
@@ -2167,7 +2178,7 @@ export default function App() {
                   {(monitor?.grafana?.dashboards?.dashboards ?? []).map((d: any) => (
                     <a
                       key={d.uid}
-                      href={`${monitor?.links?.grafana ?? 'http://localhost:3000'}${d.url}`}
+                      href={`${resolveExternalUrl(monitor?.links?.grafana, 3000)}${d.url}`}
                       target="_blank"
                       rel="noreferrer"
                     >
