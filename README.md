@@ -1,5 +1,8 @@
-https://youtu.be/HWaJKcaynJg?si=ffgDCXvmw0CPTdt5
-PROJECT SAMPLE VIDEO LINK
+🎥 PROJECT DEMONSTRATION VIDEO — WATCH HERE
+
+▶️ https://youtu.be/HWaJKcaynJg?si=uEYFDlMW9ZXDTkh6
+
+━━━━━━━━━━━━━━━━━━━━━━━━
 # Real-Time Financial Fraud Detection Platform
 
 > **Enterprise Stream-Processing, Machine Learning Anomaly Detection, RAG Knowledge Retrieval & Generative AI Investigation System**
