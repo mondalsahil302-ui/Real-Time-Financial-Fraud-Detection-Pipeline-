@@ -1740,7 +1740,11 @@ behavioral_stream = (
             STATE_SCHEMA_DDL
         ),
 
-        outputMode="Append",
+        # Update mode emits the scored row for every incoming transaction
+        # immediately. Append mode would withhold each row until the 24-hour
+        # processing-time timeout closes the group, so nothing would reach the
+        # micro-batch router in real time.
+        outputMode="Update",
 
         timeoutConf=(
             GroupStateTimeout
@@ -2579,6 +2583,12 @@ query = (
     behavioral_stream
 
     .writeStream
+
+    # The stateful applyInPandasWithState runs in Update mode, so the sink
+    # must also declare Update output mode. With the default Append mode the
+    # query either fails analysis or, on older behavior, buffers rows until
+    # the 24-hour state timeout, so no transaction would ever be routed.
+    .outputMode("update")
 
     .foreachBatch(
         route_micro_batch
