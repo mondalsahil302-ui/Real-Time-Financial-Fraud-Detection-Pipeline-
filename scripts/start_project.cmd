@@ -32,7 +32,7 @@ if errorlevel 1 (
 )
 
 echo === Starting Docker infrastructure ===
-docker compose up -d
+docker compose up -d kafka cassandra prometheus grafana alertmanager cadvisor
 if errorlevel 1 (
     echo docker compose up -d failed.
     exit /b 1

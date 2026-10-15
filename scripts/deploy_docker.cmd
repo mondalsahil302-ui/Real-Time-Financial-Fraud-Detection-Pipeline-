@@ -31,7 +31,7 @@ if not exist ".env" (
 
 echo.
 echo [1/3] Building production images (fraud-detection-api:1.0.0, fraud-detection-frontend:1.0.0)...
-docker compose build
+docker compose --profile app build
 if errorlevel 1 (
     echo [ERROR] docker compose build failed!
     exit /b 1
@@ -39,7 +39,7 @@ if errorlevel 1 (
 
 echo.
 echo [2/3] Launching containerized microservice pipeline...
-docker compose up -d
+docker compose --profile app up -d
 if errorlevel 1 (
     echo [ERROR] docker compose up failed!
     exit /b 1

@@ -23,6 +23,7 @@ USER appuser
 ENV PATH="/home/appuser/.local/bin:${PATH}"
 
 RUN pip install --no-cache-dir --user --upgrade pip && \
+    pip install --no-cache-dir --user torch --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir --user -r requirements.txt
 
 # ============================================================================
