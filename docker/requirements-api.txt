@@ -1,0 +1,30 @@
+# ============================================================================
+# Production Runtime Dependencies for Fraud Detection Control Center API
+# ============================================================================
+
+# Web & ASGI Framework
+fastapi>=0.115,<1
+uvicorn[standard]>=0.32,<1
+httpx>=0.27,<1
+prometheus-client>=0.20.0
+
+# Machine Learning & Anomaly Scoring (Inference)
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+joblib>=1.3.0
+
+# Streaming & Database Connectors
+kafka-python>=2.0.2
+cassandra-driver>=3.28.0
+python-dotenv>=1.0.0
+
+# RAG & Embeddings
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+tqdm>=4.66.0
+
+# AI Investigation Provider
+google-genai>=1.0.0
+

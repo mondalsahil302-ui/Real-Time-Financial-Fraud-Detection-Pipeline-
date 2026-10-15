@@ -1,0 +1,59 @@
+# ============================================================================
+# .dockerignore - Production Docker Build Context Exclusions
+# ============================================================================
+
+# Version control & IDE
+.git/
+.github/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment & credentials (CRITICAL SECURITY)
+.env
+.env.*
+!.env.example
+
+# Local Python virtual environments & bytecode
+.venv/
+venv/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local Node.js dependencies & builds
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.npm/
+
+# Notebooks (Preserved in Git repository; excluded from production containers)
+notebooks/
+archive/notebooks/
+*.ipynb
+.ipynb_checkpoints/
+
+# Raw large dataset files (models are pre-trained in models/)
+data/*.csv
+data/*.zip
+fraud_rag_knowledge_base/*.csv
+fraud_rag_knowledge_base/*.zip
+fraud_rag_knowledge_base_v2.zip
+vector_db/
+
+# Spark streaming checkpoints & scratch files
+checkpoints/
+.spark-ivy/
+results/
+hs_err_pid*.log
+*.log
+
+# Documentation and submission guides (read from repository, not needed in container image)
+docs/
+CONTRIBUTING.md
