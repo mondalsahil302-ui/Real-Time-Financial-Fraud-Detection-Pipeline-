@@ -1,3 +1,5 @@
+https://youtu.be/HWaJKcaynJg?si=ffgDCXvmw0CPTdt5
+PROJECT SAMPLE VIDEO LINK
 # Real-Time Financial Fraud Detection Platform
 
 > **Enterprise Stream-Processing, Machine Learning Anomaly Detection, RAG Knowledge Retrieval & Generative AI Investigation System**
