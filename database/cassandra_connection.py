@@ -78,8 +78,18 @@ def get_system_session() -> tuple[Cluster, Session]:
 
 
 def get_session() -> tuple[Cluster, Session]:
-    """Connect to the configured application keyspace."""
-    return _connect(get_cassandra_config().keyspace)
+    """Connect to the configured application keyspace, initializing schema if missing."""
+    cfg = get_cassandra_config()
+    try:
+        return _connect(cfg.keyspace)
+    except Exception as exc:
+        try:
+            from database.create_tables import create_schema
+            logger.info("Attempting automatic Cassandra schema creation for keyspace %s", cfg.keyspace)
+            create_schema()
+            return _connect(cfg.keyspace)
+        except Exception:
+            raise exc
 
 
 def close_connection(cluster: Cluster, session: Session) -> None:

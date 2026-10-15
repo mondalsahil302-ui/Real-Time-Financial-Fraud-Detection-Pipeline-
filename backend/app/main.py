@@ -58,6 +58,23 @@ def create_app(*, db_path: str | Path | None = None, start_workers: bool = True,
         runtime_box["runtime"] = runtime
         app.state.runtime = runtime
         app.state.store = store
+
+        # Idempotent Cassandra schema verification and initialization
+        try:
+            from database.create_tables import create_schema
+            for attempt in range(1, 6):
+                try:
+                    create_schema()
+                    LOGGER.info("Cassandra schema initialized/verified in keyspace successfully.")
+                    break
+                except Exception as c_exc:
+                    if attempt < 5:
+                        LOGGER.warning("Cassandra schema not ready (attempt %d/5): %s. Retrying in 2s...", attempt, c_exc)
+                        time.sleep(2)
+                    else:
+                        LOGGER.warning("Cassandra schema initialization postponed: %s", c_exc)
+        except Exception as exc:
+            LOGGER.warning("Could not run Cassandra schema initialization check: %s", exc)
         producer_metrics_port = int(os.getenv("PRODUCER_METRICS_PORT", "8003"))
         try:
             start_metrics_server(port=producer_metrics_port)

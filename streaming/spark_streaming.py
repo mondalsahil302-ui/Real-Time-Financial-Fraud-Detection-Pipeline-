@@ -1416,9 +1416,9 @@ def add_behavioral_features_stateful(
     ]
 
 
-# ============================================================
-# KAFKA STREAM
-# ============================================================
+# Ensure required Kafka topics exist before Spark subscribes
+from database.kafka_topics import ensure_topics
+ensure_topics(KAFKA_BOOTSTRAP_SERVERS)
 
 raw_stream = (
     spark.readStream

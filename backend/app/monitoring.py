@@ -154,6 +154,10 @@ def _chroma_status() -> dict:
     if not path.is_dir():
         return {"status": "unavailable", "available": False}
     try:
+        import numpy as np
+        for _alias, _target in [("float_", np.float64), ("int_", np.int64), ("uint", np.uint64)]:
+            if not hasattr(np, _alias):
+                setattr(np, _alias, _target)
         import chromadb
         client = chromadb.PersistentClient(path=str(path))
         collections = {item.name for item in client.list_collections()}
